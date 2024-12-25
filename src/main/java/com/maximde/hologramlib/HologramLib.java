@@ -30,6 +30,7 @@ public final class HologramLib extends JavaPlugin {
     private ReplaceText replaceText;
     private PlayerManager playerManager;
     private HologramManager hologramManager;
+    private FoliaLib foliaLib;
 
     public static Optional<HologramManager> getManager() {
         return Optional.ofNullable(getInstance().hologramManager)
@@ -89,7 +90,7 @@ public final class HologramLib extends JavaPlugin {
             initializeManagers();
             initializeMetrics();
             initializeReplaceText();
-            BukkitTasks.setFoliaLib(new FoliaLib(this));
+            foliaLib = new FoliaLib(this);
         } catch (Exception e) {
             getLogger().log(Level.SEVERE, "Failed to enable HologramLib", e);
             Bukkit.getPluginManager().disablePlugin(this);
