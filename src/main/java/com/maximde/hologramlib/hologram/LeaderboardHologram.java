@@ -1,8 +1,19 @@
 package com.maximde.hologramlib.hologram;
 
+import com.github.retrooper.packetevents.PacketEvents;
+import com.github.retrooper.packetevents.manager.server.ServerVersion;
+import com.github.retrooper.packetevents.protocol.component.ComponentTypes;
+import com.github.retrooper.packetevents.protocol.component.builtin.item.ItemProfile;
 import com.github.retrooper.packetevents.protocol.item.ItemStack;
 import com.github.retrooper.packetevents.protocol.item.type.ItemTypes;
+import com.github.retrooper.packetevents.protocol.nbt.NBTCompound;
+import com.github.retrooper.packetevents.protocol.nbt.NBTList;
 import com.github.retrooper.packetevents.protocol.nbt.NBTString;
+import com.github.retrooper.packetevents.protocol.nbt.NBTType;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.maximde.hologramlib.utils.PlayerUtils;
 import lombok.Builder;
 import lombok.Data;
@@ -13,18 +24,22 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Display;
 import org.bukkit.entity.TextDisplay;
+import org.bukkit.profile.PlayerProfile;
 
 import java.awt.*;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.*;
+import java.util.List;
 import java.util.logging.Level;
 
 @Getter
 public class LeaderboardHologram {
 
     private final TextHologram textHologram;
+
     private final ItemHologram firstPlaceHead;
 
     private int leaderboardEntries = 0;
@@ -33,6 +48,7 @@ public class LeaderboardHologram {
     @Builder
     @Accessors(fluent = true)
     public static class LeaderboardOptions {
+
         @Builder.Default
         private String title = "Leaderboard";
 
@@ -148,10 +164,61 @@ public class LeaderboardHologram {
 
     private void updateFirstPlaceHead(UUID uuid) {
         try {
-            ItemStack headItem = new ItemStack.Builder()
-                    .type(ItemTypes.PLAYER_HEAD)
-                    .nbt("SkullOwner", new NBTString("MaximDe"))
-                    .build();
+            ItemStack headItem;
+            PlayerProfile profile = PlayerUtils.getPlayerProfile(uuid);
+
+            if (PacketEvents.getAPI().getServerManager().getVersion().isNewerThanOrEquals(ServerVersion.V_1_20_5)) {
+                List<ItemProfile.Property> properties = new ArrayList<>();
+
+                try {
+                    URL url = new URL("https://sessionserver.mojang.com/session/minecraft/profile/" +
+                            uuid.toString().replace("-", "") + "?unsigned=false");
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+                    try (InputStreamReader reader = new InputStreamReader(connection.getInputStream())) {
+                        JsonObject profileData = JsonParser.parseReader(reader).getAsJsonObject();
+                        JsonArray propertiesArray = profileData.getAsJsonArray("properties");
+
+                        for (JsonElement property : propertiesArray) {
+                            JsonObject propertyObj = property.getAsJsonObject();
+                            String name = propertyObj.get("name").getAsString();
+                            String value = propertyObj.get("value").getAsString();
+                            String signature = propertyObj.has("signature") ?
+                                    propertyObj.get("signature").getAsString() : null;
+
+                            properties.add(new ItemProfile.Property(name, value, signature));
+                        }
+                    }
+                } catch (IOException e) {
+                    Bukkit.getLogger().log(Level.WARNING, "Failed to fetch skin data: " + e.getMessage());
+                }
+
+                headItem = new ItemStack.Builder()
+                        .type(ItemTypes.PLAYER_HEAD)
+                        .component(ComponentTypes.PROFILE, new ItemProfile(profile.getName(), uuid, properties))
+                        .build();
+            } else {
+                NBTCompound skullOwner = new NBTCompound();
+                skullOwner.setTag("Name", new NBTString(profile.getName()));
+                skullOwner.setTag("Id", new NBTString(uuid.toString()));
+
+                if (profile.getTextures().getSkin() != null) {
+                    NBTCompound properties = new NBTCompound();
+                    NBTCompound textureProperty = new NBTCompound();
+                    textureProperty.setTag("Value", new NBTString(PlayerUtils.getPlayerSkinUrl(profile.getUniqueId())));
+
+                    NBTList<NBTCompound> texturesList = new NBTList<>(NBTType.COMPOUND);
+                    texturesList.addTag(textureProperty);
+                    properties.setTag("textures", texturesList);
+
+                    skullOwner.setTag("Properties", properties);
+                }
+
+                headItem = new ItemStack.Builder()
+                        .type(ItemTypes.PLAYER_HEAD)
+                        .nbt("SkullOwner", skullOwner)
+                        .build();
+            }
 
             this.firstPlaceHead.setItem(headItem);
             this.firstPlaceHead.setScale(2 * options.scale, 2 * options.scale, 0.01f * options.scale);

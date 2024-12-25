@@ -5,7 +5,6 @@ import com.github.retrooper.packetevents.util.Quaternion4f;
 import com.github.retrooper.packetevents.wrapper.play.server.*;
 import com.maximde.hologramlib.HologramLib;
 import com.maximde.hologramlib.utils.MiniMessage;
-import com.maximde.hologramlib.utils.Vector3F;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -15,7 +14,6 @@ import me.tofaa.entitylib.meta.display.TextDisplayMeta;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Display;
 import org.bukkit.entity.TextDisplay;
 import org.joml.Vector3f;
 

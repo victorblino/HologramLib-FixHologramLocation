@@ -1,6 +1,5 @@
 package com.maximde.hologramlib.hologram;
 
-import com.github.retrooper.packetevents.protocol.entity.type.EntityTypes;
 import com.github.retrooper.packetevents.util.Vector3d;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerSpawnEntity;
 import com.maximde.hologramlib.utils.BukkitTasks;

@@ -9,7 +9,6 @@ import com.maximde.hologramlib.HologramLib;
 import com.maximde.hologramlib.utils.Vector3F;
 import io.github.retrooper.packetevents.util.SpigotConversionUtil;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
