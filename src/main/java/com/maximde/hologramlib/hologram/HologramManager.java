@@ -21,123 +21,47 @@ import java.util.function.Consumer;
 @RequiredArgsConstructor
 public class HologramManager {
     private final Map<TextHologram, BukkitRunnable> hologramAnimations = new ConcurrentHashMap<>();
-    private final Map<String, TextHologram> hologramsMap = new ConcurrentHashMap<>();
+    private final Map<String, Hologram<?>> hologramsMap = new ConcurrentHashMap<>();
 
-    public List<TextHologram> getHolograms() {
+    public List<Hologram<?>> getHolograms() {
         return new ArrayList<>(hologramsMap.values());
     }
 
-    @Data
-    @Builder
-    @Accessors(fluent = true)
-    public static class LeaderboardOptions {
-        @Builder.Default
-        private String title = "Leaderboard";
-
-        @Builder.Default
-        private String[] placeFormats = new String[] {
-                "<color:#fdcc00><bold>1. </bold>{name}</color> <gray>{score}</gray> <white>{suffix}</white>",
-                "<color:#dcdcdc><bold>2. </bold>{name}</color> <gray>{score}</gray> <white>{suffix}</white>",
-                "<color:#e65f2f><bold>3. </bold>{name}</color> <gray>{score}</gray> <white>{suffix}</white>"
-        };
-
-        @Builder.Default
-        private String defaultPlaceFormat = "<color:#ffb486><bold>{place}. </bold>{name}</color> <gray>{score}</gray> <white>{suffix}</white>";
-
-        @Builder.Default
-        private String titleFormat = "<gradient:#ff6000:#ffa42a>▛▀▀▀▀ {title} ▀▀▀▀▜</gradient>";
-
-        @Builder.Default
-        private String footerFormat = "<color:#ff6000>▙▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▟</color>";
-
-        @Builder.Default
-        private String suffix = "";
-
-        @Builder.Default
-        private float scale = 1.0f;
-
-        @Builder.Default
-        private boolean showEmptyPlaces = false;
-
-        @Builder.Default
-        private int maxDisplayEntries = 10;
-    }
-
-    public Optional<TextHologram> getHologram(String id) {
+    public Optional<Hologram<?>> getHologram(String id) {
         return Optional.ofNullable(hologramsMap.get(id));
     }
 
-    public TextHologram generateLeaderboard(Location location, Map<Integer, String> leaderboardData) {
-        return generateLeaderboard(location, leaderboardData, LeaderboardOptions.builder().build());
+    public LeaderboardHologram generateLeaderboard(Location location, Map<Integer, String> leaderboardData) {
+        return generateLeaderboard(location, leaderboardData, LeaderboardHologram.LeaderboardOptions.builder().build());
     }
 
-    public TextHologram generateLeaderboard(Location location, Map<Integer, String> leaderboardData, LeaderboardOptions options) {
-        TextHologram hologram = new TextHologram(
-                "leaderboard_" + UUID.randomUUID().toString().substring(0, 8)
-        );
-
-        spawn(hologram, location);
-        updateLeaderboard(hologram, leaderboardData, options);
-        return hologram;
+    public LeaderboardHologram generateLeaderboard(Location location, Map<Integer, String> leaderboardData, LeaderboardHologram.LeaderboardOptions options) {
+        LeaderboardHologram leaderboardHologram = new LeaderboardHologram(options);
+        spawn(leaderboardHologram.getTextHologram(), location);
+        spawn(leaderboardHologram.getFirstPlaceHead(), location);
+        updateLeaderboard(leaderboardHologram, leaderboardData, options);
+        return leaderboardHologram;
     }
 
-    public void updateLeaderboard(TextHologram hologram, Map<Integer, String> leaderboardData, LeaderboardOptions options) {
-        Map<Integer, String> sortedData = new LinkedHashMap<>(leaderboardData);
-        StringBuilder leaderboardText = new StringBuilder();
-
-        leaderboardText.append(
-                options.titleFormat()
-                        .replace("{title}", options.title())
-        ).append("\n\n");
-
-        for (Map.Entry<Integer, String> entry : sortedData.entrySet()) {
-            int place = entry.getKey();
-            if (place > options.maxDisplayEntries()) break;
-            if (!options.showEmptyPlaces() && entry.getValue().isEmpty()) continue;
-
-            String[] parts = entry.getValue().split(":");
-            String name = parts.length > 0 ? parts[0] : "Unknown";
-            String score = parts.length > 1 ? parts[1] : "N/A";
-
-            String placeFormat = place <= 3 && place <= options.placeFormats().length
-                    ? options.placeFormats()[place - 1]
-                    : options.defaultPlaceFormat();
-
-            leaderboardText.append(
-                    placeFormat
-                            .replace("{place}", String.valueOf(place))
-                            .replace("{name}", name)
-                            .replace("{score}", score)
-                            .replace("{suffix}", options.suffix())
-            ).append("\n");
-        }
-
-        leaderboardText.append("\n").append(options.footerFormat());
-
-        hologram.setMiniMessageText(leaderboardText.toString())
-                .setScale(options.scale(), options.scale(), options.scale())
-                .setBackgroundColor(520093695)
-                .setAlignment(TextDisplay.TextAlignment.CENTER)
-                .setBillboard(Display.Billboard.VERTICAL);
-
-        hologram.update();
+    public void updateLeaderboard(LeaderboardHologram leaderboardHologram, Map<Integer, String> leaderboardData, LeaderboardHologram.LeaderboardOptions options) {
+        leaderboardHologram.updateLeaderboard(leaderboardData, options);
     }
 
-    public TextHologram spawn(TextHologram textHologram, Location location) {
-        textHologram.getInternalAccess().setLocation(location);
-        textHologram.getInternalAccess().setEntityId(ThreadLocalRandom.current().nextInt(4000, Integer.MAX_VALUE));
+    public <H extends Hologram<H>> H spawn(H hologram, Location location) {
+        hologram.getInternalAccess().setLocation(location);
+        hologram.getInternalAccess().setEntityId(ThreadLocalRandom.current().nextInt(4000, Integer.MAX_VALUE));
         WrapperPlayServerSpawnEntity packet = new WrapperPlayServerSpawnEntity(
-                textHologram.getEntityID(), Optional.of(UUID.randomUUID()), EntityTypes.TEXT_DISPLAY,
+                hologram.getEntityID(), Optional.of(UUID.randomUUID()), EntityTypes.TEXT_DISPLAY,
                 new Vector3d(location.getX(), location.getY() + 1, location.getZ()), 0f, 0f, 0f, 0, Optional.empty()
         );
         Bukkit.getServer().getScheduler().runTask(HologramLib.getInstance(), () -> {
-            textHologram.getInternalAccess().updateAffectedPlayers();
-            textHologram.getInternalAccess().sendPacket(packet);
-            textHologram.getInternalAccess().setDead(false);
+            hologram.getInternalAccess().updateAffectedPlayers();
+            hologram.getInternalAccess().sendPacket(packet);
+            hologram.getInternalAccess().setDead(false);
         });
-        textHologram.update();
-        register(textHologram);
-        return textHologram;
+        hologram.update();
+        register(hologram);
+        return hologram;
     }
 
     public void attach(TextHologram textHologram, int entityID) {
@@ -148,15 +72,15 @@ public class HologramManager {
         textHologram.attach(textHologram, entityID, persistent);
     }
 
-    public boolean register(TextHologram textHologram) {
-        if (textHologram == null) {
+    public <H extends Hologram<H>> boolean register(H hologram) {
+        if (hologram == null) {
             return false;
         }
-        if (hologramsMap.containsKey(textHologram.getId())) {
-            Bukkit.getLogger().severe("Error: Hologram with ID " + textHologram.getId() + " is already registered.");
+        if (hologramsMap.containsKey(hologram.getId())) {
+            Bukkit.getLogger().severe("Error: Hologram with ID " + hologram.getId() + " is already registered.");
             return false;
         }
-        hologramsMap.put(textHologram.getId(), textHologram);
+        hologramsMap.put(hologram.getId(), hologram);
         return true;
     }
 
@@ -166,7 +90,7 @@ public class HologramManager {
     }
 
     public boolean remove(String id) {
-        TextHologram hologram = hologramsMap.remove(id);
+        Hologram<?> hologram = hologramsMap.remove(id);
         if (hologram != null) {
             hologram.kill();
             return true;
@@ -175,7 +99,7 @@ public class HologramManager {
     }
 
     public void removeAll() {
-        hologramsMap.values().forEach(TextHologram::kill);
+        hologramsMap.values().forEach(Hologram::kill);
         hologramsMap.clear();
     }
 
@@ -203,12 +127,12 @@ public class HologramManager {
         return animation;
     }
 
-    public void ifHologramExists(String id, Consumer<TextHologram> action) {
+    public void ifHologramExists(String id, Consumer<Hologram<?>> action) {
         Optional.ofNullable(hologramsMap.get(id)).ifPresent(action);
     }
 
-    public boolean updateHologramIfExists(String id, Consumer<TextHologram> updateAction) {
-        TextHologram hologram = hologramsMap.get(id);
+    public boolean updateHologramIfExists(String id, Consumer<Hologram<?>> updateAction) {
+        Hologram<?> hologram = hologramsMap.get(id);
         if (hologram != null) {
             updateAction.accept(hologram);
             return true;

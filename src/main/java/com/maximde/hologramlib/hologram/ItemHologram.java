@@ -9,6 +9,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.maximde.hologramlib.utils.Vector3F;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.Accessors;
 import me.tofaa.entitylib.meta.EntityMeta;
 import me.tofaa.entitylib.meta.display.AbstractDisplayMeta;
@@ -19,33 +20,36 @@ import org.bukkit.profile.PlayerTextures;
 import org.joml.Vector3f;
 
 import java.awt.*;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Base64;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.logging.Level;
 
 
 public class ItemHologram extends Hologram<ItemHologram> {
 
-    @Getter
+    @Getter @Setter
     @Accessors(chain = true)
     protected ItemDisplayMeta.DisplayType displayType = ItemDisplayMeta.DisplayType.FIXED;
 
-    @Getter
+    @Getter @Setter
     @Accessors(chain = true)
     protected boolean onFire = false;
 
-    @Getter
+    @Getter @Setter
     @Accessors(chain = true)
     protected ItemStack item = new ItemStack.Builder().type(ItemTypes.DIAMOND_BLOCK).build();
 
-    @Getter
+    @Getter @Setter
     @Accessors(chain = true)
     protected boolean glowing = false;
 
-    @Getter
+    @Getter @Setter
     @Accessors(chain = true)
     protected int glowColor = Color.YELLOW.getRGB();
 
@@ -86,36 +90,5 @@ public class ItemHologram extends Hologram<ItemHologram> {
     protected ItemHologram copy(String id) {
         //TODO
         return null;
-    }
-
-    public PlayerProfile getPlayerProfile(UUID uuid) {
-        PlayerProfile profile = Bukkit.createPlayerProfile(UUID.randomUUID());
-        PlayerTextures textures = profile.getTextures();
-        try {
-            textures.setSkin(new URL(this.getPlayerSkinUrl(uuid)));
-        } catch (IOException e) {
-            Bukkit.getLogger().log(Level.WARNING, e.getMessage());
-        }
-        profile.setTextures(textures);
-        return profile;
-    }
-
-    public String getPlayerSkinUrl(UUID uuid) throws IOException {
-        try (InputStreamReader reader = new InputStreamReader(new URL("https://sessionserver.mojang.com/session/minecraft/profile/" +
-                uuid.toString().replace("-", "")).openConnection().getInputStream())) {
-
-            JsonObject profile = JsonParser.parseReader(reader).getAsJsonObject();
-            if (!profile.has("properties")) return null;
-
-            String encodedTextures = profile.getAsJsonArray("properties")
-                    .get(0).getAsJsonObject()
-                    .get("value").getAsString();
-
-            JsonObject textures = JsonParser.parseString(new String(Base64.getDecoder().decode(encodedTextures)))
-                    .getAsJsonObject()
-                    .getAsJsonObject("textures");
-
-            return textures.has("SKIN") ? textures.getAsJsonObject("SKIN").get("url").getAsString() : null;
-        }
     }
 }
