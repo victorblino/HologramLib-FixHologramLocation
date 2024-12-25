@@ -17,12 +17,7 @@ repositories {
 }
 
 dependencies {
-    val guiceVersion = "7.0.0"
-    val invUiVersion = "1.41"
-    val configurateVersion = "4.1.2"
-    val adventurePlatformVersion = "4.3.4"
     val adventureVersion = "4.17.0"
-    val litecommandsVersion = "3.9.3"
 
     compileOnly("org.projectlombok:lombok:1.18.36")
     annotationProcessor("org.projectlombok:lombok:1.18.36")
@@ -30,7 +25,7 @@ dependencies {
     compileOnly ("org.spigotmc:spigot-api:1.19.4-R0.1-SNAPSHOT")
     compileOnly ("com.github.retrooper:packetevents-spigot:2.7.0")
     implementation("me.tofaa.entitylib:spigot:2.4.11-SNAPSHOT")
-    implementation("net.kyori:adventure-text-minimessage:4.17.0")
+    implementation("net.kyori:adventure-text-minimessage:$adventureVersion")
     compileOnly("com.github.LoneDev6:API-ItemsAdder:3.6.1")
     implementation("com.github.technicallycoded:FoliaLib:main-SNAPSHOT")
 
