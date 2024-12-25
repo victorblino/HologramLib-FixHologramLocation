@@ -1,10 +1,11 @@
 plugins {
     id 'java'
     id 'com.github.johnrengelman.shadow' version '8.1.1'
+    id 'org.jetbrains.kotlin.jvm'
 }
 
 group = 'com.maximde'
-version = '1.5.3.1'
+version = '1.5.3.2'
 
 repositories {
 
@@ -32,14 +33,14 @@ dependencies {
     implementation("me.tofaa.entitylib:spigot:2.4.11-SNAPSHOT")
     implementation "net.kyori:adventure-text-minimessage:4.17.0"
     compileOnly 'com.github.LoneDev6:API-ItemsAdder:3.6.1'
+    implementation "com.github.technicallycoded:FoliaLib:main-SNAPSHOT"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 }
 
 def targetJavaVersion = 17
 
 java {
     def javaVersion = JavaVersion.toVersion(targetJavaVersion)
-    sourceCompatibility = javaVersion
-    targetCompatibility = javaVersion
     if (JavaVersion.current() < javaVersion) {
         toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
     }
@@ -63,4 +64,7 @@ processResources {
 shadowJar {
     minimize()
     archiveFileName.set("HologramLib-${version}.jar")
+}
+kotlin {
+    jvmToolchain(17)
 }

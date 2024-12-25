@@ -31,25 +31,22 @@ import java.util.UUID;
 import java.util.logging.Level;
 
 
+@Setter
+@Getter
 public class ItemHologram extends Hologram<ItemHologram> {
 
-    @Getter @Setter
     @Accessors(chain = true)
     protected ItemDisplayMeta.DisplayType displayType = ItemDisplayMeta.DisplayType.FIXED;
 
-    @Getter @Setter
     @Accessors(chain = true)
     protected boolean onFire = false;
 
-    @Getter @Setter
     @Accessors(chain = true)
     protected ItemStack item = new ItemStack.Builder().type(ItemTypes.DIAMOND_BLOCK).build();
 
-    @Getter @Setter
     @Accessors(chain = true)
     protected boolean glowing = false;
 
-    @Getter @Setter
     @Accessors(chain = true)
     protected int glowColor = Color.YELLOW.getRGB();
 

@@ -3,11 +3,12 @@ package com.maximde.hologramlib.hologram;
 import com.github.retrooper.packetevents.protocol.entity.type.EntityTypes;
 import com.github.retrooper.packetevents.util.Vector3d;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerSpawnEntity;
-import com.maximde.hologramlib.HologramLib;
-import lombok.*;
+import com.maximde.hologramlib.utils.BukkitTasks;
+import com.maximde.hologramlib.utils.TaskHandle;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -17,7 +18,7 @@ import java.util.function.Consumer;
 @Getter
 @RequiredArgsConstructor
 public class HologramManager {
-    private final Map<TextHologram, BukkitRunnable> hologramAnimations = new ConcurrentHashMap<>();
+    private final Map<TextHologram, TaskHandle> hologramAnimations = new ConcurrentHashMap<>();
     private final Map<String, Hologram<?>> hologramsMap = new ConcurrentHashMap<>();
 
     public List<Hologram<?>> getHolograms() {
@@ -51,11 +52,13 @@ public class HologramManager {
                 hologram.getEntityID(), Optional.of(UUID.randomUUID()), EntityTypes.TEXT_DISPLAY,
                 new Vector3d(location.getX(), location.getY() + 1, location.getZ()), 0f, 0f, 0f, 0, Optional.empty()
         );
-        Bukkit.getServer().getScheduler().runTask(HologramLib.getInstance(), () -> {
+
+        BukkitTasks.runTask(() -> {
             hologram.getInternalAccess().updateAffectedPlayers();
             hologram.getInternalAccess().sendPacket(packet);
             hologram.getInternalAccess().setDead(false);
         });
+
         hologram.update();
         register(hologram);
         return hologram;
@@ -80,7 +83,6 @@ public class HologramManager {
         hologramsMap.put(hologram.getId(), hologram);
         return true;
     }
-
 
     public boolean remove(LeaderboardHologram leaderboardHologram) {
         return remove(leaderboardHologram.getTextHologram()) && remove(leaderboardHologram.getFirstPlaceHead());
@@ -110,22 +112,16 @@ public class HologramManager {
     }
 
     public void cancelAnimation(TextHologram hologram) {
-        Optional.ofNullable(hologramAnimations.remove(hologram)).ifPresent(BukkitRunnable::cancel);
+        Optional.ofNullable(hologramAnimations.remove(hologram)).ifPresent(TaskHandle::cancel);
     }
 
-    private BukkitRunnable animateHologram(TextHologram hologram, TextAnimation textAnimation) {
-        final BukkitRunnable animation = new BukkitRunnable() {
-            int currentFrame = 0;
-            public void run() {
-                if (textAnimation.getTextFrames().isEmpty()) return;
-                hologram.setMiniMessageText(textAnimation.getTextFrames().get(currentFrame));
-                hologram.update();
-                currentFrame = (currentFrame + 1) % textAnimation.getTextFrames().size();
-            }
-        };
-
-        animation.runTaskTimerAsynchronously(HologramLib.getInstance(), textAnimation.getDelay(), textAnimation.getSpeed());
-        return animation;
+    private TaskHandle animateHologram(TextHologram hologram, TextAnimation textAnimation) {
+        return BukkitTasks.runTaskTimerAsync(() -> {
+            if (textAnimation.getTextFrames().isEmpty()) return;
+            hologram.setMiniMessageText(textAnimation.getTextFrames().get(0));
+            hologram.update();
+            Collections.rotate(textAnimation.getTextFrames(), -1);
+        }, textAnimation.getDelay(), textAnimation.getSpeed());
     }
 
     public void ifHologramExists(String id, Consumer<Hologram<?>> action) {
@@ -141,21 +137,10 @@ public class HologramManager {
         return false;
     }
 
-    /**
-     * Creates a copy of an existing hologram at a new location
-     * @param source The hologram to copy from
-     * @param id The ID for the new hologram
-     * @return The newly created hologram copy
-     */
     public TextHologram copyHologram(TextHologram source, String id) {
         return this.spawn(source.copy(id), source.getLocation());
     }
 
-    /**
-     * Creates a copy of an existing hologram at a new location
-     * @param source The hologram to copy from
-     * @return The newly created hologram copy
-     */
     public TextHologram copyHologram(TextHologram source) {
         return this.spawn(source.copy(), source.getLocation());
     }
