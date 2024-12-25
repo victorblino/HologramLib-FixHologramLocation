@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.logging.Level;
 
 public abstract class Hologram<T extends Hologram<T>> {
 
@@ -119,7 +120,7 @@ public abstract class Hologram<T extends Hologram<T>> {
 
     private class InternalSetters implements Internal {
         @Override
-        public Hologram setLocation(Location location) {
+        public Hologram<?> setLocation(Location location) {
             if (location == null) {
                 throw new IllegalArgumentException("Location cannot be null");
             }
@@ -128,25 +129,25 @@ public abstract class Hologram<T extends Hologram<T>> {
         }
 
         @Override
-        public Hologram setDead(boolean dead) {
+        public Hologram<?> setDead(boolean dead) {
             Hologram.this.dead = dead;
             return Hologram.this;
         }
 
         @Override
-        public Hologram setEntityId(int entityId) {
+        public Hologram<?> setEntityId(int entityId) {
             Hologram.this.entityID = entityId;
             return Hologram.this;
         }
 
         @Override
-        public Hologram sendPacket(PacketWrapper<?> packet) {
+        public Hologram<?> sendPacket(PacketWrapper<?> packet) {
             Hologram.this.sendPacket(packet);
             return Hologram.this;
         }
 
         @Override
-        public Hologram updateAffectedPlayers() {
+        public Hologram<?> updateAffectedPlayers() {
             Hologram.this.updateAffectedPlayers();
             return Hologram.this;
         }
@@ -205,6 +206,10 @@ public abstract class Hologram<T extends Hologram<T>> {
 
 
     private void updateAffectedPlayers() {
+        if(this.location == null) {
+            Bukkit.getLogger().log(Level.WARNING, "Tried to update hologram with ID " + this.id + " entity type " + this.entityType.getName().getKey() + ". But the location is not set!");
+            return;
+        }
         List<Player> newPlayers = new ArrayList<>();
         List<Player> toRemove = viewers.stream()
                 .filter(player -> player.isOnline() && (player.getWorld() != this.location.getWorld() || player.getLocation().distance(this.location) > 20))
@@ -241,12 +246,11 @@ public abstract class Hologram<T extends Hologram<T>> {
     /**
      * Attaches this hologram to another entity, making it ride the target entity.
      *
-     * @param textHologram The hologram to attach
      * @param entityID The entity ID to attach the hologram to
      * @param persistent If the hologram should be re-attached automatically or not TODO
      */
-    public void attach(TextHologram textHologram, int entityID, boolean persistent) {
-        int[] hologramToArray = { textHologram.getEntityID() };
+    public void attach(int entityID, boolean persistent) {
+        int[] hologramToArray = { this.entityID };
         WrapperPlayServerSetPassengers attachPacket = new WrapperPlayServerSetPassengers(entityID, hologramToArray);
         Bukkit.getServer().getScheduler().runTask(HologramLib.getInstance(), () -> {
             sendPacket(attachPacket);

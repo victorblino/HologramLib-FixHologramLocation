@@ -5,11 +5,8 @@ import com.github.retrooper.packetevents.util.Vector3d;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerSpawnEntity;
 import com.maximde.hologramlib.HologramLib;
 import lombok.*;
-import lombok.experimental.Accessors;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.entity.Display;
-import org.bukkit.entity.TextDisplay;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
@@ -38,7 +35,7 @@ public class HologramManager {
     public LeaderboardHologram generateLeaderboard(Location location, Map<Integer, String> leaderboardData, LeaderboardHologram.LeaderboardOptions options) {
         LeaderboardHologram leaderboardHologram = new LeaderboardHologram(options);
         spawn(leaderboardHologram.getTextHologram(), location);
-        spawn(leaderboardHologram.getFirstPlaceHead(), location);
+        spawn(leaderboardHologram.getFirstPlaceHead(), location.clone().add(0, 3.2f + (options.scale() / 2.8f), 0));
         updateLeaderboard(leaderboardHologram, leaderboardData, options);
         return leaderboardHologram;
     }
@@ -64,12 +61,12 @@ public class HologramManager {
         return hologram;
     }
 
-    public void attach(TextHologram textHologram, int entityID) {
-        this.attach(textHologram, entityID, true);
+    public void attach(Hologram<?> hologram, int entityID) {
+        this.attach(hologram, entityID, true);
     }
 
-    public void attach(TextHologram textHologram, int entityID, boolean persistent) {
-        textHologram.attach(textHologram, entityID, persistent);
+    public void attach(Hologram<?> hologram, int entityID, boolean persistent) {
+        hologram.attach(entityID, persistent);
     }
 
     public <H extends Hologram<H>> boolean register(H hologram) {
@@ -85,8 +82,12 @@ public class HologramManager {
     }
 
 
-    public boolean remove(TextHologram textHologram) {
-        return textHologram != null && remove(textHologram.getId());
+    public boolean removeLeaderboard(LeaderboardHologram leaderboardHologram) {
+        return remove(leaderboardHologram.getTextHologram()) && remove(leaderboardHologram.getFirstPlaceHead());
+    }
+
+    public boolean remove(Hologram<?> hologram) {
+        return hologram != null && remove(hologram.getId());
     }
 
     public boolean remove(String id) {

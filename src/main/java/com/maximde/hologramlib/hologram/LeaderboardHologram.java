@@ -74,9 +74,16 @@ public class LeaderboardHologram {
         this.textHologram = new TextHologram(
                 "leaderboard_" + UUID.randomUUID()
         );
+
+        this.firstPlaceHead = new ItemHologram(textHologram.getId() + "_head");
+        this.firstPlaceHead.setScale(2 * options.scale, 2 * options.scale, 0.01f * options.scale);
+        this.firstPlaceHead.setGlowing(true);
+        this.firstPlaceHead.setGlowColor(java.awt.Color.YELLOW.getRGB());
+        this.firstPlaceHead.setBillboard(Display.Billboard.VERTICAL);
     }
 
-    public void updateLeaderboard(Map<Integer, String> leaderboardData, LeaderboardOptions options) {
+    public void updateLeaderboard(Map<Integer, String> leaderboardData, LeaderboardOptions leaderboardOptions) {
+        this.options = leaderboardOptions;
 
         Map<Integer, String> sortedData = new LinkedHashMap<>(leaderboardData);
         StringBuilder leaderboardText = new StringBuilder();
@@ -124,8 +131,7 @@ public class LeaderboardHologram {
                 .orElse(UUID.randomUUID());
 
         if (options.topPlayerHead()) {
-            if (firstPlaceHead == null) createFirstPlaceHead(topPlayerUUID);
-            else updateFirstPlaceHead(topPlayerUUID);
+            updateFirstPlaceHead(topPlayerUUID);
             leaderboardText.insert(0, "\n\n\n");
         } else {
             removeFirstPlaceHead();
@@ -135,52 +141,31 @@ public class LeaderboardHologram {
         textHologram.update();
     }
 
-    private void createFirstPlaceHead(UUID uuid) {
+    private void updateFirstPlaceHead(UUID uuid) {
         try {
-            firstPlaceHead = new ItemHologram(textHologram.getId() + "_head");
-            firstPlaceHead.setScale(2 * options.scale, 2 * options.scale, 0.01f * options.scale);
-            firstPlaceHead.setGlowing(true);
-            firstPlaceHead.setGlowColor(java.awt.Color.YELLOW.getRGB());
-            firstPlaceHead.setBillboard(Display.Billboard.VERTICAL);
-
-
             ItemStack headItem = new ItemStack.Builder()
                     .type(ItemTypes.PLAYER_HEAD)
                     .nbt("SkullOwner", new NBTString("MaximDe"))
                     .build();
 
-            firstPlaceHead.setItem(headItem);
-
-            Location headLocation = textHologram.getLocation().clone().add(0, 1.2f + (options.scale / 2.8f), 0);
-            firstPlaceHead.getInternalAccess().setLocation(headLocation);
-            firstPlaceHead.update();
-        } catch (Exception exception) {
-            Bukkit.getLogger().log(Level.WARNING, exception.getMessage());
-        }
-    }
-
-    private void updateFirstPlaceHead(UUID uuid) {
-        try {
-            ItemStack headItem = new ItemStack.Builder()
-                    .type(ItemTypes.PLAYER_HEAD)
-                    .build();
-            firstPlaceHead.setItem(headItem);
-            firstPlaceHead.update();
+            this.firstPlaceHead.setItem(headItem);
+            this.firstPlaceHead.update();
         } catch (Exception exception) {
             Bukkit.getLogger().log(Level.WARNING, exception.getMessage());
         }
     }
 
     private void removeFirstPlaceHead() {
-        if (firstPlaceHead != null) {
-            firstPlaceHead.kill();
-            firstPlaceHead = null;
+        if (this.firstPlaceHead != null) {
+            this.firstPlaceHead.kill();
+            this.firstPlaceHead = null;
         }
     }
 
-    public void remove() {
-        removeFirstPlaceHead();
-        textHologram.kill();
+    public LeaderboardHologram teleport(Location location) {
+        this.textHologram.teleport(location);
+        this.firstPlaceHead.teleport(location.clone().add(0, 3.2f + (options.scale / 2.8f), 0));
+        return this;
     }
 
     public Location getLocation() {
