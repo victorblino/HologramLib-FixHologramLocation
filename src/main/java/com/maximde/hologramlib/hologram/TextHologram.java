@@ -24,7 +24,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class TextHologram extends Hologram<TextHologram> {
 
-    protected Component text = Component.text("Hologram API");
+    protected Component text = Component.text("");
 
     @Setter @Getter @Accessors(chain = true)
     private boolean shadow = true;

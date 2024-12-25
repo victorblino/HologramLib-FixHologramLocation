@@ -34,9 +34,9 @@ public class HologramManager {
 
     public LeaderboardHologram generateLeaderboard(Location location, Map<Integer, String> leaderboardData, LeaderboardHologram.LeaderboardOptions options) {
         LeaderboardHologram leaderboardHologram = new LeaderboardHologram(options);
-        spawn(leaderboardHologram.getTextHologram(), location);
-        spawn(leaderboardHologram.getFirstPlaceHead(), location.clone().add(0, 3.2f + (options.scale() / 2.8f), 0));
         updateLeaderboard(leaderboardHologram, leaderboardData, options);
+        spawn(leaderboardHologram.getTextHologram(), location);
+        spawn(leaderboardHologram.getFirstPlaceHead(), location);
         return leaderboardHologram;
     }
 
@@ -48,8 +48,8 @@ public class HologramManager {
         hologram.getInternalAccess().setLocation(location);
         hologram.getInternalAccess().setEntityId(ThreadLocalRandom.current().nextInt(4000, Integer.MAX_VALUE));
         WrapperPlayServerSpawnEntity packet = new WrapperPlayServerSpawnEntity(
-                hologram.getEntityID(), Optional.of(UUID.randomUUID()), EntityTypes.TEXT_DISPLAY,
-                new Vector3d(location.getX(), location.getY() + 1, location.getZ()), 0f, 0f, 0f, 0, Optional.empty()
+                hologram.getEntityID(), Optional.of(UUID.randomUUID()), hologram.getEntityType(),
+                new Vector3d(location.getX(), location.getY(), location.getZ()), 0f, 0f, 0f, 0, Optional.empty()
         );
         Bukkit.getServer().getScheduler().runTask(HologramLib.getInstance(), () -> {
             hologram.getInternalAccess().updateAffectedPlayers();

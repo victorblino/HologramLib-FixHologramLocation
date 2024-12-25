@@ -74,6 +74,7 @@ public abstract class Hologram<T extends Hologram<T>> {
     @Getter
     protected final RenderMode renderMode;
 
+    @Getter
     protected final EntityType entityType;
 
     @Getter
@@ -158,12 +159,13 @@ public abstract class Hologram<T extends Hologram<T>> {
      * Sends update packets to all viewers.
      * Should be called after making any changes to the hologram object.
      */
-    public Hologram update() {
+    public T update() {
+        if(location == null) return self();
         Bukkit.getServer().getScheduler().runTask(HologramLib.getInstance(), () -> {
             updateAffectedPlayers();
             sendPacket(createMeta());
         });
-        return this;
+        return self();
     }
 
     protected void validateId(String id) {
@@ -186,11 +188,11 @@ public abstract class Hologram<T extends Hologram<T>> {
         this.dead = true;
     }
 
-    public Hologram teleport(Location location) {
+    public T teleport(Location location) {
         WrapperPlayServerEntityTeleport packet = new WrapperPlayServerEntityTeleport(this.entityID, SpigotConversionUtil.fromBukkitLocation(location), false);
         this.location = location;
         sendPacket(packet);
-        return this;
+        return self();
     }
 
     protected abstract WrapperPlayServerEntityMetadata createMeta();
@@ -235,7 +237,7 @@ public abstract class Hologram<T extends Hologram<T>> {
         if(!dead && entityID != 0) {
             WrapperPlayServerSpawnEntity packet = new WrapperPlayServerSpawnEntity(
                     this.entityID, Optional.of(UUID.randomUUID()), this.entityType,
-                    new Vector3d(location.getX(), location.getY() + 1, location.getZ()), 0f, 0f, 0f, 0, Optional.empty()
+                    new Vector3d(location.getX(), location.getY(), location.getZ()), 0f, 0f, 0f, 0, Optional.empty()
             );
             this.sendPacket(packet, newPlayers);
             this.sendPacket(createMeta(), newPlayers);

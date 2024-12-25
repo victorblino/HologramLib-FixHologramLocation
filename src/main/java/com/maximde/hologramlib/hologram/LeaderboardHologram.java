@@ -14,6 +14,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Display;
 import org.bukkit.entity.TextDisplay;
 
+import java.awt.*;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -24,7 +25,9 @@ import java.util.logging.Level;
 public class LeaderboardHologram {
 
     private final TextHologram textHologram;
-    private ItemHologram firstPlaceHead;
+    private final ItemHologram firstPlaceHead;
+
+    private int leaderboardEntries = 0;
 
     @Data
     @Builder
@@ -76,39 +79,44 @@ public class LeaderboardHologram {
         );
 
         this.firstPlaceHead = new ItemHologram(textHologram.getId() + "_head");
-        this.firstPlaceHead.setScale(2 * options.scale, 2 * options.scale, 0.01f * options.scale);
-        this.firstPlaceHead.setGlowing(true);
-        this.firstPlaceHead.setGlowColor(java.awt.Color.YELLOW.getRGB());
-        this.firstPlaceHead.setBillboard(Display.Billboard.VERTICAL);
     }
 
     public void updateLeaderboard(Map<Integer, String> leaderboardData, LeaderboardOptions leaderboardOptions) {
         this.options = leaderboardOptions;
-
+        this.leaderboardEntries = leaderboardData.size();
         Map<Integer, String> sortedData = new LinkedHashMap<>(leaderboardData);
         StringBuilder leaderboardText = new StringBuilder();
+
+        String space = options.topPlayerHead() ? "\n\n\n\n\n" : "";
 
         leaderboardText.append(
                 options.titleFormat()
                         .replace("{title}", options.title())
-        ).append("\n\n");
+        ).append("\n\n").append(space);
 
-        for (Map.Entry<Integer, String> entry : sortedData.entrySet()) {
-            int place = entry.getKey();
-            if (place > options.maxDisplayEntries()) break;
-            if (!options.showEmptyPlaces() && entry.getValue().isEmpty()) continue;
+        int maxEntries = options.maxDisplayEntries();
+        for (int i = 1; i <= maxEntries; i++) {
+            String entryValue = sortedData.getOrDefault(i, "");
 
-            String[] parts = entry.getValue().split(":");
+            if (!options.showEmptyPlaces() && entryValue.isEmpty()) {
+                continue;
+            }
+
+            if (entryValue.isEmpty()) {
+                entryValue = "Unknown:N/A";
+            }
+
+            String[] parts = entryValue.split(":");
             String name = parts.length > 0 ? parts[0] : "Unknown";
             String score = parts.length > 1 ? parts[1] : "N/A";
 
-            String placeFormat = place <= 3 && place <= options.placeFormats().length
-                    ? options.placeFormats()[place - 1]
+            String placeFormat = i <= 3 && i <= options.placeFormats().length
+                    ? options.placeFormats()[i - 1]
                     : options.defaultPlaceFormat();
 
             leaderboardText.append(
                     placeFormat
-                            .replace("{place}", String.valueOf(place))
+                            .replace("{place}", String.valueOf(i))
                             .replace("{name}", name)
                             .replace("{score}", score)
                             .replace("{suffix}", options.suffix())
@@ -123,8 +131,6 @@ public class LeaderboardHologram {
                 .setAlignment(TextDisplay.TextAlignment.CENTER)
                 .setBillboard(Display.Billboard.VERTICAL);
 
-        this.textHologram.update();
-
         UUID topPlayerUUID = Optional.ofNullable(sortedData.get(1))
                 .map(data -> data.split(":")[0])
                 .flatMap(PlayerUtils::getUUID)
@@ -132,14 +138,13 @@ public class LeaderboardHologram {
 
         if (options.topPlayerHead()) {
             updateFirstPlaceHead(topPlayerUUID);
-            leaderboardText.insert(0, "\n\n\n");
-        } else {
-            removeFirstPlaceHead();
         }
+
         textHologram.setMiniMessageText(leaderboardText.toString());
 
         textHologram.update();
     }
+
 
     private void updateFirstPlaceHead(UUID uuid) {
         try {
@@ -149,27 +154,40 @@ public class LeaderboardHologram {
                     .build();
 
             this.firstPlaceHead.setItem(headItem);
+            this.firstPlaceHead.setScale(2 * options.scale, 2 * options.scale, 0.01f * options.scale);
+            this.firstPlaceHead.setGlowing(true);
+            this.firstPlaceHead.setGlowColor(Color.ORANGE);
+            this.firstPlaceHead.setBillboard(Display.Billboard.VERTICAL);
+
+            float baseTranslation = 1.3f;
+
+            float dynamicOffset;
+
+            if (options.showEmptyPlaces()) {
+                dynamicOffset = options.maxDisplayEntries();
+            } else {
+                dynamicOffset = Math.min(leaderboardEntries, options.maxDisplayEntries());
+            }
+            dynamicOffset = dynamicOffset * 0.25f;
+
+            this.firstPlaceHead.setTranslation(0F, (baseTranslation + dynamicOffset) * options.scale(), 0F);
+
+
             this.firstPlaceHead.update();
         } catch (Exception exception) {
             Bukkit.getLogger().log(Level.WARNING, exception.getMessage());
         }
     }
 
-    private void removeFirstPlaceHead() {
-        if (this.firstPlaceHead != null) {
-            this.firstPlaceHead.kill();
-            this.firstPlaceHead = null;
-        }
-    }
-
     public LeaderboardHologram teleport(Location location) {
         this.textHologram.teleport(location);
-        this.firstPlaceHead.teleport(location.clone().add(0, 3.2f + (options.scale / 2.8f), 0));
+        this.firstPlaceHead.teleport(location);
         return this;
     }
 
     public Location getLocation() {
         return textHologram.getLocation();
     }
+
 
 }

@@ -5,53 +5,39 @@ import com.github.retrooper.packetevents.protocol.entity.type.EntityTypes;
 import com.github.retrooper.packetevents.protocol.item.ItemStack;
 import com.github.retrooper.packetevents.protocol.item.type.ItemTypes;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerEntityMetadata;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.maximde.hologramlib.utils.Vector3F;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import me.tofaa.entitylib.meta.EntityMeta;
 import me.tofaa.entitylib.meta.display.AbstractDisplayMeta;
 import me.tofaa.entitylib.meta.display.ItemDisplayMeta;
-import org.bukkit.Bukkit;
-import org.bukkit.profile.PlayerProfile;
-import org.bukkit.profile.PlayerTextures;
-import org.joml.Vector3f;
+
 
 import java.awt.*;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.Base64;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.logging.Level;
 
 
+@Getter
 public class ItemHologram extends Hologram<ItemHologram> {
 
-    @Getter @Setter
+    @Setter
     @Accessors(chain = true)
     protected ItemDisplayMeta.DisplayType displayType = ItemDisplayMeta.DisplayType.FIXED;
 
-    @Getter @Setter
+    @Setter
     @Accessors(chain = true)
     protected boolean onFire = false;
 
-    @Getter @Setter
+    @Setter
     @Accessors(chain = true)
-    protected ItemStack item = new ItemStack.Builder().type(ItemTypes.DIAMOND_BLOCK).build();
+    protected ItemStack item = new ItemStack.Builder()
+            .type(ItemTypes.AIR).build();
 
-    @Getter @Setter
+    @Setter
     @Accessors(chain = true)
     protected boolean glowing = false;
 
-    @Getter @Setter
     @Accessors(chain = true)
-    protected int glowColor = Color.YELLOW.getRGB();
+    protected int glowColor = 0;
 
     public ItemHologram(String id, RenderMode renderMode) {
         super(id, renderMode, EntityTypes.ITEM_DISPLAY);
@@ -60,6 +46,14 @@ public class ItemHologram extends Hologram<ItemHologram> {
     public ItemHologram(String id) {
         this(id, RenderMode.NEARBY);
     }
+
+    public void setGlowColor(Color color) {
+        int rgb = color.getRGB();
+        this.glowColor = ((rgb & 0xFF0000) >> 16) |
+                (rgb & 0x00FF00) |
+                ((rgb & 0x0000FF) << 16);
+    }
+
 
     @Override
     protected WrapperPlayServerEntityMetadata createMeta() {
