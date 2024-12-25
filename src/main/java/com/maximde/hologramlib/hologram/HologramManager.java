@@ -82,7 +82,7 @@ public class HologramManager {
     }
 
 
-    public boolean removeLeaderboard(LeaderboardHologram leaderboardHologram) {
+    public boolean remove(LeaderboardHologram leaderboardHologram) {
         return remove(leaderboardHologram.getTextHologram()) && remove(leaderboardHologram.getFirstPlaceHead());
     }
 
