@@ -14,18 +14,21 @@ import org.joml.Vector3f;
 import java.awt.*;
 
 
-@Getter
 public class BlockHologram extends Hologram<BlockHologram> {
 
+    @Getter
     @Accessors(chain = true)
     protected int block = 0;
 
+    @Getter
     @Accessors(chain = true)
     protected boolean onFire = false;
 
+    @Getter
     @Accessors(chain = true)
     protected boolean glowing = false;
 
+    @Getter
     @Accessors(chain = true)
     protected int glowColor = Color.YELLOW.getRGB();
 
