@@ -1,4 +1,4 @@
-@file:Suppress("VulnerableLibrariesLocal")
+project.version = "1.5.3.2"
 
 plugins {
     kotlin("jvm") version "2.0.21"
@@ -17,19 +17,17 @@ repositories {
 }
 
 dependencies {
-    val adventureVersion = "4.17.0"
-
     compileOnly("org.projectlombok:lombok:1.18.36")
     annotationProcessor("org.projectlombok:lombok:1.18.36")
 
     compileOnly ("org.spigotmc:spigot-api:1.19.4-R0.1-SNAPSHOT")
     compileOnly ("com.github.retrooper:packetevents-spigot:2.7.0")
-    implementation("me.tofaa.entitylib:spigot:2.4.11-SNAPSHOT")
-    implementation("net.kyori:adventure-text-minimessage:$adventureVersion")
     compileOnly("com.github.LoneDev6:API-ItemsAdder:3.6.1")
+
+    implementation("me.tofaa.entitylib:spigot:2.4.11-SNAPSHOT")
+    implementation("net.kyori:adventure-text-minimessage:4.17.0")
     implementation("com.github.technicallycoded:FoliaLib:main-SNAPSHOT")
 
-    // kotlin
     library(kotlin("stdlib"))
     library(kotlin("reflect"))
 }
@@ -48,6 +46,8 @@ tasks.build {
 
 val pluginPackage = "com.maximde.hologramlib"
 tasks.shadowJar {
+
+    archiveFileName.set("HologramLib-$version.jar")
 
     exclude(
         "DebugProbesKt.bin",
@@ -70,12 +70,11 @@ tasks.shadowJar {
 }
 
 bukkit {
-    version = "1.5.0.1-SNAPSHOT"
+    version = project.version.toString()
     main = "com.maximde.hologramlib.HologramLib"
     apiVersion = "1.19"
     author = "MaximDe"
     foliaSupported = true
     depend = listOf("packetevents")
     softDepend = listOf("ItemsAdder")
-
 }
