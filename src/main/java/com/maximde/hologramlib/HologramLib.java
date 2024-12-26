@@ -90,7 +90,11 @@ public final class HologramLib extends JavaPlugin {
             initializeManagers();
             initializeMetrics();
             initializeReplaceText();
+
             foliaLib = new FoliaLib(this);
+            BukkitTasks.setPlugin(this);
+            BukkitTasks.setFoliaLib(foliaLib);
+
         } catch (Exception e) {
             getLogger().log(Level.SEVERE, "Failed to enable HologramLib", e);
             Bukkit.getPluginManager().disablePlugin(this);
