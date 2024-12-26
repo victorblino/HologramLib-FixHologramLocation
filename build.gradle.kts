@@ -4,6 +4,15 @@ plugins {
     kotlin("jvm") version "2.0.21"
     id("net.minecrell.plugin-yml.bukkit") version "0.6.0"
     id("io.github.goooler.shadow") version "8.1.8"
+    id("maven-publish")
+}
+
+publishing {
+    publications {
+        register<MavenPublication>("maven") {
+            from(components["java"])
+        }
+    }
 }
 
 repositories {
