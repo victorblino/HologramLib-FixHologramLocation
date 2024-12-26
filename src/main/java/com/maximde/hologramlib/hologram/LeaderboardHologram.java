@@ -152,6 +152,8 @@ public class LeaderboardHologram {
                 .flatMap(PlayerUtils::getUUID)
                 .orElse(UUID.randomUUID());
 
+
+
         if (options.topPlayerHead()) {
             updateFirstPlaceHead(topPlayerUUID);
         }
@@ -165,54 +167,30 @@ public class LeaderboardHologram {
     private void updateFirstPlaceHead(UUID uuid) {
         try {
             ItemStack headItem;
-            PlayerProfile profile = PlayerUtils.getPlayerProfile(uuid);
-
             if (PacketEvents.getAPI().getServerManager().getVersion().isNewerThanOrEquals(ServerVersion.V_1_20_5)) {
                 List<ItemProfile.Property> properties = new ArrayList<>();
-
-                try {
-                    URL url = new URL("https://sessionserver.mojang.com/session/minecraft/profile/" +
-                            uuid.toString().replace("-", "") + "?unsigned=false");
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-
-                    try (InputStreamReader reader = new InputStreamReader(connection.getInputStream())) {
-                        JsonObject profileData = JsonParser.parseReader(reader).getAsJsonObject();
-                        JsonArray propertiesArray = profileData.getAsJsonArray("properties");
-
-                        for (JsonElement property : propertiesArray) {
-                            JsonObject propertyObj = property.getAsJsonObject();
-                            String name = propertyObj.get("name").getAsString();
-                            String value = propertyObj.get("value").getAsString();
-                            String signature = propertyObj.has("signature") ?
-                                    propertyObj.get("signature").getAsString() : null;
-
-                            properties.add(new ItemProfile.Property(name, value, signature));
-                        }
-                    }
-                } catch (IOException e) {
-                    Bukkit.getLogger().log(Level.WARNING, "Failed to fetch skin data: " + e.getMessage());
-                }
-
+                properties.add(new ItemProfile.Property(
+                        "textures",
+                        Base64.getEncoder().encodeToString(("{\"textures\":{\"SKIN\":{\"url\":\"" + PlayerUtils.getPlayerSkinUrl(uuid) + "\"}}}").getBytes()),
+                        null));
                 headItem = new ItemStack.Builder()
                         .type(ItemTypes.PLAYER_HEAD)
-                        .component(ComponentTypes.PROFILE, new ItemProfile(profile.getName(), uuid, properties))
+                        .component(ComponentTypes.PROFILE, new ItemProfile("none", uuid, properties))
                         .build();
             } else {
                 NBTCompound skullOwner = new NBTCompound();
-                skullOwner.setTag("Name", new NBTString(profile.getName()));
+                skullOwner.setTag("Name", new NBTString("none"));
                 skullOwner.setTag("Id", new NBTString(uuid.toString()));
 
-                if (profile.getTextures().getSkin() != null) {
-                    NBTCompound properties = new NBTCompound();
-                    NBTCompound textureProperty = new NBTCompound();
-                    textureProperty.setTag("Value", new NBTString(PlayerUtils.getPlayerSkinUrl(profile.getUniqueId())));
+                NBTCompound properties = new NBTCompound();
+                NBTCompound textureProperty = new NBTCompound();
+                textureProperty.setTag("Value", new NBTString(PlayerUtils.getPlayerSkinUrl(uuid)));
 
-                    NBTList<NBTCompound> texturesList = new NBTList<>(NBTType.COMPOUND);
-                    texturesList.addTag(textureProperty);
-                    properties.setTag("textures", texturesList);
+                NBTList<NBTCompound> texturesList = new NBTList<>(NBTType.COMPOUND);
+                texturesList.addTag(textureProperty);
+                properties.setTag("textures", texturesList);
 
-                    skullOwner.setTag("Properties", properties);
-                }
+                skullOwner.setTag("Properties", properties);
 
                 headItem = new ItemStack.Builder()
                         .type(ItemTypes.PLAYER_HEAD)
@@ -239,10 +217,10 @@ public class LeaderboardHologram {
 
             this.firstPlaceHead.setTranslation(0F, (baseTranslation + dynamicOffset) * options.scale(), 0F);
 
-
             this.firstPlaceHead.update();
         } catch (Exception exception) {
-            Bukkit.getLogger().log(Level.WARNING, exception.getMessage());
+            Bukkit.getLogger().log(Level.WARNING, "Failed to update the first place playerhead in hologram! Error: " + exception.getMessage());
+            exception.printStackTrace();
         }
     }
 
