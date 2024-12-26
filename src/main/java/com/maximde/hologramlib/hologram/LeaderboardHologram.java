@@ -167,36 +167,15 @@ public class LeaderboardHologram {
     private void updateFirstPlaceHead(UUID uuid) {
         try {
             ItemStack headItem;
-            if (PacketEvents.getAPI().getServerManager().getVersion().isNewerThanOrEquals(ServerVersion.V_1_20_5)) {
-                List<ItemProfile.Property> properties = new ArrayList<>();
-                properties.add(new ItemProfile.Property(
-                        "textures",
-                        Base64.getEncoder().encodeToString(("{\"textures\":{\"SKIN\":{\"url\":\"" + PlayerUtils.getPlayerSkinUrl(uuid) + "\"}}}").getBytes()),
-                        null));
-                headItem = new ItemStack.Builder()
-                        .type(ItemTypes.PLAYER_HEAD)
-                        .component(ComponentTypes.PROFILE, new ItemProfile("none", uuid, properties))
-                        .build();
-            } else {
-                NBTCompound skullOwner = new NBTCompound();
-                skullOwner.setTag("Name", new NBTString("none"));
-                skullOwner.setTag("Id", new NBTString(uuid.toString()));
-
-                NBTCompound properties = new NBTCompound();
-                NBTCompound textureProperty = new NBTCompound();
-                textureProperty.setTag("Value", new NBTString(PlayerUtils.getPlayerSkinUrl(uuid)));
-
-                NBTList<NBTCompound> texturesList = new NBTList<>(NBTType.COMPOUND);
-                texturesList.addTag(textureProperty);
-                properties.setTag("textures", texturesList);
-
-                skullOwner.setTag("Properties", properties);
-
-                headItem = new ItemStack.Builder()
-                        .type(ItemTypes.PLAYER_HEAD)
-                        .nbt("SkullOwner", skullOwner)
-                        .build();
-            }
+            List<ItemProfile.Property> properties = new ArrayList<>();
+            properties.add(new ItemProfile.Property(
+                    "textures",
+                    Base64.getEncoder().encodeToString(("{\"textures\":{\"SKIN\":{\"url\":\"" + PlayerUtils.getPlayerSkinUrl(uuid) + "\"}}}").getBytes()),
+                    null));
+            headItem = new ItemStack.Builder()
+                    .type(ItemTypes.PLAYER_HEAD)
+                    .component(ComponentTypes.PROFILE, new ItemProfile("none", uuid, properties))
+                    .build();
 
             this.firstPlaceHead.setItem(headItem);
             this.firstPlaceHead.setScale(2 * options.scale, 2 * options.scale, 0.01f * options.scale);

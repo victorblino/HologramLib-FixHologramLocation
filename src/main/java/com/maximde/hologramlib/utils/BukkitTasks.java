@@ -3,6 +3,7 @@ package com.maximde.hologramlib.utils;
 import com.tcoded.folialib.FoliaLib;
 import com.tcoded.folialib.wrapper.task.WrappedTask;
 import lombok.Setter;
+import org.bukkit.Location;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -21,6 +22,19 @@ public final class BukkitTasks {
     public static void runTask(Runnable runnable) {
         if (foliaLib.isFolia()) {
             foliaLib.getScheduler().runNextTick(task -> runnable.run());
+        } else {
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    runnable.run();
+                }
+            }.runTask(plugin);
+        }
+    }
+
+    public static void runTask(Runnable runnable, Location location) {
+        if (foliaLib.isFolia()) {
+            foliaLib.getScheduler().runAtLocation(location, task -> runnable.run());
         } else {
             new BukkitRunnable() {
                 @Override

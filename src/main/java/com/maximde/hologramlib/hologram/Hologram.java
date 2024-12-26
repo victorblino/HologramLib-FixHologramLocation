@@ -6,6 +6,8 @@ import com.github.retrooper.packetevents.util.Vector3d;
 import com.github.retrooper.packetevents.wrapper.PacketWrapper;
 import com.github.retrooper.packetevents.wrapper.play.server.*;
 import com.maximde.hologramlib.HologramLib;
+import com.maximde.hologramlib.utils.BukkitTasks;
+import com.maximde.hologramlib.utils.TaskHandle;
 import com.maximde.hologramlib.utils.Vector3F;
 import io.github.retrooper.packetevents.util.SpigotConversionUtil;
 import lombok.Getter;
@@ -14,7 +16,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Display;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitTask;
 import org.joml.Vector3f;
 
 import java.util.ArrayList;
@@ -77,7 +78,7 @@ public abstract class Hologram<T extends Hologram<T>> {
     protected final EntityType entityType;
 
     @Getter
-    protected BukkitTask task;
+    protected TaskHandle task;
 
     @Getter
     /**
@@ -115,7 +116,9 @@ public abstract class Hologram<T extends Hologram<T>> {
 
     private void startRunnable() {
         if (task != null) return;
-        task = Bukkit.getServer().getScheduler().runTaskTimer(HologramLib.getInstance(), this::updateAffectedPlayers, 60L, updateTaskPeriod);
+        task = BukkitTasks.runTaskTimer( () -> {
+            this.updateAffectedPlayers();
+        }, 60L, updateTaskPeriod);
     }
 
     private class InternalSetters implements Internal {
@@ -160,7 +163,7 @@ public abstract class Hologram<T extends Hologram<T>> {
      */
     public T update() {
         if(location == null) return self();
-        Bukkit.getServer().getScheduler().runTask(HologramLib.getInstance(), () -> {
+        BukkitTasks.runTask( () -> {
             updateAffectedPlayers();
             sendPacket(createMeta());
         });
@@ -227,10 +230,14 @@ public abstract class Hologram<T extends Hologram<T>> {
         if (this.renderMode == RenderMode.ALL) {
             newPlayers.addAll(new ArrayList<>(Bukkit.getOnlinePlayers()));
         } else if (this.renderMode == RenderMode.NEARBY) {
-            this.location.getWorld().getNearbyEntities(this.location, nearbyEntityScanningDistance, nearbyEntityScanningDistance, nearbyEntityScanningDistance)
-                    .stream()
-                    .filter(entity -> entity instanceof Player)
-                    .forEach(entity -> newPlayers.add((Player) entity));
+            newPlayers.addAll(new ArrayList<>(Bukkit.getOnlinePlayers()));
+            //TODO better implementation
+            /*
+             this.location.getWorld().getNearbyEntities(this.location, nearbyEntityScanningDistance, nearbyEntityScanningDistance, nearbyEntityScanningDistance)
+             .stream()
+             .filter(entity -> entity instanceof Player)
+             .forEach(entity -> newPlayers.add((Player) entity));
+              */
         }
         newPlayers.removeAll(this.viewers);
         if(!dead && entityID != 0) {
@@ -253,7 +260,7 @@ public abstract class Hologram<T extends Hologram<T>> {
     public void attach(int entityID, boolean persistent) {
         int[] hologramToArray = { this.entityID };
         WrapperPlayServerSetPassengers attachPacket = new WrapperPlayServerSetPassengers(entityID, hologramToArray);
-        Bukkit.getServer().getScheduler().runTask(HologramLib.getInstance(), () -> {
+        BukkitTasks.runTask(() -> {
             sendPacket(attachPacket);
         });
     }
