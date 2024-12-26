@@ -177,6 +177,8 @@ public class LeaderboardHologram {
                     .component(ComponentTypes.PROFILE, new ItemProfile("none", uuid, properties))
                     .build();
 
+            //TODO < 1.20.5 impl
+
             this.firstPlaceHead.setItem(headItem);
             this.firstPlaceHead.setScale(2 * options.scale, 2 * options.scale, 0.01f * options.scale);
             this.firstPlaceHead.setGlowing(true);
