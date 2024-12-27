@@ -163,12 +163,12 @@ hologramManager.spawn(hologram, location);
 
 ### Leaderboard Creation
 
-<img src="https://github.com/user-attachments/assets/68b8ded4-c307-44e9-a746-6777ff9b6205" width="400">
+<img src="https://github.com/user-attachments/assets/275a89c6-d2a9-4ef8-b45f-f4f717344b97" width="400">
 
 ```java
 Map<Integer, String> leaderboardData = new LinkedHashMap<>() {{
-    put(1, "dream:1000");
-    put(2, "MaximDe:950");
+    put(1, "MaximDe:1000");
+    put(2, "dream:950");
     put(3, "BastiGHG:500");
     put(4, "Wichtiger:400");
     // ... more entries
@@ -178,7 +178,7 @@ LeaderboardHologram leaderboard = hologramManager.generateLeaderboard(
         location,
         leaderboardData,
         LeaderboardHologram.LeaderboardOptions.builder()
-                .title("Top Players")
+                .title("Top Players - Kills")
                 .showEmptyPlaces(true)
                 .scale(1.2f)
                 .maxDisplayEntries(10)
