@@ -4,6 +4,7 @@ import com.github.retrooper.packetevents.protocol.entity.type.EntityType;
 import com.github.retrooper.packetevents.protocol.entity.type.EntityTypes;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerEntityMetadata;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.Accessors;
 import me.tofaa.entitylib.meta.EntityMeta;
 import me.tofaa.entitylib.meta.display.AbstractDisplayMeta;
@@ -13,19 +14,19 @@ import java.awt.*;
 
 public class BlockHologram extends Hologram<BlockHologram> {
 
-    @Getter
+    @Getter @Setter
     @Accessors(chain = true)
     protected int block = 0;
 
-    @Getter
+    @Getter @Setter
     @Accessors(chain = true)
     protected boolean onFire = false;
 
-    @Getter
+    @Getter @Setter
     @Accessors(chain = true)
     protected boolean glowing = false;
 
-    @Getter
+    @Getter @Setter
     @Accessors(chain = true)
     protected int glowColor = Color.YELLOW.getRGB();
 
