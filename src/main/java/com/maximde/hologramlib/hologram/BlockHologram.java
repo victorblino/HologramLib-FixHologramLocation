@@ -30,11 +30,11 @@ public class BlockHologram extends Hologram<BlockHologram> {
     protected int glowColor = Color.YELLOW.getRGB();
 
 
-    protected BlockHologram(String id, RenderMode renderMode) {
+    public BlockHologram(String id, RenderMode renderMode) {
         super(id, renderMode, EntityTypes.BLOCK_DISPLAY);
     }
 
-    protected BlockHologram(String id, EntityType entityType) {
+    public BlockHologram(String id, EntityType entityType) {
         super(id, entityType);
     }
 
