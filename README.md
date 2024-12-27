@@ -47,6 +47,10 @@
 - Upload the HologramLib-[version]**.jar** and packet events file on your server (_yourserver/**plugins**_ folder)
 - Add the plugin as a dependency to your plugin and use it
 
+> [!NOTE]  
+> You might also want to add [packetevents](https://github.com/retrooper/packetevents/wiki/Depending-on-pre%E2%80%90built-PacketEvents) as a compile-only dependency to your plugin  
+> if you want to use (import) certain features, such as the `ItemStack` for the item hologram.
+
 **Gradle installation**
 ```groovy
 repositories {
