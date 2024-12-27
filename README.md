@@ -207,7 +207,7 @@ hologramManager.attach(hologram, parentEntityId);
 ```
 
 ### Managing Hologram Viewers
-This only makes sense if you set the RenderMode to VIEWER_LIST
+This only makes sense if you set the holograms `RenderMode` to `VIEWER_LIST`
 ```java
 hologram.addViewer(player);
 hologram.removeViewer(player);
