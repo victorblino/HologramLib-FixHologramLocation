@@ -3,15 +3,16 @@
 <a href="https://discord.gg/2UTkYj26B4" target="_blank"><img src="https://img.shields.io/badge/Discord_Server-7289DA?style=flat&logo=discord&logoColor=white" alt="Join Discord Server" style="border-radius: 15px; height: 20px;"></a>
 <a href="https://github.com/max1mde/ExampleHologramPlugin"><img src="https://img.shields.io/badge/Example%20plugin-13B8E1" alt="Version"></a>
 <a href="https://jitpack.io/#max1mde/HologramLib"><img src="https://jitpack.io/v/max1mde/HologramLib.svg" alt="jitpack"></a> 
-<a href="https://github.com/max1mde/HologramLib/releases"><img src="https://img.shields.io/github/downloads/max1mde/HologramLib/total.svg" alt="Downloads"></a>  
-<img width="900px" src="https://github.com/user-attachments/assets/75e2fce6-0be0-4621-be38-ff1d0cb5ca0a">
+<a href="https://github.com/max1mde/HologramLib/releases"><img src="https://img.shields.io/github/downloads/max1mde/HologramLib/total.svg" alt="Downloads"></a>
+<br>
+<img width="600px" src="https://github.com/user-attachments/assets/75e2fce6-0be0-4621-be38-ff1d0cb5ca0a">
 <p>Leave a :star: if you like this library :octocat:</p>
 </div>
 
 <div>
 <h3>Contents</h3>
 • <a href="#installation">Installation</a><br>
-• <a href="#exampleshowcase-plugin">Example Plugin</a>
+• <a href="#exampleshowcase-plugin">Example plugin with which uses HologramLib</a>
 <br>
 <br>
 <details>
