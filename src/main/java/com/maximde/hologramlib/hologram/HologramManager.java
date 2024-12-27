@@ -136,11 +136,11 @@ public class HologramManager {
         return false;
     }
 
-    public Hologram<?> copyHologram(Hologram<?> source, String id) {
+    public <H extends Hologram<H>> Hologram<H> copyHologram(H source, String id) {
         return this.spawn(source.copy(id), source.getLocation());
     }
 
-    public Hologram<?> copyHologram(Hologram<?> source) {
+    public <H extends Hologram<H>> Hologram<H> copyHologram(H source) {
         return this.spawn(source.copy(), source.getLocation());
     }
 }
