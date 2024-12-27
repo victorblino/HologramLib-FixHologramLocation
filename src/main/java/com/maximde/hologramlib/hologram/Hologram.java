@@ -71,6 +71,13 @@ public abstract class Hologram<T extends Hologram<T>> {
     protected Quaternion4f rightRotation = new Quaternion4f(0, 0, 0, 1);
     protected Quaternion4f leftRotation = new Quaternion4f(0, 0, 0, 1);
 
+    /**
+     * The render mode determines which players can see the hologram:
+     * - NEARBY: Only players within viewing distance
+     * - ALL: All players on the server
+     * - VIEWER_LIST: Only specific players added as viewers
+     * - NONE: Hologram is not visible to any players
+     */
     @Getter
     protected final RenderMode renderMode;
 
@@ -209,6 +216,13 @@ public abstract class Hologram<T extends Hologram<T>> {
     }
 
 
+    /**
+     * Updates which players should be able to see this hologram based on the render mode.
+     * For NEARBY mode, checks player distance and world.
+     * For ALL mode, adds all online players.
+     * For VIEWER_LIST mode, only uses manually added viewers.
+     * Removes viewers who are too far away or in different worlds.
+     */
     private void updateAffectedPlayers() {
         if(this.location == null) {
             Bukkit.getLogger().log(Level.WARNING, "Tried to update hologram with ID " + this.id + " entity type " + this.entityType.getName().getKey() + ". But the location is not set!");
@@ -275,6 +289,11 @@ public abstract class Hologram<T extends Hologram<T>> {
         players.forEach(player -> HologramLib.getInstance().getPlayerManager().sendPacket(player, packet));
     }
 
+    /**
+     * Period in ticks between updates of the hologram's viewer list.
+     * Lower values mean more frequent updates but higher server load.
+     * Default is 60 ticks (3 seconds).
+     */
     public T setUpdateTaskPeriod(long updateTaskPeriod) {
         this.updateTaskPeriod = updateTaskPeriod;
         return self();

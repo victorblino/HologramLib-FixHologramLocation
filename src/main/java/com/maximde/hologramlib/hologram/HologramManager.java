@@ -136,11 +136,11 @@ public class HologramManager {
         return false;
     }
 
-    public TextHologram copyHologram(TextHologram source, String id) {
+    public Hologram<?> copyHologram(Hologram<?> source, String id) {
         return this.spawn(source.copy(id), source.getLocation());
     }
 
-    public TextHologram copyHologram(TextHologram source) {
+    public Hologram<?> copyHologram(Hologram<?> source) {
         return this.spawn(source.copy(), source.getLocation());
     }
 }

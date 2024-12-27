@@ -4,6 +4,7 @@ package com.maximde.hologramlib.hologram;
 import com.github.retrooper.packetevents.protocol.entity.type.EntityTypes;
 import com.github.retrooper.packetevents.protocol.item.ItemStack;
 import com.github.retrooper.packetevents.protocol.item.type.ItemTypes;
+import com.github.retrooper.packetevents.util.Quaternion4f;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerEntityMetadata;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,9 +12,11 @@ import lombok.experimental.Accessors;
 import me.tofaa.entitylib.meta.EntityMeta;
 import me.tofaa.entitylib.meta.display.AbstractDisplayMeta;
 import me.tofaa.entitylib.meta.display.ItemDisplayMeta;
+import org.joml.Vector3f;
 
 
 import java.awt.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 
 @Getter
@@ -36,6 +39,9 @@ public class ItemHologram extends Hologram<ItemHologram> {
     @Accessors(chain = true)
     protected boolean glowing = false;
 
+    /**
+     * Only visible if 'ItemHologram#glowing' is set to true
+     */
     @Accessors(chain = true)
     protected int glowColor = 0;
 
@@ -47,6 +53,10 @@ public class ItemHologram extends Hologram<ItemHologram> {
         this(id, RenderMode.NEARBY);
     }
 
+    /**
+     * Sets the RGB color for the item's glow effect. (The color can be wrong if server version is below 1.20.5)
+     * Only applies when glowing is set to true.
+     */
     public void setGlowColor(Color color) {
         int rgb = color.getRGB();
         this.glowColor = ((rgb & 0xFF0000) >> 16) |
@@ -76,13 +86,30 @@ public class ItemHologram extends Hologram<ItemHologram> {
 
     @Override
     protected ItemHologram copy() {
-        //TODO
-        return null;
+        int randomNumber = ThreadLocalRandom.current().nextInt(100000);
+        return this.copy(this.id + "_copy_" + randomNumber);
     }
 
     @Override
     protected ItemHologram copy(String id) {
-        //TODO
-        return null;
+        ItemHologram copy = new ItemHologram(id, this.renderMode);
+        copy.item = this.item;
+        copy.glowColor = this.glowColor;
+        copy.glowing = this.glowing;
+        copy.onFire = this.onFire;
+        copy.displayType = this.displayType;
+        copy.scale = new Vector3f(this.scale);
+        copy.translation = new Vector3f(this.translation);
+        copy.rightRotation = new Quaternion4f(this.rightRotation.getX(), this.rightRotation.getY(),
+                this.rightRotation.getZ(), this.rightRotation.getW());
+        copy.leftRotation = new Quaternion4f(this.leftRotation.getX(), this.leftRotation.getY(),
+                this.leftRotation.getZ(), this.leftRotation.getW());
+        copy.billboard = this.billboard;
+        copy.interpolationDurationRotation = this.interpolationDurationRotation;
+        copy.interpolationDurationTransformation = this.interpolationDurationTransformation;
+        copy.viewRange = this.viewRange;
+        copy.updateTaskPeriod = this.updateTaskPeriod;
+        copy.nearbyEntityScanningDistance = this.nearbyEntityScanningDistance;
+        return copy;
     }
 }

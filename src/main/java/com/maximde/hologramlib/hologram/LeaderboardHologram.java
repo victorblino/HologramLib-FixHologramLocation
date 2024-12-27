@@ -1,19 +1,9 @@
 package com.maximde.hologramlib.hologram;
 
-import com.github.retrooper.packetevents.PacketEvents;
-import com.github.retrooper.packetevents.manager.server.ServerVersion;
 import com.github.retrooper.packetevents.protocol.component.ComponentTypes;
 import com.github.retrooper.packetevents.protocol.component.builtin.item.ItemProfile;
 import com.github.retrooper.packetevents.protocol.item.ItemStack;
 import com.github.retrooper.packetevents.protocol.item.type.ItemTypes;
-import com.github.retrooper.packetevents.protocol.nbt.NBTCompound;
-import com.github.retrooper.packetevents.protocol.nbt.NBTList;
-import com.github.retrooper.packetevents.protocol.nbt.NBTString;
-import com.github.retrooper.packetevents.protocol.nbt.NBTType;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.maximde.hologramlib.utils.PlayerUtils;
 import lombok.Builder;
 import lombok.Data;
@@ -24,13 +14,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Display;
 import org.bukkit.entity.TextDisplay;
-import org.bukkit.profile.PlayerProfile;
+
 
 import java.awt.*;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.*;
 import java.util.List;
 import java.util.logging.Level;
@@ -84,6 +70,15 @@ public class LeaderboardHologram {
         private int maxDisplayEntries = 10;
     }
 
+    /**
+     * Configuration options for customizing the leaderboard display.
+     * Controls formatting, styling, and display behavior including:
+     * - Title and entry formatting
+     * - Player head display
+     * - Maximum entries shown
+     * - Empty place handling
+     * - Visual scaling
+     */
     @Setter
     @Accessors(chain = true)
     private LeaderboardOptions options;
@@ -97,6 +92,13 @@ public class LeaderboardHologram {
         this.firstPlaceHead = new ItemHologram(textHologram.getId() + "_head");
     }
 
+    /**
+     * Updates the leaderboard display with new data.
+     * @param leaderboardData Map of position -> "playername:score" entries and the keys (Integer) in the map are used for the players ranking in the leaderboard
+     * @param leaderboardOptions Configuration options for the display
+     * Formats and displays the leaderboard entries according to the specified options,
+     * including special formatting for top 3 places and optional player head display.
+     */
     public void updateLeaderboard(Map<Integer, String> leaderboardData, LeaderboardOptions leaderboardOptions) {
         this.options = leaderboardOptions;
         this.leaderboardEntries = leaderboardData.size();

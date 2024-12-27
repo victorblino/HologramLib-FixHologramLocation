@@ -30,9 +30,17 @@ public class TextHologram extends Hologram<TextHologram> {
     @Setter @Getter @Accessors(chain = true)
     private int maxLineWidth = 200;
 
+    /**
+     * The background color is an argb integer which can be generated <a href="https://argb-int-calculator.netlify.app/">here</a>
+     */
     @Setter @Getter @Accessors(chain = true)
     private int backgroundColor;
 
+    /**
+     * Controls how the text appears through blocks.
+     * When true, text will be visible through solid blocks.
+     * When false, blocks will occlude the text normally.
+     */
     @Setter @Getter @Accessors(chain = true)
     private boolean seeThroughBlocks = false;
 

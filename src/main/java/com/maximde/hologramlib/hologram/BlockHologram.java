@@ -2,6 +2,7 @@ package com.maximde.hologramlib.hologram;
 
 import com.github.retrooper.packetevents.protocol.entity.type.EntityType;
 import com.github.retrooper.packetevents.protocol.entity.type.EntityTypes;
+import com.github.retrooper.packetevents.util.Quaternion4f;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerEntityMetadata;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,8 +10,10 @@ import lombok.experimental.Accessors;
 import me.tofaa.entitylib.meta.EntityMeta;
 import me.tofaa.entitylib.meta.display.AbstractDisplayMeta;
 import me.tofaa.entitylib.meta.display.BlockDisplayMeta;
+import org.joml.Vector3f;
 
 import java.awt.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class BlockHologram extends Hologram<BlockHologram> {
 
@@ -56,13 +59,30 @@ public class BlockHologram extends Hologram<BlockHologram> {
         return meta.createPacket();
     }
 
-    @Override
     protected BlockHologram copy() {
-        return null;
+        int randomNumber = ThreadLocalRandom.current().nextInt(100000);
+        return this.copy(this.id + "_copy_" + randomNumber);
     }
 
     @Override
     protected BlockHologram copy(String id) {
-        return null;
+        BlockHologram copy = new BlockHologram(id, this.renderMode);
+        copy.block = this.block;
+        copy.glowColor = this.glowColor;
+        copy.glowing = this.glowing;
+        copy.onFire = this.onFire;
+        copy.scale = new Vector3f(this.scale);
+        copy.translation = new Vector3f(this.translation);
+        copy.rightRotation = new Quaternion4f(this.rightRotation.getX(), this.rightRotation.getY(),
+                this.rightRotation.getZ(), this.rightRotation.getW());
+        copy.leftRotation = new Quaternion4f(this.leftRotation.getX(), this.leftRotation.getY(),
+                this.leftRotation.getZ(), this.leftRotation.getW());
+        copy.billboard = this.billboard;
+        copy.interpolationDurationRotation = this.interpolationDurationRotation;
+        copy.interpolationDurationTransformation = this.interpolationDurationTransformation;
+        copy.viewRange = this.viewRange;
+        copy.updateTaskPeriod = this.updateTaskPeriod;
+        copy.nearbyEntityScanningDistance = this.nearbyEntityScanningDistance;
+        return copy;
     }
 }
