@@ -111,10 +111,10 @@ TextHologram hologram = new TextHologram("example", RenderMode.NEARBY);
 ```
 
 > [!NOTE]  
-> Display.Billboard.CENTER = the hologram rotates to the player like a nametag (default value)
-> Display.Billboard.FIXED = The holograms rotation is fixed
-> Display.Billboard.VERTICAL = The hologram only rotates to the left and right (is horizontally fixed)
-> Display.Billboard.HORIZONTAL = The hologram only rotates up and down (is vertically fixed)
+> `Display.Billboard.CENTER` = the hologram rotates to the player like a nametag (default value)  
+> `Display.Billboard.FIXED` = The holograms rotation is fixed  
+> `Display.Billboard.VERTICAL` = The hologram only rotates to the left and right (is horizontally fixed)  
+> `Display.Billboard.HORIZONTAL` = The hologram only rotates up and down (is vertically fixed)  
 
 ### Hologram Creation
 
