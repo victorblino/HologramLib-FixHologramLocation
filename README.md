@@ -28,11 +28,12 @@
 </div>
 
 # Features
+- Text, Block & Item Holograms
 - Text animations
 - Minimessage support
 - Packet based
 - Per player holograms
-- Dynamic leaderboard creation
+- Leaderboard generators
 - Advanced hologram customization
 - Attachment and parenting support
 - Flexible rendering modes
@@ -51,7 +52,7 @@ repositories {
 }
 
 dependencies {
-  compileOnly 'com.github.max1mde:HologramLib:1.5.0.1'
+  compileOnly 'com.github.max1mde:HologramLib:1.6.0'
 }
 ```
 **Maven installation**
@@ -64,7 +65,7 @@ dependencies {
 <dependency>
   <groupId>com.github.max1mde</groupId>
   <artifactId>HologramLib</artifactId>
-  <version>1.5.0.1</version>
+  <version>1.6.0</version>
   <scope>provided</scope>
 </dependency>
 ```
@@ -115,6 +116,8 @@ TextHologram hologram = new TextHologram("example", RenderMode.NEARBY);
 > Display.Billboard.HORIZONTAL = The hologram only rotates up and down (is vertically fixed)
 
 ### Hologram Creation
+
+#### Text Hologram
 ```java
 TextHologram hologram = new TextHologram("unique_id")
     .setMiniMessageText("<aqua>Hello world!")
@@ -127,9 +130,36 @@ TextHologram hologram = new TextHologram("unique_id")
     .setAlignment(TextDisplay.TextAlignment.CENTER)
     .setViewRange(1.0)
     .setMaxLineWidth(200);
-
-hologramManager.spawn(hologram, location);
 ```
+#### Block Hologram
+````java
+BlockHologram blockHologram = new BlockHologram("unique_id")
+    .setBlock(1) 
+    .setOnFire(false)
+    .setBillboard(Display.Billboard.VERTICAL)
+    .setScale(1.0F, 1.0F, 1.0F)
+    .setViewRange(1.0);
+````
+
+#### Item Hologram
+````java
+ItemHologram itemHologram = new ItemHologram("unique_id")
+    .setItem(new ItemStack.Builder()
+        .type(ItemTypes.DIAMOND_SWORD)
+        .build())
+    .setGlowing(true)
+    .setGlowColor(Color.ORANGE)
+    .setOnFire(false)
+    .setDisplayType(ItemDisplayMeta.DisplayType.FIXED)
+    .setBillboard(Display.Billboard.VERTICAL)
+    .setScale(2.0F, 2.0F, 0.01F)
+    .setViewRange(1.0);
+````
+
+#### Spawning any hologram (including leaderboard objects)
+````java
+hologramManager.spawn(hologram, location);
+````
 
 ### Leaderboard Creation
 
@@ -137,31 +167,37 @@ hologramManager.spawn(hologram, location);
 
 ```java
 Map<Integer, String> leaderboardData = new LinkedHashMap<>() {{
-    put(1, "PlayerOne:1000");
-    put(2, "PlayerTwo:950");
-    put(3, "PlayerThree:900");
+    put(1, "dream:1000");
+    put(2, "MaximDe:950");
+    put(3, "BastiGHG:500");
+    put(4, "Wichtiger:400");
     // ... more entries
 }};
 
-TextHologram leaderboard = hologramManager.generateLeaderboard(
-    location,
-    leaderboardData,
-    HologramManager.LeaderboardOptions.builder() // There are even more options in this builder like the title and footer design
-        .title("Top Players")
-        .showEmptyPlaces(true)
-        .scale(1.2f)
-        .maxDisplayEntries(10)
-        .suffix("kills")
-        .build()
+LeaderboardHologram leaderboard = hologramManager.generateLeaderboard(
+        location,
+        leaderboardData,
+        LeaderboardHologram.LeaderboardOptions.builder()
+                .title("Top Players")
+                .showEmptyPlaces(true)
+                .scale(1.2f)
+                .maxDisplayEntries(10)
+                .suffix("kills")
+                .topPlayerHead(true)
+                .build()
 );
 
 /*
  Update the leaderboard later if needed
  */
 hologramManager.updateLeaderboard(
-    leaderboard, 
-    updatedData, 
-    HologramManager.LeaderboardOptions.builder().build()
+        leaderboard,
+        updatedData,
+        /*
+         ou can also use different options here 
+         which will be applied to the leaderboard
+         */
+        leaderboard.getOptions()
 );
 ```
 
@@ -171,6 +207,7 @@ hologramManager.attach(hologram, parentEntityId);
 ```
 
 ### Managing Hologram Viewers
+This only makes sense if you set the RenderMode to VIEWER_LIST
 ```java
 hologram.addViewer(player);
 hologram.removeViewer(player);
@@ -194,7 +231,7 @@ Optional<TextHologram> retrievedHologram = hologramManager.getHologram("unique_i
 
 hologramManager.remove("unique_id");
 
-hologramManager.remove(hologram);
+hologramManager.remove(hologram/leaderboard);
 
 hologramManager.removeAll();
 ```
