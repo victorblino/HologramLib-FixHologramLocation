@@ -5,7 +5,7 @@
 <a href="https://jitpack.io/#max1mde/HologramLib"><img src="https://jitpack.io/v/max1mde/HologramLib.svg" alt="jitpack"></a> 
 <a href="https://github.com/max1mde/HologramLib/releases"><img src="https://img.shields.io/github/downloads/max1mde/HologramLib/total.svg" alt="Downloads"></a>
 <br>
-<img width="600px" src="https://github.com/user-attachments/assets/75e2fce6-0be0-4621-be38-ff1d0cb5ca0a">
+<img width="600px" src="assets/banner.png">
 <p>Leave a :star: if you like this library :octocat:</p>
 </div>
 
@@ -164,7 +164,7 @@ hologramManager.spawn(hologram, location);
 
 ### Leaderboard Creation
 
-<img src="https://github.com/user-attachments/assets/275a89c6-d2a9-4ef8-b45f-f4f717344b97" width="400">
+<img src="assets/leaderboard.png" width="400">
 
 ```java
 Map<Integer, String> leaderboardData = new LinkedHashMap<>() {{
