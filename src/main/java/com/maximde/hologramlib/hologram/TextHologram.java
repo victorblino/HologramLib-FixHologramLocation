@@ -98,7 +98,7 @@ public class TextHologram extends Hologram<TextHologram> {
         copy.leftRotation = new Quaternion4f(this.leftRotation.getX(), this.leftRotation.getY(),
                 this.leftRotation.getZ(), this.leftRotation.getW());
         copy.billboard = this.billboard;
-        copy.interpolationDurationRotation = this.interpolationDurationRotation;
+        copy.teleportDuration = this.teleportDuration;
         copy.interpolationDurationTransformation = this.interpolationDurationTransformation;
         copy.viewRange = this.viewRange;
         copy.shadow = this.shadow;
@@ -120,7 +120,7 @@ public class TextHologram extends Hologram<TextHologram> {
         meta.setText(getTextAsComponent());
         meta.setInterpolationDelay(-1);
         meta.setTransformationInterpolationDuration(this.interpolationDurationTransformation);
-        meta.setPositionRotationInterpolationDuration(this.interpolationDurationRotation);
+        meta.setPositionRotationInterpolationDuration(this.teleportDuration);
         meta.setTranslation(super.toVector3f(this.translation));
         meta.setScale(super.toVector3f(this.scale));
         meta.setBillboardConstraints(AbstractDisplayMeta.BillboardConstraints.valueOf(this.billboard.name()));

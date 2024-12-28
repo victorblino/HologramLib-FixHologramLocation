@@ -26,6 +26,7 @@ public class TextAnimation {
 
 
     public TextAnimation() {}
+
     public TextAnimation(int speed) {
         this.speed = speed;
     }

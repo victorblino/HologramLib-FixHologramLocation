@@ -51,7 +51,7 @@ public abstract class Hologram<T extends Hologram<T>> {
     protected Display.Billboard billboard = Display.Billboard.CENTER;
 
     @Getter @Accessors(chain = true)
-    protected int interpolationDurationRotation = 10;
+    protected int teleportDuration = 10;
 
     @Getter @Accessors(chain = true)
     protected int interpolationDurationTransformation = 10;
@@ -309,8 +309,19 @@ public abstract class Hologram<T extends Hologram<T>> {
         return self();
     }
 
-    public T setInterpolationDurationRotation(int interpolationDurationRotation) {
-        this.interpolationDurationRotation = interpolationDurationRotation;
+    @Deprecated(forRemoval = true)
+    public int getInterpolationDurationRotation() {
+        return this.teleportDuration;
+    }
+
+    @Deprecated(forRemoval = true)
+    public T setInterpolationDurationRotation(int teleportDuration) {
+        this.teleportDuration = teleportDuration;
+        return self();
+    }
+
+    public T setTeleportDuration(int teleportDuration) {
+        this.teleportDuration = teleportDuration;
         return self();
     }
 
