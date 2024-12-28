@@ -1,5 +1,6 @@
 </div>
 <div align="center">
+<p><b>FOLIA ✅ PAPER ✅ PURPUR ✅ 1.19.4 - 1.21 ✅</b></p>
 <a href="https://discord.gg/2UTkYj26B4" target="_blank"><img src="https://img.shields.io/badge/Discord_Server-7289DA?style=flat&logo=discord&logoColor=white" alt="Join Discord Server" style="border-radius: 15px; height: 20px;"></a>
 <a href="https://github.com/max1mde/ExampleHologramPlugin"><img src="https://img.shields.io/badge/Example%20plugin-13B8E1" alt="Version"></a>
 <a href="https://jitpack.io/#max1mde/HologramLib"><img src="https://jitpack.io/v/max1mde/HologramLib.svg" alt="jitpack"></a> 
@@ -45,6 +46,10 @@
 - Download HologramLib-[version]**.jar** file from the [latest release](https://github.com/max1mde/HologramLib/releases)
 - Upload the HologramLib-[version]**.jar** and packet events file on your server (_yourserver/**plugins**_ folder)
 - Add the plugin as a dependency to your plugin and use it
+
+> [!NOTE]  
+> You might also want to add [packetevents](https://github.com/retrooper/packetevents/wiki/Depending-on-pre%E2%80%90built-PacketEvents) as a compile-only dependency to your plugin  
+> if you want to use (import) certain features, such as the `ItemStack` for the item hologram.
 
 **Gradle installation**
 ```groovy
