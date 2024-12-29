@@ -224,6 +224,8 @@ public abstract class Hologram<T extends Hologram<T>> {
      * Removes viewers who are too far away or in different worlds.
      */
     private void updateAffectedPlayers() {
+        if (this.renderMode == RenderMode.VIEWER_LIST) return;
+
         if(this.location == null) {
             Bukkit.getLogger().log(Level.WARNING, "Tried to update hologram with ID " + this.id + " entity type " + this.entityType.getName().getKey() + ". But the location is not set!");
             return;
@@ -238,8 +240,6 @@ public abstract class Hologram<T extends Hologram<T>> {
                 .toList();
         viewers.removeAll(toRemove);
 
-
-        if (this.renderMode == RenderMode.VIEWER_LIST) return;
 
         if (this.renderMode == RenderMode.ALL) {
             newPlayers.addAll(new ArrayList<>(Bukkit.getOnlinePlayers()));
@@ -362,20 +362,42 @@ public abstract class Hologram<T extends Hologram<T>> {
 
     public T addViewer(Player player) {
         this.viewers.add(player);
+        if(this.location == null) return self();
+        WrapperPlayServerSpawnEntity packet = new WrapperPlayServerSpawnEntity(
+                this.entityID, Optional.of(UUID.randomUUID()), this.entityType,
+                new Vector3d(location.getX(), location.getY(), location.getZ()), 0f, 0f, 0f, 0, Optional.empty()
+        );
+        this.sendPacket(packet, List.of(player));
+        this.sendPacket(createMeta(), List.of(player));
         return self();
     }
 
     public T removeViewer(Player player) {
         this.viewers.remove(player);
+        if(this.location == null) return self();
+        WrapperPlayServerDestroyEntities packet = new WrapperPlayServerDestroyEntities(this.entityID);
+        HologramLib.getInstance().getPlayerManager().sendPacket(player, packet);
         return self();
     }
 
     public T addAllViewers(List<Player> viewerList) {
         this.viewers.addAll(viewerList);
+        if(this.location == null) return self();
+        WrapperPlayServerSpawnEntity packet = new WrapperPlayServerSpawnEntity(
+                this.entityID, Optional.of(UUID.randomUUID()), this.entityType,
+                new Vector3d(location.getX(), location.getY(), location.getZ()), 0f, 0f, 0f, 0, Optional.empty()
+        );
+        this.sendPacket(packet, viewerList);
         return self();
     }
 
     public T removeAllViewers() {
+        if(this.location == null) {
+            this.viewers.clear();
+            return self();
+        }
+        WrapperPlayServerDestroyEntities packet = new WrapperPlayServerDestroyEntities(this.entityID);
+        this.sendPacket(packet, this.viewers);
         this.viewers.clear();
         return self();
     }

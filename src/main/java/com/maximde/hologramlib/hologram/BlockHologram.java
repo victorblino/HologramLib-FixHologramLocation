@@ -53,6 +53,8 @@ public class BlockHologram extends Hologram<BlockHologram> {
         meta.setBillboardConstraints(AbstractDisplayMeta.BillboardConstraints.valueOf(this.billboard.name()));
         meta.setViewRange((float) this.viewRange);
         meta.setBlockId(this.block);
+        meta.setLeftRotation(this.leftRotation);
+        meta.setRightRotation(this.rightRotation);
         meta.setOnFire(this.onFire);
         meta.setGlowing(this.glowing);
         meta.setGlowColorOverride(this.glowColor);

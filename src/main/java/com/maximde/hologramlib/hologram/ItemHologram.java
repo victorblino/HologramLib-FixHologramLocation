@@ -72,6 +72,8 @@ public class ItemHologram extends Hologram<ItemHologram> {
         meta.setTransformationInterpolationDuration(this.interpolationDurationTransformation);
         meta.setPositionRotationInterpolationDuration(this.teleportDuration);
         meta.setTranslation(super.toVector3f(this.translation));
+        meta.setLeftRotation(this.leftRotation);
+        meta.setRightRotation(this.rightRotation);
         meta.setScale(super.toVector3f(this.scale));
         meta.setBillboardConstraints(AbstractDisplayMeta.BillboardConstraints.valueOf(this.billboard.name()));
         meta.setViewRange((float) this.viewRange);
