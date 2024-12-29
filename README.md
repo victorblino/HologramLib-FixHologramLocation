@@ -169,7 +169,7 @@ hologramManager.spawn(hologram, location);
 ````
 
 ### Hologram Animation
-## 1. **Creating a Basic Text Animation**
+#### 1. **Creating a Basic Text Animation**
 
 To get started with text animations, you first need to create a `TextAnimation` object and add frames (text lines) to it. Each frame represents a state of the hologram's text that will be displayed during the animation cycle.
 
@@ -196,7 +196,7 @@ In the example above, the `TextAnimation` object is created with a delay and spe
 
 ---
 
-## 2. **Typing Animation**
+#### 2. **Typing Animation**
 
 To simulate a typing effect, we can slowly reveal text frame by frame. Here’s how to set up a typing animation:
 
@@ -216,7 +216,7 @@ hologramManager.applyAnimation(someHologram, typingAnimation);
 
 ---
 
-## 3. **Color Changing Animation**
+#### 3. **Color Changing Animation**
 
 You can also animate the color of the hologram text. Here’s an example of a color-changing animation using `MiniMessage` formatting.
 
@@ -236,7 +236,7 @@ In this case, each frame will change the color of the text using the `MiniMessag
 
 ---
 
-## 4. **Modifying animations**
+#### 4. **Modifying animations**
 
 There are a few more methods in the TextAnimation class which you can use.
 
