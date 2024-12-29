@@ -21,6 +21,7 @@
 &nbsp;&nbsp;&nbsp;• <a href="#initializing-hologrammanager">Initializing Manager</a><br>
 &nbsp;&nbsp;&nbsp;• <a href="#hologram-rendering-modes">Rendering Modes</a><br>
 &nbsp;&nbsp;&nbsp;• <a href="#hologram-creation">Creation</a><br>
+&nbsp;&nbsp;&nbsp;• <a href="#hologram-animation">Text Animations</a><br>
 &nbsp;&nbsp;&nbsp;• <a href="#leaderboard-creation">Leaderboards</a><br>
 &nbsp;&nbsp;&nbsp;• <a href="#setting-a-hologram-as-a-passenger">Passengers</a><br>
 &nbsp;&nbsp;&nbsp;• <a href="#managing-hologram-viewers">Viewers</a><br>
@@ -166,6 +167,88 @@ ItemHologram itemHologram = new ItemHologram("unique_id")
 ````java
 hologramManager.spawn(hologram, location);
 ````
+
+### Hologram Animation
+## 1. **Creating a Basic Text Animation**
+
+To get started with text animations, you first need to create a `TextAnimation` object and add frames (text lines) to it. Each frame represents a state of the hologram's text that will be displayed during the animation cycle.
+
+```java
+/*
+*Creating a basic text animation with a 20-tick delay and 20-tick speed
+*/
+TextAnimation textAnimation = new TextAnimation()
+    .setDelay(20) // Delay before starting the animation (20 ticks = 1 second)
+    .setSpeed(20) // Speed at which the animation updates (20 ticks = 1 second)
+
+textAnimation.addFrame("Hello World!")
+    .addFrame("Welcome to HologramLib")
+    .addFrame("Enjoy the animations!");
+
+/*
+* Applying the animation to a hologram
+* which also automatically starts playing the animation
+*/
+hologramManager.applyAnimation(someHologram, textAnimation);
+```
+
+In the example above, the `TextAnimation` object is created with a delay and speed setting. Then, we add multiple text frames, which will be shown in sequence.
+
+---
+
+## 2. **Typing Animation**
+
+To simulate a typing effect, we can slowly reveal text frame by frame. Here’s how to set up a typing animation:
+
+```java
+TextAnimation typingAnimation = new TextAnimation()
+    .setDelay(5)
+    .setSpeed(5);
+
+typingAnimation.addFrame("T")
+    .addFrame("Ty")
+    .addFrame("Typ")
+    .addFrame("Type")
+    .addFrame("Typing");
+
+hologramManager.applyAnimation(someHologram, typingAnimation);
+```
+
+---
+
+## 3. **Color Changing Animation**
+
+You can also animate the color of the hologram text. Here’s an example of a color-changing animation using `MiniMessage` formatting.
+
+```java
+TextAnimation colorChangeAnimation = new TextAnimation()
+    .setDelay(20)
+    .setSpeed(20);
+
+colorChangeAnimation.addFrame("<red>Red Text</red>")
+    .addFrame("<green>Green Text</green>")
+    .addFrame("<blue>Blue Text</blue>");
+
+hologramManager.applyAnimation(someHologram, colorChangeAnimation);
+```
+
+In this case, each frame will change the color of the text using the `MiniMessage` syntax. You can replace the `<color>` tags with any color code supported by MiniMessage.
+
+---
+
+## 4. **Modifying animations**
+
+There are a few more methods in the TextAnimation class which you can use.
+
+```java
+TextAnimation animation = new TextAnimation()...;
+
+animation.clearFrames();
+animation.addFrame(<text>);
+animation.removeFrame(<index>);
+animation.removeLastFrame();
+animation.removeFirstFrame();
+```
 
 ### Leaderboard Creation
 
