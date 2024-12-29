@@ -252,7 +252,7 @@ animation.removeFirstFrame();
 
 ### Leaderboard Creation
 
-<img src="assets/leaderboard.png" width="400">
+<img src="assets/leaderboard.png" width="500">
 
 ```java
 Map<Integer, String> leaderboardData = new LinkedHashMap<>() {{
