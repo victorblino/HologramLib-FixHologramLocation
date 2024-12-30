@@ -59,7 +59,7 @@ repositories {
 }
 
 dependencies {
-  compileOnly 'com.github.max1mde:HologramLib:1.6.1'
+  compileOnly 'com.github.max1mde:HologramLib:1.6.2.1'
 }
 ```
 **Maven installation**
@@ -72,7 +72,7 @@ dependencies {
 <dependency>
   <groupId>com.github.max1mde</groupId>
   <artifactId>HologramLib</artifactId>
-  <version>1.6.1</version>
+  <version>1.6.2.1</version>
   <scope>provided</scope>
 </dependency>
 ```
