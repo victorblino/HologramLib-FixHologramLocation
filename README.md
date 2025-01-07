@@ -325,4 +325,8 @@ hologramManager.remove(hologram/leaderboard);
 hologramManager.removeAll();
 ```
 
+# Projects using HologramLib
+- [https://modrinth.com/plugin/typinginchat-plugin](TypingInChat Plugin) by [Orphey](https://github.com/Orphey98)
+
+
 Contributions to this repo or the example plugin are welcome!
