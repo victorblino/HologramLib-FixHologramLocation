@@ -102,11 +102,10 @@ public void onLoad() {
 
 @Override
 public void onEnable() {
-    hologramManager = HologramLib.getManager().orElse(null);
-    if (hologramManager == null) {
-        getLogger().severe("Failed to initialize HologramLib manager.");
-        return;
-    }
+    HologramLib.getManager().ifPresentOrElse(
+        manager -> hologramManager = manager,
+        () -> getLogger().severe("Failed to initialize HologramLib manager.")
+    );
 }
 ```
 
