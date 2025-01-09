@@ -59,7 +59,7 @@ repositories {
 }
 
 dependencies {
-  compileOnly 'com.github.max1mde:HologramLib:1.6.2.1'
+  compileOnly 'com.github.max1mde:HologramLib:1.6.3'
 }
 ```
 **Maven installation**
@@ -72,7 +72,7 @@ dependencies {
 <dependency>
   <groupId>com.github.max1mde</groupId>
   <artifactId>HologramLib</artifactId>
-  <version>1.6.2.1</version>
+  <version>1.6.3</version>
   <scope>provided</scope>
 </dependency>
 ```
@@ -93,6 +93,11 @@ https://github.com/max1mde/ExampleHologramPlugin
 private HologramManager hologramManager;
 
 @Override
+public void onLoad() {
+    HologramLib.onLoad(this); /*Only needed if you shade HologramLib*/
+}
+
+@Override
 public void onEnable() {
     hologramManager = HologramLib.getManager().orElse(null);
     if (hologramManager == null) {
@@ -101,9 +106,6 @@ public void onEnable() {
     }
 }
 ```
-
-> [!IMPORTANT]
-> If you are shading the library use `HologramLib.getManager(<Your plugin instance>)` instead!
 
 ### Hologram Rendering Modes
 ```java
