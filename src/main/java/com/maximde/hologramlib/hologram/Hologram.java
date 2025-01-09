@@ -123,9 +123,7 @@ public abstract class Hologram<T extends Hologram<T>> {
 
     private void startRunnable() {
         if (task != null) return;
-        task = BukkitTasks.runTaskTimer( () -> {
-            this.updateAffectedPlayers();
-        }, 60L, updateTaskPeriod);
+        task = BukkitTasks.runTaskTimer(this::updateAffectedPlayers, 60L, updateTaskPeriod);
     }
 
     private class InternalSetters implements Internal {
@@ -235,7 +233,7 @@ public abstract class Hologram<T extends Hologram<T>> {
                 .filter(player -> player.isOnline() && (player.getWorld() != this.location.getWorld() || player.getLocation().distance(this.location) > 20))
                 .peek(player -> {
                     WrapperPlayServerDestroyEntities packet = new WrapperPlayServerDestroyEntities(this.entityID);
-                    HologramLib.getInstance().getPlayerManager().sendPacket(player, packet);
+                    HologramLib.getPlayerManager().sendPacket(player, packet);
                 })
                 .toList();
         viewers.removeAll(toRemove);
@@ -281,12 +279,12 @@ public abstract class Hologram<T extends Hologram<T>> {
 
     protected void sendPacket(PacketWrapper<?> packet) {
         if (this.renderMode == RenderMode.NONE) return;
-        viewers.forEach(player -> HologramLib.getInstance().getPlayerManager().sendPacket(player, packet));
+        viewers.forEach(player -> HologramLib.getPlayerManager().sendPacket(player, packet));
     }
 
     protected void sendPacket(PacketWrapper<?> packet, List<Player> players) {
         if (this.renderMode == RenderMode.NONE) return;
-        players.forEach(player -> HologramLib.getInstance().getPlayerManager().sendPacket(player, packet));
+        players.forEach(player -> HologramLib.getPlayerManager().sendPacket(player, packet));
     }
 
     /**
@@ -376,7 +374,7 @@ public abstract class Hologram<T extends Hologram<T>> {
         this.viewers.remove(player);
         if(this.location == null) return self();
         WrapperPlayServerDestroyEntities packet = new WrapperPlayServerDestroyEntities(this.entityID);
-        HologramLib.getInstance().getPlayerManager().sendPacket(player, packet);
+        HologramLib.getPlayerManager().sendPacket(player, packet);
         return self();
     }
 

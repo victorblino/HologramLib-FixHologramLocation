@@ -171,6 +171,6 @@ public class TextHologram extends Hologram<TextHologram> {
     }
 
     private String replaceFontImages(String string) {
-        return HologramLib.getInstance().getReplaceText().replace(string);
+        return HologramLib.getReplaceText().replace(string);
     }
 }

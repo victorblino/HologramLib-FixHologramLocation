@@ -9,7 +9,6 @@ public class ItemsAdderHolder implements ReplaceText {
 
     public ItemsAdderHolder() throws ClassNotFoundException {
         if (Bukkit.getPluginManager().getPlugin("ItemsAdder") == null) {
-            Bukkit.getLogger().log(Level.WARNING, "[HologramLib] ItemsAdder plugin not found! No custom emojis support.");
             throw new ClassNotFoundException();
         }
     }

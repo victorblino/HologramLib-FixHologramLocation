@@ -1,4 +1,4 @@
-project.version = "1.6.2.1"
+project.version = "1.6.3"
 
 plugins {
     kotlin("jvm") version "2.0.21"
@@ -80,7 +80,7 @@ tasks.shadowJar {
 
 bukkit {
     version = project.version.toString()
-    main = "com.maximde.hologramlib.HologramLib"
+    main = "com.maximde.hologramlib.Main"
     apiVersion = "1.19"
     author = "MaximDe"
     foliaSupported = true

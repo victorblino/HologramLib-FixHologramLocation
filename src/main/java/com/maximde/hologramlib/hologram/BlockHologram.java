@@ -29,7 +29,7 @@ public class BlockHologram extends Hologram<BlockHologram> {
     @Accessors(chain = true)
     protected boolean glowing = false;
 
-    @Getter @Setter
+    @Getter
     @Accessors(chain = true)
     protected int glowColor = Color.YELLOW.getRGB();
 
