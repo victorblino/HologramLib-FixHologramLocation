@@ -83,6 +83,9 @@ depend:
   - HologramLib
 ```
 
+> [!IMPORTANT]  
+> Using `minimize()` in your shadow jar configuration could break HologramLib.
+
 # Example/Showcase Plugin
 https://github.com/max1mde/ExampleHologramPlugin
 
