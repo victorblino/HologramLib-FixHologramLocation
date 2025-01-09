@@ -130,6 +130,9 @@ TextHologram hologram = new TextHologram("example", RenderMode.NEARBY);
 ### Hologram Creation
 
 #### Text Hologram
+
+<img src="https://github.com/user-attachments/assets/3099c72c-c44c-4ce0-a363-b11073f41864" width="300">
+
 ```java
 TextHologram hologram = new TextHologram("unique_id")
     .setMiniMessageText("<aqua>Hello world!")
@@ -143,6 +146,26 @@ TextHologram hologram = new TextHologram("unique_id")
     .setViewRange(1.0)
     .setMaxLineWidth(200);
 ```
+
+
+#### Item Hologram
+
+<img src="https://github.com/user-attachments/assets/8d43b0b8-55d0-469e-bf4d-abc3e6fa06e0" width="300">
+
+````java
+ItemHologram itemHologram = new ItemHologram("unique_id")
+    .setItem(new ItemStack.Builder()
+        .type(ItemTypes.DIAMOND_SWORD)
+        .build())
+    .setGlowing(true)
+    .setGlowColor(Color.CYAN)
+    .setOnFire(false)
+    .setDisplayType(ItemDisplayMeta.DisplayType.CENTER)
+    .setBillboard(Display.Billboard.VERTICAL)
+    .setScale(2.0F, 2.0F, 0.01F);
+````
+
+
 #### Block Hologram
 ````java
 BlockHologram blockHologram = new BlockHologram("unique_id")
@@ -150,21 +173,6 @@ BlockHologram blockHologram = new BlockHologram("unique_id")
     .setOnFire(false)
     .setBillboard(Display.Billboard.VERTICAL)
     .setScale(1.0F, 1.0F, 1.0F)
-    .setViewRange(1.0);
-````
-
-#### Item Hologram
-````java
-ItemHologram itemHologram = new ItemHologram("unique_id")
-    .setItem(new ItemStack.Builder()
-        .type(ItemTypes.DIAMOND_SWORD)
-        .build())
-    .setGlowing(true)
-    .setGlowColor(Color.ORANGE)
-    .setOnFire(false)
-    .setDisplayType(ItemDisplayMeta.DisplayType.FIXED)
-    .setBillboard(Display.Billboard.VERTICAL)
-    .setScale(2.0F, 2.0F, 0.01F)
     .setViewRange(1.0);
 ````
 
