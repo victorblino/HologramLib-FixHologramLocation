@@ -10,10 +10,13 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import me.tofaa.entitylib.meta.EntityMeta;
 import me.tofaa.entitylib.meta.display.AbstractDisplayMeta;
+import me.tofaa.entitylib.meta.display.BlockDisplayMeta;
+import me.tofaa.entitylib.meta.display.ItemDisplayMeta;
 import me.tofaa.entitylib.meta.display.TextDisplayMeta;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.entity.TextDisplay;
 import org.joml.Vector3f;
 
@@ -50,8 +53,15 @@ public class TextHologram extends Hologram<TextHologram> {
     @Setter @Getter @Accessors(chain = true)
     private byte textOpacity = (byte) -1;
 
-    public TextHologram(String id, RenderMode renderMode, MetaSender metaSender) {
-        super(id, renderMode, EntityTypes.TEXT_DISPLAY, metaSender);
+    public interface HologramModifier { TextDisplayMeta onSend(Player player, TextDisplayMeta textDisplayMeta); }
+
+    public TextHologram(String id, RenderMode renderMode, HologramModifier modifier) {
+        super(id, renderMode, EntityTypes.TEXT_DISPLAY, new BaseMetaSender() {
+            @Override
+            public TextDisplayMeta textDisplay(Player player, TextDisplayMeta textDisplayMeta) {
+                return modifier.onSend(player, textDisplayMeta);
+            }
+        });
     }
 
     /**

@@ -10,6 +10,7 @@ import lombok.experimental.Accessors;
 import me.tofaa.entitylib.meta.EntityMeta;
 import me.tofaa.entitylib.meta.display.AbstractDisplayMeta;
 import me.tofaa.entitylib.meta.display.BlockDisplayMeta;
+import org.bukkit.entity.Player;
 import org.joml.Vector3f;
 
 import java.awt.*;
@@ -33,8 +34,15 @@ public class BlockHologram extends Hologram<BlockHologram> {
     @Accessors(chain = true)
     protected int glowColor = Color.YELLOW.getRGB();
 
-    public BlockHologram(String id, RenderMode renderMode, MetaSender metaSender) {
-        super(id, renderMode, EntityTypes.BLOCK_DISPLAY, metaSender);
+    public interface BlockModifier { BlockDisplayMeta onSend(Player player, BlockDisplayMeta textDisplayMeta); }
+
+    public BlockHologram(String id, RenderMode renderMode, BlockModifier modifier) {
+        super(id, renderMode, EntityTypes.BLOCK_DISPLAY, new BaseMetaSender() {
+            @Override
+            public BlockDisplayMeta blockDisplay(Player player, BlockDisplayMeta blockDisplayMeta) {
+                return modifier.onSend(player, blockDisplayMeta);
+            }
+        });
     }
 
     public BlockHologram(String id, RenderMode renderMode) {

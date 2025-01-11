@@ -116,22 +116,7 @@ public abstract class Hologram<T extends Hologram<T>> {
     }
 
     protected Hologram(String id, RenderMode renderMode, EntityType entityType) {
-        this(id, renderMode, entityType, new MetaSender() {
-            @Override
-            public BlockDisplayMeta blockDisplay(Player player, BlockDisplayMeta blockDisplayMeta) {
-                return blockDisplayMeta;
-            }
-
-            @Override
-            public ItemDisplayMeta itemDisplay(Player player, ItemDisplayMeta itemDisplayMeta) {
-                return itemDisplayMeta;
-            }
-
-            @Override
-            public TextDisplayMeta textDisplay(Player player, TextDisplayMeta textDisplayMeta) {
-                return textDisplayMeta;
-            }
-        });
+        this(id, renderMode, entityType, new BaseMetaSender(){});
     }
 
     protected Hologram(String id, EntityType entityType, MetaSender metaSender) {
@@ -151,6 +136,23 @@ public abstract class Hologram<T extends Hologram<T>> {
     private void startRunnable() {
         if (task != null) return;
         task = BukkitTasks.runTaskTimer(this::updateAffectedPlayers, 60L, updateTaskPeriod);
+    }
+
+    public abstract static class BaseMetaSender implements MetaSender {
+        @Override
+        public BlockDisplayMeta blockDisplay(Player player, BlockDisplayMeta blockDisplayMeta) {
+            return blockDisplayMeta;
+        }
+
+        @Override
+        public ItemDisplayMeta itemDisplay(Player player, ItemDisplayMeta itemDisplayMeta) {
+            return itemDisplayMeta;
+        }
+
+        @Override
+        public TextDisplayMeta textDisplay(Player player, TextDisplayMeta textDisplayMeta) {
+            return textDisplayMeta;
+        }
     }
 
     private class InternalSetters implements Internal {

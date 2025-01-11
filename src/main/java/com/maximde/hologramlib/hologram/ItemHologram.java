@@ -12,6 +12,8 @@ import lombok.experimental.Accessors;
 import me.tofaa.entitylib.meta.EntityMeta;
 import me.tofaa.entitylib.meta.display.AbstractDisplayMeta;
 import me.tofaa.entitylib.meta.display.ItemDisplayMeta;
+import me.tofaa.entitylib.meta.display.TextDisplayMeta;
+import org.bukkit.entity.Player;
 import org.joml.Vector3f;
 
 
@@ -45,8 +47,16 @@ public class ItemHologram extends Hologram<ItemHologram> {
     @Accessors(chain = true)
     protected int glowColor = 0;
 
-    public ItemHologram(String id, RenderMode renderMode, MetaSender metaSender) {
-        super(id, renderMode, EntityTypes.ITEM_DISPLAY, metaSender);
+    public interface ItemModifier { ItemDisplayMeta onSend(Player player, ItemDisplayMeta itemDisplayMeta); }
+
+
+    public ItemHologram(String id, RenderMode renderMode, ItemModifier modifier) {
+        super(id, renderMode, EntityTypes.ITEM_DISPLAY, new BaseMetaSender() {
+            @Override
+            public ItemDisplayMeta itemDisplay(Player player, ItemDisplayMeta itemDisplayMeta) {
+                return modifier.onSend(player, itemDisplayMeta);
+            }
+        });
     }
 
     public ItemHologram(String id, RenderMode renderMode) {
