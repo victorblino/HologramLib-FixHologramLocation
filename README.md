@@ -59,7 +59,7 @@ repositories {
 }
 
 dependencies {
-  compileOnly 'com.github.max1mde:HologramLib:1.6.2.1'
+  compileOnly 'com.github.max1mde:HologramLib:1.6.3'
 }
 ```
 **Maven installation**
@@ -72,7 +72,7 @@ dependencies {
 <dependency>
   <groupId>com.github.max1mde</groupId>
   <artifactId>HologramLib</artifactId>
-  <version>1.6.2.1</version>
+  <version>1.6.3</version>
   <scope>provided</scope>
 </dependency>
 ```
@@ -82,6 +82,9 @@ Add this to your plugin
 depend:
   - HologramLib
 ```
+
+> [!IMPORTANT]  
+> Using `minimize()` in your shadow jar configuration could break HologramLib.
 
 # Example/Showcase Plugin
 https://github.com/max1mde/ExampleHologramPlugin
@@ -93,17 +96,18 @@ https://github.com/max1mde/ExampleHologramPlugin
 private HologramManager hologramManager;
 
 @Override
+public void onLoad() {
+    HologramLib.onLoad(this); /*Only needed if you shade HologramLib*/
+}
+
+@Override
 public void onEnable() {
-    hologramManager = HologramLib.getManager().orElse(null);
-    if (hologramManager == null) {
-        getLogger().severe("Failed to initialize HologramLib manager.");
-        return;
-    }
+    HologramLib.getManager().ifPresentOrElse(
+        manager -> hologramManager = manager,
+        () -> getLogger().severe("Failed to initialize HologramLib manager.")
+    );
 }
 ```
-
-> [!IMPORTANT]
-> If you are shading the library use `HologramLib.getManager(<Your plugin instance>)` instead!
 
 ### Hologram Rendering Modes
 ```java
@@ -125,6 +129,9 @@ TextHologram hologram = new TextHologram("example", RenderMode.NEARBY);
 ### Hologram Creation
 
 #### Text Hologram
+
+<img src="https://github.com/user-attachments/assets/3099c72c-c44c-4ce0-a363-b11073f41864" width="300">
+
 ```java
 TextHologram hologram = new TextHologram("unique_id")
     .setMiniMessageText("<aqua>Hello world!")
@@ -138,6 +145,26 @@ TextHologram hologram = new TextHologram("unique_id")
     .setViewRange(1.0)
     .setMaxLineWidth(200);
 ```
+
+
+#### Item Hologram
+
+<img src="https://github.com/user-attachments/assets/8d43b0b8-55d0-469e-bf4d-abc3e6fa06e0" width="300">
+
+````java
+ItemHologram itemHologram = new ItemHologram("unique_id")
+    .setItem(new ItemStack.Builder()
+        .type(ItemTypes.DIAMOND_SWORD)
+        .build())
+    .setGlowing(true)
+    .setGlowColor(Color.CYAN)
+    .setOnFire(false)
+    .setDisplayType(ItemDisplayMeta.DisplayType.CENTER)
+    .setBillboard(Display.Billboard.VERTICAL)
+    .setScale(2.0F, 2.0F, 0.01F);
+````
+
+
 #### Block Hologram
 ````java
 BlockHologram blockHologram = new BlockHologram("unique_id")
@@ -145,21 +172,6 @@ BlockHologram blockHologram = new BlockHologram("unique_id")
     .setOnFire(false)
     .setBillboard(Display.Billboard.VERTICAL)
     .setScale(1.0F, 1.0F, 1.0F)
-    .setViewRange(1.0);
-````
-
-#### Item Hologram
-````java
-ItemHologram itemHologram = new ItemHologram("unique_id")
-    .setItem(new ItemStack.Builder()
-        .type(ItemTypes.DIAMOND_SWORD)
-        .build())
-    .setGlowing(true)
-    .setGlowColor(Color.ORANGE)
-    .setOnFire(false)
-    .setDisplayType(ItemDisplayMeta.DisplayType.FIXED)
-    .setBillboard(Display.Billboard.VERTICAL)
-    .setScale(2.0F, 2.0F, 0.01F)
     .setViewRange(1.0);
 ````
 
