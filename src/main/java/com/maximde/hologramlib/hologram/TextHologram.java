@@ -50,6 +50,10 @@ public class TextHologram extends Hologram<TextHologram> {
     @Setter @Getter @Accessors(chain = true)
     private byte textOpacity = (byte) -1;
 
+    public TextHologram(String id, RenderMode renderMode, MetaSender metaSender) {
+        super(id, renderMode, EntityTypes.TEXT_DISPLAY, metaSender);
+    }
+
     /**
      * Creates a new text hologram with the specified ID and render mode.
      *
@@ -115,7 +119,7 @@ public class TextHologram extends Hologram<TextHologram> {
 
 
     @Override
-    protected WrapperPlayServerEntityMetadata createMeta() {
+    protected EntityMeta createMeta() {
         TextDisplayMeta meta = (TextDisplayMeta) EntityMeta.createMeta(super.entityID, EntityTypes.TEXT_DISPLAY);
         meta.setText(getTextAsComponent());
         meta.setInterpolationDelay(-1);
@@ -133,7 +137,7 @@ public class TextHologram extends Hologram<TextHologram> {
         meta.setShadow(this.shadow);
         meta.setSeeThrough(this.seeThroughBlocks);
         setInternalAlignment(meta);
-        return meta.createPacket();
+        return meta;
     }
 
     private void setInternalAlignment(TextDisplayMeta meta) {

@@ -45,6 +45,10 @@ public class ItemHologram extends Hologram<ItemHologram> {
     @Accessors(chain = true)
     protected int glowColor = 0;
 
+    public ItemHologram(String id, RenderMode renderMode, MetaSender metaSender) {
+        super(id, renderMode, EntityTypes.ITEM_DISPLAY, metaSender);
+    }
+
     public ItemHologram(String id, RenderMode renderMode) {
         super(id, renderMode, EntityTypes.ITEM_DISPLAY);
     }
@@ -66,7 +70,7 @@ public class ItemHologram extends Hologram<ItemHologram> {
 
 
     @Override
-    protected WrapperPlayServerEntityMetadata createMeta() {
+    protected EntityMeta createMeta() {
         ItemDisplayMeta meta = (ItemDisplayMeta) EntityMeta.createMeta(super.entityID, EntityTypes.ITEM_DISPLAY);
         meta.setInterpolationDelay(-1);
         meta.setTransformationInterpolationDuration(this.interpolationDurationTransformation);
@@ -82,7 +86,7 @@ public class ItemHologram extends Hologram<ItemHologram> {
         meta.setItem(this.item);
         meta.setGlowing(this.glowing);
         meta.setGlowColorOverride(this.glowColor);
-        return meta.createPacket();
+        return meta;
     }
 
 

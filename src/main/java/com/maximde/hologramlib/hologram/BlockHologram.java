@@ -33,6 +33,9 @@ public class BlockHologram extends Hologram<BlockHologram> {
     @Accessors(chain = true)
     protected int glowColor = Color.YELLOW.getRGB();
 
+    public BlockHologram(String id, RenderMode renderMode, MetaSender metaSender) {
+        super(id, renderMode, EntityTypes.BLOCK_DISPLAY, metaSender);
+    }
 
     public BlockHologram(String id, RenderMode renderMode) {
         super(id, renderMode, EntityTypes.BLOCK_DISPLAY);
@@ -43,7 +46,7 @@ public class BlockHologram extends Hologram<BlockHologram> {
     }
 
     @Override
-    protected WrapperPlayServerEntityMetadata createMeta() {
+    protected EntityMeta createMeta() {
         BlockDisplayMeta meta = (BlockDisplayMeta) EntityMeta.createMeta(super.entityID, EntityTypes.BLOCK_DISPLAY);
         meta.setInterpolationDelay(-1);
         meta.setTransformationInterpolationDuration(this.interpolationDurationTransformation);
@@ -58,7 +61,7 @@ public class BlockHologram extends Hologram<BlockHologram> {
         meta.setOnFire(this.onFire);
         meta.setGlowing(this.glowing);
         meta.setGlowColorOverride(this.glowColor);
-        return meta.createPacket();
+        return meta;
     }
 
     /**

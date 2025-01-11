@@ -1,5 +1,6 @@
 package com.maximde.hologramlib.hologram;
 
+import com.github.retrooper.packetevents.manager.player.PlayerManager;
 import com.github.retrooper.packetevents.protocol.entity.type.EntityType;
 import com.github.retrooper.packetevents.util.Quaternion4f;
 import com.github.retrooper.packetevents.util.Vector3d;
@@ -12,16 +13,18 @@ import com.maximde.hologramlib.utils.Vector3F;
 import io.github.retrooper.packetevents.util.SpigotConversionUtil;
 import lombok.Getter;
 import lombok.experimental.Accessors;
+import me.tofaa.entitylib.meta.EntityMeta;
+import me.tofaa.entitylib.meta.display.BlockDisplayMeta;
+import me.tofaa.entitylib.meta.display.ItemDisplayMeta;
+import me.tofaa.entitylib.meta.display.TextDisplayMeta;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Display;
 import org.bukkit.entity.Player;
 import org.joml.Vector3f;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Level;
 
@@ -94,6 +97,8 @@ public abstract class Hologram<T extends Hologram<T>> {
      */
     private Internal internalAccess;
 
+    private final MetaSender metaSender;
+
     public interface Internal {
         /**
          * Use Hologram#telport(Location) if you want to move the hologram instead!
@@ -106,17 +111,39 @@ public abstract class Hologram<T extends Hologram<T>> {
         Hologram updateAffectedPlayers();
     }
 
+    protected Hologram(String id, EntityType entityType) {
+        this(id, RenderMode.NEARBY, entityType);
+    }
+
     protected Hologram(String id, RenderMode renderMode, EntityType entityType) {
+        this(id, renderMode, entityType, new MetaSender() {
+            @Override
+            public BlockDisplayMeta blockDisplay(Player player, BlockDisplayMeta blockDisplayMeta) {
+                return blockDisplayMeta;
+            }
+
+            @Override
+            public ItemDisplayMeta itemDisplay(Player player, ItemDisplayMeta itemDisplayMeta) {
+                return itemDisplayMeta;
+            }
+
+            @Override
+            public TextDisplayMeta textDisplay(Player player, TextDisplayMeta textDisplayMeta) {
+                return textDisplayMeta;
+            }
+        });
+    }
+
+    protected Hologram(String id, EntityType entityType, MetaSender metaSender) {
+        this(id, RenderMode.NEARBY, entityType, metaSender);
+    }
+
+    protected Hologram(String id, RenderMode renderMode, EntityType entityType, MetaSender metaSender) {
         this.entityType = entityType;
         validateId(id);
         this.id = id.toLowerCase();
         this.renderMode = renderMode;
-        this.internalAccess = new InternalSetters();
-        startRunnable();
-    }
-
-    protected Hologram(String id, EntityType entityType) {
-        this(id, RenderMode.NEARBY, entityType);
+        this.metaSender = metaSender;
         this.internalAccess = new InternalSetters();
         startRunnable();
     }
@@ -202,7 +229,7 @@ public abstract class Hologram<T extends Hologram<T>> {
         return self();
     }
 
-    protected abstract WrapperPlayServerEntityMetadata createMeta();
+    protected abstract EntityMeta createMeta();
 
     public Vector3F getTranslation() {
         return new Vector3F(this.translation.x, this.translation.y, this.translation.z);
@@ -275,6 +302,43 @@ public abstract class Hologram<T extends Hologram<T>> {
         BukkitTasks.runTask(() -> {
             sendPacket(attachPacket);
         });
+    }
+
+    protected void sendPacket(EntityMeta meta) {
+        sendPacket(meta, this.viewers);
+    }
+
+    protected void sendPacket(EntityMeta meta, List<Player> players) {
+        if (this.renderMode == RenderMode.NONE || players.isEmpty()) {
+            return;
+        }
+        Map<Player, PacketWrapper<?>> playerPackets = new HashMap<>();
+        for (Player player : players) {
+            EntityMeta modifiedMeta;
+            if (meta instanceof TextDisplayMeta) {
+                modifiedMeta = metaSender.textDisplay(player, (TextDisplayMeta) meta);
+            } else if (meta instanceof BlockDisplayMeta) {
+                modifiedMeta = metaSender.blockDisplay(player, (BlockDisplayMeta) meta);
+            } else if (meta instanceof ItemDisplayMeta) {
+                modifiedMeta = metaSender.itemDisplay(player, (ItemDisplayMeta) meta);
+            } else {
+                throw new IllegalArgumentException("Unsupported meta type: " + meta.getClass());
+            }
+            playerPackets.put(player, modifiedMeta.createPacket());
+        }
+
+        sendBatchPackets(playerPackets);
+    }
+    public interface MetaSender {
+        BlockDisplayMeta blockDisplay(Player player, BlockDisplayMeta blockDisplayMeta);
+        ItemDisplayMeta itemDisplay(Player player, ItemDisplayMeta itemDisplayMeta);
+        TextDisplayMeta textDisplay(Player player, TextDisplayMeta textDisplayMeta);
+    }
+
+    protected void sendBatchPackets(Map<Player, PacketWrapper<?>> playerPackets) {
+        if (this.renderMode == RenderMode.NONE) return;
+        PlayerManager playerManager = HologramLib.getPlayerManager();
+        playerPackets.forEach(playerManager::sendPacket);
     }
 
     protected void sendPacket(PacketWrapper<?> packet) {
