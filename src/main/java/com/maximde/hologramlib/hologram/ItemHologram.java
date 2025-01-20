@@ -71,11 +71,12 @@ public class ItemHologram extends Hologram<ItemHologram> {
      * Sets the RGB color for the item's glow effect. (The color can be wrong if server version is below 1.20.5)
      * Only applies when glowing is set to true.
      */
-    public void setGlowColor(Color color) {
+    public ItemHologram setGlowColor(Color color) {
         int rgb = color.getRGB();
         this.glowColor = ((rgb & 0xFF0000) >> 16) |
                 (rgb & 0x00FF00) |
                 ((rgb & 0x0000FF) << 16);
+        return this;
     }
 
 
