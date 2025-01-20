@@ -159,7 +159,7 @@ ItemHologram itemHologram = new ItemHologram("unique_id")
     .setGlowing(true)
     .setGlowColor(Color.CYAN)
     .setOnFire(false)
-    .setDisplayType(ItemDisplayMeta.DisplayType.CENTER)
+    .setDisplayType(ItemDisplayMeta.DisplayType.FIXED)
     .setBillboard(Display.Billboard.VERTICAL)
     .setScale(2.0F, 2.0F, 0.01F);
 ````
