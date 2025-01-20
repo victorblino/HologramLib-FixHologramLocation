@@ -18,7 +18,6 @@ import me.tofaa.entitylib.meta.EntityMeta;
 import me.tofaa.entitylib.meta.display.BlockDisplayMeta;
 import me.tofaa.entitylib.meta.display.ItemDisplayMeta;
 import me.tofaa.entitylib.meta.display.TextDisplayMeta;
-import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Display;
@@ -39,6 +38,9 @@ public abstract class Hologram<T extends Hologram<T>> {
 
     @Getter
     protected final List<Player> viewers = new CopyOnWriteArrayList<>();
+
+    @Getter
+    protected final List<Player> activeViewers = new CopyOnWriteArrayList<>();
 
     @Getter
     protected Location location;
@@ -226,13 +228,14 @@ public abstract class Hologram<T extends Hologram<T>> {
         this.dead = true;
     }
 
-    public T teleport(Location location) {
-        if (location == null) {
+    public T teleport(Location newLocation) {
+
+        if (newLocation == null) {
             throw new IllegalArgumentException("Failed to teleport hologram with id: " + this.id + "! Location cannot be null.");
         }
 
-        boolean needsRespawn = !location.getWorld().getName().equals(this.location.getWorld().getName()) || location.distance(this.location) > 200;
-        this.location = location;
+        boolean needsRespawn = !newLocation.getWorld().getName().equals(this.location.getWorld().getName()) || newLocation.distance(this.location) > 200;
+        this.location = newLocation;
 
         if (needsRespawn) {
             WrapperPlayServerDestroyEntities destroyPacket = new WrapperPlayServerDestroyEntities(this.entityID);
@@ -280,22 +283,12 @@ public abstract class Hologram<T extends Hologram<T>> {
      * Removes viewers who are too far away or in different worlds.
      */
     private void updateAffectedPlayers() {
-        if (this.renderMode == RenderMode.VIEWER_LIST) return;
-
         if(this.location == null) {
             Bukkit.getLogger().log(Level.WARNING, "Tried to update hologram with ID " + this.id + " entity type " + this.entityType.getName().getKey() + ". But the location is not set!");
             return;
         }
-        List<Player> newPlayers = new ArrayList<>();
-        List<Player> toRemove = viewers.stream()
-                .filter(player -> player.isOnline() && (player.getWorld() != this.location.getWorld() || player.getLocation().distance(this.location) > 20))
-                .peek(player -> {
-                    WrapperPlayServerDestroyEntities packet = new WrapperPlayServerDestroyEntities(this.entityID);
-                    HologramLib.getPlayerManager().sendPacket(player, packet);
-                })
-                .toList();
-        viewers.removeAll(toRemove);
 
+        List<Player> newPlayers = new ArrayList<>();
 
         if (this.renderMode == RenderMode.ALL) {
             newPlayers.addAll(new ArrayList<>(Bukkit.getOnlinePlayers()));
@@ -308,9 +301,20 @@ public abstract class Hologram<T extends Hologram<T>> {
              .filter(entity -> entity instanceof Player)
              .forEach(entity -> newPlayers.add((Player) entity));
               */
+        } else if (renderMode == RenderMode.VIEWER_LIST) {
+            newPlayers.addAll(this.viewers);
         }
-        newPlayers.removeAll(this.viewers);
+
+        List<Player> toRemove = !activeViewers.isEmpty()
+        ? newPlayers.stream()
+                .filter(player -> !player.isOnline() || player.getLocation().getWorld() != this.location.getWorld() || player.getLocation().distance(this.location) > 50)
+                .toList() : new ArrayList<>();
+        activeViewers.removeAll(toRemove);
+
+        newPlayers.removeAll(toRemove);
+        newPlayers.removeAll(this.activeViewers);
         if(!dead && entityID != 0) {
+            this.sendPacket(new WrapperPlayServerDestroyEntities(this.entityID), newPlayers);
             WrapperPlayServerSpawnEntity packet = new WrapperPlayServerSpawnEntity(
                     this.entityID, Optional.of(UUID.randomUUID()), this.entityType,
                     new Vector3d(location.getX(), location.getY(), location.getZ()), 0f, 0f, 0f, 0, Optional.empty()
@@ -318,7 +322,22 @@ public abstract class Hologram<T extends Hologram<T>> {
             this.sendPacket(packet, newPlayers);
             this.sendPacket(createMeta(), newPlayers);
         }
-        this.viewers.addAll(newPlayers);
+        this.activeViewers.addAll(newPlayers);
+    }
+
+    private void respawnHologram(Player player) {
+        if(player.getWorld() != this.location.getWorld()) return;
+        HologramLib.getPlayerManager().sendPacket(player, new WrapperPlayServerDestroyEntities(this.entityID));
+        WrapperPlayServerSpawnEntity packet = new WrapperPlayServerSpawnEntity(
+                this.entityID,
+                Optional.of(UUID.randomUUID()),
+                this.entityType,
+                new Vector3d(location.getX(), location.getY(), location.getZ()),
+                0f, 0f, 0f, 0,
+                Optional.empty()
+        );
+        HologramLib.getPlayerManager().sendPacket(player, packet);
+        sendPacket(createMeta(), List.of(player));
     }
 
     /**
@@ -336,7 +355,7 @@ public abstract class Hologram<T extends Hologram<T>> {
     }
 
     protected void sendPacket(EntityMeta meta) {
-        sendPacket(meta, this.viewers);
+        sendPacket(meta, this.activeViewers);
     }
 
     protected void sendPacket(EntityMeta meta, List<Player> players) {
@@ -360,6 +379,7 @@ public abstract class Hologram<T extends Hologram<T>> {
 
         sendBatchPackets(playerPackets);
     }
+
     public interface MetaSender {
         BlockDisplayMeta blockDisplay(Player player, BlockDisplayMeta blockDisplayMeta);
         ItemDisplayMeta itemDisplay(Player player, ItemDisplayMeta itemDisplayMeta);
@@ -374,12 +394,16 @@ public abstract class Hologram<T extends Hologram<T>> {
 
     protected void sendPacket(PacketWrapper<?> packet) {
         if (this.renderMode == RenderMode.NONE) return;
-        viewers.forEach(player -> HologramLib.getPlayerManager().sendPacket(player, packet));
+        activeViewers.forEach(player -> {
+           if(player.getWorld() == this.location.getWorld()) HologramLib.getPlayerManager().sendPacket(player, packet);
+        } );
     }
 
     protected void sendPacket(PacketWrapper<?> packet, List<Player> players) {
         if (this.renderMode == RenderMode.NONE) return;
-        players.forEach(player -> HologramLib.getPlayerManager().sendPacket(player, packet));
+        players.forEach(player -> {
+            if(player.getWorld() == this.location.getWorld()) HologramLib.getPlayerManager().sendPacket(player, packet);
+        });
     }
 
     /**
