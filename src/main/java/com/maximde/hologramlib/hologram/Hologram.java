@@ -12,6 +12,7 @@ import com.maximde.hologramlib.utils.TaskHandle;
 import com.maximde.hologramlib.utils.Vector3F;
 import io.github.retrooper.packetevents.util.SpigotConversionUtil;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.experimental.Accessors;
 import me.tofaa.entitylib.meta.EntityMeta;
 import me.tofaa.entitylib.meta.display.BlockDisplayMeta;
@@ -22,6 +23,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Display;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 
 import java.util.*;
@@ -225,8 +227,35 @@ public abstract class Hologram<T extends Hologram<T>> {
     }
 
     public T teleport(Location location) {
-        WrapperPlayServerEntityTeleport packet = new WrapperPlayServerEntityTeleport(this.entityID, SpigotConversionUtil.fromBukkitLocation(location), false);
+        if (location == null) {
+            throw new IllegalArgumentException("Failed to teleport hologram with id: " + this.id + "! Location cannot be null.");
+        }
+
+        boolean needsRespawn = !location.getWorld().getName().equals(this.location.getWorld().getName()) || location.distance(this.location) > 200;
         this.location = location;
+
+        if (needsRespawn) {
+            WrapperPlayServerDestroyEntities destroyPacket = new WrapperPlayServerDestroyEntities(this.entityID);
+            sendPacket(destroyPacket);
+            WrapperPlayServerSpawnEntity spawnPacket = new WrapperPlayServerSpawnEntity(
+                    this.entityID,
+                    Optional.of(UUID.randomUUID()),
+                    this.entityType,
+                    new Vector3d(location.getX(), location.getY(), location.getZ()),
+                    0f, 0f, 0f, 0,
+                    Optional.empty()
+            );
+            sendPacket(spawnPacket);
+            sendPacket(createMeta());
+            updateAffectedPlayers();
+            return self();
+        }
+
+        WrapperPlayServerEntityTeleport packet = new WrapperPlayServerEntityTeleport(
+                this.entityID,
+                SpigotConversionUtil.fromBukkitLocation(location),
+                false
+        );
         sendPacket(packet);
         return self();
     }
@@ -452,6 +481,7 @@ public abstract class Hologram<T extends Hologram<T>> {
                 new Vector3d(location.getX(), location.getY(), location.getZ()), 0f, 0f, 0f, 0, Optional.empty()
         );
         this.sendPacket(packet, viewerList);
+        this.sendPacket(createMeta(), viewerList);
         return self();
     }
 
