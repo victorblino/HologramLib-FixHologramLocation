@@ -59,7 +59,7 @@ repositories {
 }
 
 dependencies {
-  compileOnly 'com.github.max1mde:HologramLib:1.6.4'
+  compileOnly 'com.github.max1mde:HologramLib:1.6.6'
 }
 ```
 **Maven installation**
@@ -72,7 +72,7 @@ dependencies {
 <dependency>
   <groupId>com.github.max1mde</groupId>
   <artifactId>HologramLib</artifactId>
-  <version>1.6.4</version>
+  <version>1.6.6</version>
   <scope>provided</scope>
 </dependency>
 ```
@@ -159,7 +159,7 @@ ItemHologram itemHologram = new ItemHologram("unique_id")
     .setGlowing(true)
     .setGlowColor(Color.CYAN)
     .setOnFire(false)
-    .setDisplayType(ItemDisplayMeta.DisplayType.CENTER)
+    .setDisplayType(ItemDisplayMeta.DisplayType.FIXED)
     .setBillboard(Display.Billboard.VERTICAL)
     .setScale(2.0F, 2.0F, 0.01F);
 ````
