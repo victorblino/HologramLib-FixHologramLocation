@@ -47,10 +47,6 @@ public class HologramManager {
         return new ArrayList<>(hologramsMap.keySet());
     }
 
-    public List<String> hologramExists() {
-        return new ArrayList<>(hologramsMap.keySet());
-    }
-
     public Optional<Hologram<?>> getHologram(String id) {
         return Optional.ofNullable(hologramsMap.get(id));
     }
