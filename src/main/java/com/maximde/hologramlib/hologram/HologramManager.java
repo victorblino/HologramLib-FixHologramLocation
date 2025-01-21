@@ -94,14 +94,14 @@ public class HologramManager {
     public boolean remove(String id) {
         Hologram<?> hologram = hologramsMap.remove(id);
         if (hologram != null) {
-            hologram.kill();
+            hologram.getInternalAccess().kill();
             return true;
         }
         return false;
     }
 
     public void removeAll() {
-        hologramsMap.values().forEach(Hologram::kill);
+        hologramsMap.values().forEach(h -> h.getInternalAccess().kill());
         hologramsMap.clear();
     }
 

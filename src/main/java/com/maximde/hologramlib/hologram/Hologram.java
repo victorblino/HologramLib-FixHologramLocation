@@ -12,7 +12,6 @@ import com.maximde.hologramlib.utils.TaskHandle;
 import com.maximde.hologramlib.utils.Vector3F;
 import io.github.retrooper.packetevents.util.SpigotConversionUtil;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.experimental.Accessors;
 import me.tofaa.entitylib.meta.EntityMeta;
 import me.tofaa.entitylib.meta.display.BlockDisplayMeta;
@@ -22,7 +21,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Display;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 
 import java.util.*;
@@ -113,6 +111,7 @@ public abstract class Hologram<T extends Hologram<T>> {
         Hologram setEntityId(int entityId);
         Hologram sendPacket(PacketWrapper<?> packet);
         Hologram updateAffectedPlayers();
+        void kill();
     }
 
     protected Hologram(String id, EntityType entityType) {
@@ -192,6 +191,10 @@ public abstract class Hologram<T extends Hologram<T>> {
             Hologram.this.updateAffectedPlayers();
             return Hologram.this;
         }
+        @Override
+        public void kill() {
+            Hologram.this.kill();
+        }
     }
 
 
@@ -219,9 +222,10 @@ public abstract class Hologram<T extends Hologram<T>> {
     }
 
     /**
-     * Use HologramManager#remove(Hologram.class); instead!
-     * Only if you want to manage the holograms yourself and don't want to use the animation system use this
+     * THIS METHOD WILL BE MADE 'private' SOON!
+     * Use HologramManager#remove(<hologram>) instead!
      */
+    @Deprecated
     public void kill() {
         WrapperPlayServerDestroyEntities packet = new WrapperPlayServerDestroyEntities(this.entityID);
         sendPacket(packet);
