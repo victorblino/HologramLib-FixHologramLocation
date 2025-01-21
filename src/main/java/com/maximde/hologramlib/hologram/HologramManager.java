@@ -14,14 +14,41 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
 
-@Getter
+
 @RequiredArgsConstructor
 public class HologramManager {
+
     private final Map<TextHologram, TaskHandle> hologramAnimations = new ConcurrentHashMap<>();
     private final Map<String, Hologram<?>> hologramsMap = new ConcurrentHashMap<>();
 
+    @Deprecated
+    public Map<String, Hologram<?>> getHologramsMap() {
+        return this.hologramsMap;
+    }
+
+    @Deprecated
+    public Map<TextHologram, TaskHandle> getHologramAnimations() {
+        return this.hologramAnimations;
+    }
+
+    public boolean hologramExists(String id) {
+        return hologramsMap.containsKey(id);
+    }
+
+    public boolean hologramExists(Hologram<?> hologram) {
+        return hologramsMap.containsValue(hologram);
+    }
+
     public List<Hologram<?>> getHolograms() {
         return new ArrayList<>(hologramsMap.values());
+    }
+
+    public List<String> getHologramIds() {
+        return new ArrayList<>(hologramsMap.keySet());
+    }
+
+    public List<String> hologramExists() {
+        return new ArrayList<>(hologramsMap.keySet());
     }
 
     public Optional<Hologram<?>> getHologram(String id) {
