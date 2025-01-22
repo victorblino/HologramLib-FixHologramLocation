@@ -62,7 +62,7 @@ public class ItemHologram extends Hologram<ItemHologram> {
     }
 
     public ItemHologram(String id) {
-        this(id, RenderMode.NEARBY);
+        this(id, RenderMode.ALL);
     }
 
     /**

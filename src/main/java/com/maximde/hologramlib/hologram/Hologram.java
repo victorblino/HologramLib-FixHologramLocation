@@ -115,7 +115,7 @@ public abstract class Hologram<T extends Hologram<T>> {
     }
 
     protected Hologram(String id, EntityType entityType) {
-        this(id, RenderMode.NEARBY, entityType);
+        this(id, RenderMode.ALL, entityType);
     }
 
     protected Hologram(String id, RenderMode renderMode, EntityType entityType) {
@@ -123,7 +123,7 @@ public abstract class Hologram<T extends Hologram<T>> {
     }
 
     protected Hologram(String id, EntityType entityType, MetaSender metaSender) {
-        this(id, RenderMode.NEARBY, entityType, metaSender);
+        this(id, RenderMode.ALL, entityType, metaSender);
     }
 
     protected Hologram(String id, RenderMode renderMode, EntityType entityType, MetaSender metaSender) {
@@ -281,7 +281,6 @@ public abstract class Hologram<T extends Hologram<T>> {
 
     /**
      * Updates which players should be able to see this hologram based on the render mode.
-     * For NEARBY mode, checks player distance and world.
      * For ALL mode, adds all online players.
      * For VIEWER_LIST mode, only uses manually added viewers.
      * Removes viewers who are too far away or in different worlds.
@@ -294,17 +293,8 @@ public abstract class Hologram<T extends Hologram<T>> {
 
         List<Player> newPlayers = new ArrayList<>();
 
-        if (this.renderMode == RenderMode.ALL) {
+        if (this.renderMode == RenderMode.ALL || this.renderMode == RenderMode.NEARBY) {
             newPlayers.addAll(new ArrayList<>(Bukkit.getOnlinePlayers()));
-        } else if (this.renderMode == RenderMode.NEARBY) {
-            newPlayers.addAll(new ArrayList<>(Bukkit.getOnlinePlayers()));
-            //TODO better implementation
-            /*
-             this.location.getWorld().getNearbyEntities(this.location, nearbyEntityScanningDistance, nearbyEntityScanningDistance, nearbyEntityScanningDistance)
-             .stream()
-             .filter(entity -> entity instanceof Player)
-             .forEach(entity -> newPlayers.add((Player) entity));
-              */
         } else if (renderMode == RenderMode.VIEWER_LIST) {
             newPlayers.addAll(this.viewers);
         }

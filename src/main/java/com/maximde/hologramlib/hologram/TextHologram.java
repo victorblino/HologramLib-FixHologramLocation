@@ -79,7 +79,7 @@ public class TextHologram extends Hologram<TextHologram> {
      * @throws IllegalArgumentException if id contains spaces
      */
     public TextHologram(String id) {
-        this(id, RenderMode.NEARBY);
+        this(id, RenderMode.ALL);
     }
 
     /**
