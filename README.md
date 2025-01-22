@@ -112,9 +112,8 @@ public void onEnable() {
 ### Hologram Rendering Modes
 ```java
 // Different rendering modes available
-TextHologram hologram = new TextHologram("example", RenderMode.NEARBY);
+TextHologram hologram = new TextHologram("example", RenderMode.ALL);
 // Modes include:
-// - NEARBY: Render for players near the hologram
 // - ALL: Render for all online players
 // - VIEWER_LIST: Render only for manually added viewers
 // - NONE: Do not render
