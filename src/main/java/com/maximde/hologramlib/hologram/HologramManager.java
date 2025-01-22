@@ -116,6 +116,7 @@ public class HologramManager {
     public boolean remove(String id) {
         Hologram<?> hologram = hologramsMap.remove(id);
         if (hologram != null) {
+            if(hologram instanceof TextHologram textHologram) cancelAnimation(textHologram);
             hologram.getInternalAccess().kill();
             return true;
         }
@@ -123,7 +124,10 @@ public class HologramManager {
     }
 
     public void removeAll() {
-        hologramsMap.values().forEach(h -> h.getInternalAccess().kill());
+        hologramsMap.values().forEach(hologram -> {
+            if(hologram instanceof TextHologram textHologram) cancelAnimation(textHologram);
+            hologram.getInternalAccess().kill();
+        });
         hologramsMap.clear();
     }
 
