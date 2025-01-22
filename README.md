@@ -13,14 +13,12 @@
 
 # Features
 - Text, Block & Item Holograms
-- Text animations
-- Minimessage support
-- Packet based
-- Per player holograms
-- Leaderboard generators
-- Advanced hologram customization
-- Attachment and parenting support
-- Flexible rendering modes
+- Text animations with MiniMessage & ItemsAdder emoji support
+- Packet-based implementation for optimal performance
+- Per-player hologram visibility
+- Automated leaderboard generation
+- Advanced customization options
+- Entity attachment support
 
 
 # Wiki
