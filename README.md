@@ -41,75 +41,13 @@
 - Attachment and parenting support
 - Flexible rendering modes
 
-# Installation
 
-- Download packet events https://www.spigotmc.org/resources/80279/
-- Download HologramLib-[version]**.jar** file from the [latest release](https://github.com/max1mde/HologramLib/releases)
-- Upload the HologramLib-[version]**.jar** and packet events file on your server (_yourserver/**plugins**_ folder)
-- Add the plugin as a dependency to your plugin and use it
+**# Wiki**
 
-> [!NOTE]  
-> You might also want to add [packetevents](https://github.com/retrooper/packetevents/wiki/Depending-on-pre%E2%80%90built-PacketEvents) as a compile-only dependency to your plugin  
-> if you want to use (import) certain features, such as the `ItemStack` for the item hologram.
+If you want to learn how to use HologramLib in your plugin, check out the detailed guide here:  
+👉 [HologramLib Wiki](https://github.com/max1mde/HologramLib/wiki)
 
-**Gradle installation**
-```groovy
-repositories {
-  maven { url 'https://jitpack.io' }
-}
-
-dependencies {
-  compileOnly 'com.github.max1mde:HologramLib:1.6.7'
-}
-```
-**Maven installation**
-```xml
-<repository>
-  <id>jitpack.io</id>
-  <url>https://jitpack.io</url>
-</repository>
-
-<dependency>
-  <groupId>com.github.max1mde</groupId>
-  <artifactId>HologramLib</artifactId>
-  <version>1.6.7</version>
-  <scope>provided</scope>
-</dependency>
-```
-Add this to your plugin
-`plugin.yml`
-```yml
-depend:
-  - HologramLib
-```
-
-> [!IMPORTANT]  
-> Using `minimize()` in your shadow jar configuration could break HologramLib.
-
-# Example/Showcase Plugin
-https://github.com/max1mde/ExampleHologramPlugin
-
-# First Steps
-
-### Initializing HologramManager
-```java
-private HologramManager hologramManager;
-
-@Override
-public void onLoad() {
-    HologramLib.onLoad(this); /*Only needed if you shade HologramLib*/
-}
-
-@Override
-public void onEnable() {
-    HologramLib.getManager().ifPresentOrElse(
-        manager -> hologramManager = manager,
-        () -> getLogger().severe("Failed to initialize HologramLib manager.")
-    );
-}
-```
-
-# Continue on the [wiki page](https://github.com/max1mde/HologramLib/wiki)
+---
 
 ## Projects using HologramLib
 - [TypingInChat Plugin](https://modrinth.com/plugin/typinginchat-plugin) by [Orphey](https://github.com/Orphey98)
