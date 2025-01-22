@@ -311,7 +311,7 @@ public abstract class Hologram<T extends Hologram<T>> {
 
         List<Player> toRemove = !activeViewers.isEmpty()
         ? newPlayers.stream()
-                .filter(player -> !player.isOnline() || player.getLocation().getWorld() != this.location.getWorld() || player.getLocation().distance(this.location) > 50)
+                .filter(player -> !player.isOnline() || player.getLocation().getWorld() != this.location.getWorld() || player.getLocation().distanceSquared(this.location) > 2500)
                 .toList() : new ArrayList<>();
         activeViewers.removeAll(toRemove);
 
