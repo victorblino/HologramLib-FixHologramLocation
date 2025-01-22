@@ -17,7 +17,8 @@ public enum RenderMode {
      */
     ALL,
     /**
-     * Hologram is rendered only to nearby players
+     * Use RenderMode.ALL instead
      */
+    @Deprecated
     NEARBY
 }

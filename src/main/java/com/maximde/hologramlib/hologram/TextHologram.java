@@ -2,7 +2,6 @@ package com.maximde.hologramlib.hologram;
 
 import com.github.retrooper.packetevents.protocol.entity.type.EntityTypes;
 import com.github.retrooper.packetevents.util.Quaternion4f;
-import com.github.retrooper.packetevents.wrapper.play.server.*;
 import com.maximde.hologramlib.HologramLib;
 import com.maximde.hologramlib.utils.MiniMessage;
 import lombok.Getter;
@@ -10,8 +9,6 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import me.tofaa.entitylib.meta.EntityMeta;
 import me.tofaa.entitylib.meta.display.AbstractDisplayMeta;
-import me.tofaa.entitylib.meta.display.BlockDisplayMeta;
-import me.tofaa.entitylib.meta.display.ItemDisplayMeta;
 import me.tofaa.entitylib.meta.display.TextDisplayMeta;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;

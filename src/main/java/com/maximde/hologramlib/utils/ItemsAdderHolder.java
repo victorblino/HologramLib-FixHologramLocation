@@ -3,7 +3,6 @@ package com.maximde.hologramlib.utils;
 import dev.lone.itemsadder.api.FontImages.FontImageWrapper;
 import org.bukkit.Bukkit;
 
-import java.util.logging.Level;
 
 public class ItemsAdderHolder implements ReplaceText {
 

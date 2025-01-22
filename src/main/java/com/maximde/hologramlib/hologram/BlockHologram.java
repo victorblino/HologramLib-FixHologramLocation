@@ -3,7 +3,6 @@ package com.maximde.hologramlib.hologram;
 import com.github.retrooper.packetevents.protocol.entity.type.EntityType;
 import com.github.retrooper.packetevents.protocol.entity.type.EntityTypes;
 import com.github.retrooper.packetevents.util.Quaternion4f;
-import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerEntityMetadata;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
