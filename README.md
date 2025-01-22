@@ -42,7 +42,7 @@
 - Flexible rendering modes
 
 
-**# Wiki**
+# Wiki
 
 If you want to learn how to use HologramLib in your plugin, check out the detailed guide here:  
 👉 [HologramLib Wiki](https://github.com/max1mde/HologramLib/wiki)
