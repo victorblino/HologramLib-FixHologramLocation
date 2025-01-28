@@ -49,7 +49,7 @@ If you want to learn how to use HologramLib in your plugin, check out the detail
 
 ---
 
-## 💻 Quick Integration
+## ✈️ Quick Integration
 
 **Step 1: Add Dependency**
 ```gradle
@@ -80,7 +80,7 @@ manager.spawn(hologram);
 
 ---
 
-## 📚 Learning Resources
+## 📕 Learning Resources
 | Resource | Description | 
 |----------|-------------|
 | [📖 Complete Wiki](https://github.com/max1mde/HologramLib/wiki) | Setup guides • Detailed examples • Best practices |
@@ -89,14 +89,14 @@ manager.spawn(hologram);
 
 ---
 
-## 🌟 Featured Implementations
+## 😎 Featured Implementations
 - **TypingInChat** ([Modrinth](https://modrinth.com/plugin/typinginchat-plugin)) - Real-time typing visualization
 
-*[Your Project Here]* - Submit via PR or <a href="https://discord.gg/2UTkYj26B4">Discord</a>!
+*[Your Project Here 🫵]* - Submit via PR or <a href="https://discord.gg/2UTkYj26B4">Discord</a>!
 
 ---
 
-## 🛠️ Roadmap & Vision
+## 👁️ Roadmap & Vision
 **2025**  
 - Particle-effect holograms
 - Interactive holograms
