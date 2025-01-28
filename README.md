@@ -2,10 +2,11 @@
   <img width="650px" src="assets/banner.png" alt="HologramLib Banner">
   
   [![Discord](https://img.shields.io/badge/Discord_Server-7289DA?style=flat&logo=discord&logoColor=white)](https://discord.gg/2UTkYj26B4)
+  [![Wiki](https://img.shields.io/badge/Documentation-Wiki-2dad10)](https://github.com/max1mde/HologramLib/wiki)
   [![JitPack](https://jitpack.io/v/max1mde/HologramLib.svg)](https://jitpack.io/#max1mde/HologramLib)
+  [![JavaDocs](https://img.shields.io/badge/API-Docs-2ECC71)](https://max1mde.github.io/HologramLib/)
   [![GitHub Downloads](https://img.shields.io/github/downloads/max1mde/HologramLib/total?color=2ECC71)](https://github.com/max1mde/HologramLib/releases)
-  [![Wiki](https://img.shields.io/badge/Documentation-Wiki-10ad54)](https://github.com/max1mde/HologramLib/wiki)
-  [![JavaDocs](https://img.shields.io/badge/API-Docs-2dad10)](https://max1mde.github.io/HologramLib/)
+
 
   <p>Leave a :star: if you like this library :octocat:</p>
   <h3>Next-Gen Hologram Library for Modern Minecraft Servers</h3>
