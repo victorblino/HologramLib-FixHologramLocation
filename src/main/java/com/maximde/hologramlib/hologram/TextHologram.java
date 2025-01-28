@@ -84,7 +84,7 @@ public class TextHologram extends Hologram<TextHologram> {
 
     /**
      * Creates a copy of this hologram with a new ID.
-     * The new ID will be the original ID with '_copy_<random number>' appended.
+     * The new ID will be the original ID with '_copy_' followed by a random number appended.
      * @return A new TextHologram instance with copied properties
      */
     @Override
