@@ -42,7 +42,7 @@ Entity attachment • Per-player visibility • View distance control
 | **Legacy**      | ❌ (1.8 - 1.19.3)        | 
 
 **Dependencies**  
-- PacketEvents (Required)
+- [PacketEvents](https://www.spigotmc.org/resources/80279/) (Required)
 
 If you want to learn how to use HologramLib in your plugin, check out the detailed guide here:  
 👉 [HologramLib Wiki](https://github.com/max1mde/HologramLib/wiki)
