@@ -4,7 +4,7 @@
 <a href="https://discord.gg/2UTkYj26B4" target="_blank"><img src="https://img.shields.io/badge/Discord_Server-7289DA?style=flat&logo=discord&logoColor=white" alt="Join Discord Server" style="border-radius: 15px; height: 20px;"></a>
 <a href="https://github.com/max1mde/ExampleHologramPlugin"><img src="https://img.shields.io/badge/Example%20plugin-13B8E1" alt="Example plugin"></a>
 <a href="https://github.com/max1mde/HologramLib/wiki"><img src="https://img.shields.io/badge/Wiki%20page-10ad54" alt="Wiki"></a>
-<a href="https://max1mde.github.io/HologramLib/"><img src="https://img.shields.io/badge/Docs%20page-2dad10" alt="Docs"></a>
+<a href="https://max1mde.github.io/HologramLib/"><img src="https://img.shields.io/badge/Java%20Docs-2dad10" alt="Docs"></a>
 <a href="https://jitpack.io/#max1mde/HologramLib"><img src="https://jitpack.io/v/max1mde/HologramLib.svg" alt="jitpack"></a>
 <a href="https://github.com/max1mde/HologramLib/releases"><img src="https://img.shields.io/github/downloads/max1mde/HologramLib/total.svg" alt="Downloads"></a>
 <br>
