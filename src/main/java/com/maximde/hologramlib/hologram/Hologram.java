@@ -223,7 +223,7 @@ public abstract class Hologram<T extends Hologram<T>> {
 
     /**
      * THIS METHOD WILL BE MADE 'private' SOON!
-     * Use HologramManager#remove(<hologram>) instead!
+     * Use HologramManager#remove(Hologram) instead!
      */
     @Deprecated
     public void kill() {
