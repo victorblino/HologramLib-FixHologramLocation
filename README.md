@@ -115,8 +115,8 @@ Contributions to this repo or the example plugin are welcome!
   <sub>Used by 50+ servers | 2.000+ downloads across platforms</sub><br>
   <a href="https://www.spigotmc.org/resources/111746/">SpigotMC</a> •
   <a href="https://hangar.papermc.io/max1mde/HologramLib">Hangar</a> •
-  <a href="https://github.com/max1mde/HologramLib">GitHub</a> •
   <a href="https://modrinth.com/plugin/hologramlib">Modrinth</a> •
+  <a href="https://github.com/max1mde/HologramLib/releases/latest">Latest Release</a> •
   <a href="https://discord.gg/2UTkYj26B4">Support</a><br>
   <sub>License: GPL-3.0 | © 2025 <a href="https://github.com/max1mde/">Maxim</a></sub>
 </div>
