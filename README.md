@@ -16,16 +16,14 @@
 ---
 
 ## 🫨 Features
-
-### Core Capabilities
-✅ **Multi-Type Holograms**    
+- **Multi-Type Holograms**    
 Text • Blocks • Items • Leaderboards  
 
-✅ **Dynamic Content**  
+- **Dynamic Content**  
 Player-specific rendering • Live animations • MiniMessage formatting  
 ItemsAdder emojis
 
-✅ **Advanced Mechanics**  
+- **Advanced Mechanics**  
 Entity attachment • Per-player visibility • View distance control    
 
 ---
