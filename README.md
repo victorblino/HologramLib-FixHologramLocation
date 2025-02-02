@@ -105,7 +105,9 @@ manager.spawn(hologram);
 
 Contributions to this repo or the example plugin are welcome!
 
-![img](https://bstats.org/signatures/bukkit/HologramAPI.svg)
+<div align="center"><sup>Live Statistics</sup></div>
+
+[![img](https://bstats.org/signatures/bukkit/HologramAPI.svg)](https://bstats.org/plugin/bukkit/HologramAPI/19375)
 
 ---
 
