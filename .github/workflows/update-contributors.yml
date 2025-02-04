@@ -20,29 +20,8 @@ jobs:
           REPO: ${{ github.repository }}
         run: |
           curl -s -H "Authorization: token ${GH_TOKEN}" "https://api.github.com/repos/${REPO}/contributors" > contributors.json
-          CONTRIBUTORS_HTML=$( \
-            awk 'BEGIN { print "<table>"; col=0 } 
-                 { 
-                   cmd = "jq -r \".html_url\""
-                   cmd | getline html_url
-                   close(cmd)
-                   cmd = "jq -r \".login\""
-                   cmd | getline login
-                   close(cmd)
-                   cmd = "jq -r \".avatar_url\""
-                   cmd | getline avatar_url
-                   close(cmd)
-                   if (col % 5 == 0) { printf "\n<tr>\n" }
-                   printf "<td align=\"center\" style=\"padding:10px;\"><a href=\"%s\" title=\"%s\" target=\"_blank\"><img src=\"%s&s=100\" width=\"100px\" alt=\"%s\" style=\"border-radius: 50%;\" /><br/>%s</a></td>\n", html_url, login, avatar_url, login, login
-                   col++
-                   if (col % 5 == 0) { print "</tr>" }
-                 } 
-                 END { 
-                   if (col % 5 != 0) { print "</tr>" } 
-                   print "\n</table>" 
-                 }' contributors.json \
-          )
-          NEW_SECTION=$(printf "<!-- CONTRIBUTORS:START -->\n\n%s\n\n<!-- CONTRIBUTORS:END -->" "$CONTRIBUTORS_HTML")
+          CONTRIBUTORS_TABLE=$(jq -r '.[] | "| [![](" + .avatar_url + "&s=50)](" + .html_url + ") | [" + .login + "]( " + .html_url + " ) |"' contributors.json | paste -sd "\n" -)
+          NEW_SECTION=$(printf "<!-- CONTRIBUTORS:START -->\n\n| Avatar | Username |\n|--------|----------|\n%s\n\n<!-- CONTRIBUTORS:END -->" "$CONTRIBUTORS_TABLE")
           ESCAPED_CONTENT=$(printf '%s' "$NEW_SECTION" | sed -e 's/[\/&]/\\&/g')
           perl -0777 -pi -e "s/<!-- CONTRIBUTORS:START -->.*?<!-- CONTRIBUTORS:END -->/${ESCAPED_CONTENT}/s" README.md
 
@@ -51,7 +30,9 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add README.md
-          if ! git diff-index --quiet HEAD; then git commit -m "Update contributors list [skip ci]"; fi
+          if ! git diff-index --quiet HEAD; then
+            git commit -m "Update contributors list [skip ci]"
+          fi
 
       - name: Push changes
         uses: ad-m/github-push-action@v0.6.0
