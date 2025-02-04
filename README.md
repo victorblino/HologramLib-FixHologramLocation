@@ -108,85 +108,10 @@ Contributions to this repo or the example plugin are welcome!
 
 <!-- CONTRIBUTORS:START -->
 
-<table>
-
-<tr>
-<td align="center" style="padding:10px;"><a href="" title="" target="_blank"><img src="&s=100" width="100px" alt="" style="border-radius: 50%;" /><br/></a></td>
-<td align="center" style="padding:10px;"><a href="" title="" target="_blank"><img src="&s=100" width="100px" alt="" style="border-radius: 50%;" /><br/></a></td>
-<td align="center" style="padding:10px;"><a href="" title="" target="_blank"><img src="&s=100" width="100px" alt="" style="border-radius: 50%;" /><br/></a></td>
-<td align="center" style="padding:10px;"><a href="" title="" target="_blank"><img src="&s=100" width="100px" alt="" style="border-radius: 50%;" /><br/></a></td>
-<td align="center" style="padding:10px;"><a href="" title="" target="_blank"><img src="&s=100" width="100px" alt="" style="border-radius: 50%;" /><br/></a></td>
-</tr>
-
-<tr>
-<td align="center" style="padding:10px;"><a href="" title="" target="_blank"><img src="&s=100" width="100px" alt="" style="border-radius: 50%;" /><br/></a></td>
-<td align="center" style="padding:10px;"><a href="" title="" target="_blank"><img src="&s=100" width="100px" alt="" style="border-radius: 50%;" /><br/></a></td>
-<td align="center" style="padding:10px;"><a href="" title="" target="_blank"><img src="&s=100" width="100px" alt="" style="border-radius: 50%;" /><br/></a></td>
-<td align="center" style="padding:10px;"><a href="" title="" target="_blank"><img src="&s=100" width="100px" alt="" style="border-radius: 50%;" /><br/></a></td>
-<td align="center" style="padding:10px;"><a href="" title="" target="_blank"><img src="&s=100" width="100px" alt="" style="border-radius: 50%;" /><br/></a></td>
-</tr>
-
-<tr>
-<td align="center" style="padding:10px;"><a href="" title="" target="_blank"><img src="&s=100" width="100px" alt="" style="border-radius: 50%;" /><br/></a></td>
-<td align="center" style="padding:10px;"><a href="" title="" target="_blank"><img src="&s=100" width="100px" alt="" style="border-radius: 50%;" /><br/></a></td>
-<td align="center" style="padding:10px;"><a href="" title="" target="_blank"><img src="&s=100" width="100px" alt="" style="border-radius: 50%;" /><br/></a></td>
-<td align="center" style="padding:10px;"><a href="" title="" target="_blank"><img src="&s=100" width="100px" alt="" style="border-radius: 50%;" /><br/></a></td>
-<td align="center" style="padding:10px;"><a href="" title="" target="_blank"><img src="&s=100" width="100px" alt="" style="border-radius: 50%;" /><br/></a></td>
-</tr>
-
-<tr>
-<td align="center" style="padding:10px;"><a href="" title="" target="_blank"><img src="&s=100" width="100px" alt="" style="border-radius: 50%;" /><br/></a></td>
-<td align="center" style="padding:10px;"><a href="" title="" target="_blank"><img src="&s=100" width="100px" alt="" style="border-radius: 50%;" /><br/></a></td>
-<td align="center" style="padding:10px;"><a href="" title="" target="_blank"><img src="&s=100" width="100px" alt="" style="border-radius: 50%;" /><br/></a></td>
-<td align="center" style="padding:10px;"><a href="" title="" target="_blank"><img src="&s=100" width="100px" alt="" style="border-radius: 50%;" /><br/></a></td>
-<td align="center" style="padding:10px;"><a href="" title="" target="_blank"><img src="&s=100" width="100px" alt="" style="border-radius: 50%;" /><br/></a></td>
-</tr>
-
-<tr>
-<td align="center" style="padding:10px;"><a href="" title="" target="_blank"><img src="&s=100" width="100px" alt="" style="border-radius: 50%;" /><br/></a></td>
-<td align="center" style="padding:10px;"><a href="" title="" target="_blank"><img src="&s=100" width="100px" alt="" style="border-radius: 50%;" /><br/></a></td>
-<td align="center" style="padding:10px;"><a href="" title="" target="_blank"><img src="&s=100" width="100px" alt="" style="border-radius: 50%;" /><br/></a></td>
-<td align="center" style="padding:10px;"><a href="" title="" target="_blank"><img src="&s=100" width="100px" alt="" style="border-radius: 50%;" /><br/></a></td>
-<td align="center" style="padding:10px;"><a href="" title="" target="_blank"><img src="&s=100" width="100px" alt="" style="border-radius: 50%;" /><br/></a></td>
-</tr>
-
-<tr>
-<td align="center" style="padding:10px;"><a href="" title="" target="_blank"><img src="&s=100" width="100px" alt="" style="border-radius: 50%;" /><br/></a></td>
-<td align="center" style="padding:10px;"><a href="" title="" target="_blank"><img src="&s=100" width="100px" alt="" style="border-radius: 50%;" /><br/></a></td>
-<td align="center" style="padding:10px;"><a href="" title="" target="_blank"><img src="&s=100" width="100px" alt="" style="border-radius: 50%;" /><br/></a></td>
-<td align="center" style="padding:10px;"><a href="" title="" target="_blank"><img src="&s=100" width="100px" alt="" style="border-radius: 50%;" /><br/></a></td>
-<td align="center" style="padding:10px;"><a href="" title="" target="_blank"><img src="&s=100" width="100px" alt="" style="border-radius: 50%;" /><br/></a></td>
-</tr>
-
-<tr>
-<td align="center" style="padding:10px;"><a href="" title="" target="_blank"><img src="&s=100" width="100px" alt="" style="border-radius: 50%;" /><br/></a></td>
-<td align="center" style="padding:10px;"><a href="" title="" target="_blank"><img src="&s=100" width="100px" alt="" style="border-radius: 50%;" /><br/></a></td>
-<td align="center" style="padding:10px;"><a href="" title="" target="_blank"><img src="&s=100" width="100px" alt="" style="border-radius: 50%;" /><br/></a></td>
-<td align="center" style="padding:10px;"><a href="" title="" target="_blank"><img src="&s=100" width="100px" alt="" style="border-radius: 50%;" /><br/></a></td>
-<td align="center" style="padding:10px;"><a href="" title="" target="_blank"><img src="&s=100" width="100px" alt="" style="border-radius: 50%;" /><br/></a></td>
-</tr>
-
-<tr>
-<td align="center" style="padding:10px;"><a href="" title="" target="_blank"><img src="&s=100" width="100px" alt="" style="border-radius: 50%;" /><br/></a></td>
-<td align="center" style="padding:10px;"><a href="" title="" target="_blank"><img src="&s=100" width="100px" alt="" style="border-radius: 50%;" /><br/></a></td>
-<td align="center" style="padding:10px;"><a href="" title="" target="_blank"><img src="&s=100" width="100px" alt="" style="border-radius: 50%;" /><br/></a></td>
-<td align="center" style="padding:10px;"><a href="" title="" target="_blank"><img src="&s=100" width="100px" alt="" style="border-radius: 50%;" /><br/></a></td>
-<td align="center" style="padding:10px;"><a href="" title="" target="_blank"><img src="&s=100" width="100px" alt="" style="border-radius: 50%;" /><br/></a></td>
-</tr>
-
-<tr>
-<td align="center" style="padding:10px;"><a href="" title="" target="_blank"><img src="&s=100" width="100px" alt="" style="border-radius: 50%;" /><br/></a></td>
-<td align="center" style="padding:10px;"><a href="" title="" target="_blank"><img src="&s=100" width="100px" alt="" style="border-radius: 50%;" /><br/></a></td>
-<td align="center" style="padding:10px;"><a href="" title="" target="_blank"><img src="&s=100" width="100px" alt="" style="border-radius: 50%;" /><br/></a></td>
-<td align="center" style="padding:10px;"><a href="" title="" target="_blank"><img src="&s=100" width="100px" alt="" style="border-radius: 50%;" /><br/></a></td>
-<td align="center" style="padding:10px;"><a href="" title="" target="_blank"><img src="&s=100" width="100px" alt="" style="border-radius: 50%;" /><br/></a></td>
-</tr>
-
-<tr>
-<td align="center" style="padding:10px;"><a href="" title="" target="_blank"><img src="&s=100" width="100px" alt="" style="border-radius: 50%;" /><br/></a></td>
-</tr>
-
-</table>
+| Avatar | Username |
+|--------|----------|
+| [![](https://avatars.githubusercontent.com/u/114857048?v=4&s=50)](https://github.com/max1mde) | [max1mde]( https://github.com/max1mde ) |
+| [![](https://avatars.githubusercontent.com/u/116300577?v=4&s=50)](https://github.com/WhyZerVellasskx) | [WhyZerVellasskx]( https://github.com/WhyZerVellasskx ) |
 
 <!-- CONTRIBUTORS:END -->
 
