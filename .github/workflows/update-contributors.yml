@@ -12,14 +12,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GH_TOKEN }}
 
       - name: Retrieve contributors and update README
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
           REPO: ${{ github.repository }}
         run: |
-          curl -s -H "Authorization: token ${GITHUB_TOKEN}" "https://api.github.com/repos/${REPO}/contributors" > contributors.json
+          curl -s -H "Authorization: token ${GH_TOKEN}" "https://api.github.com/repos/${REPO}/contributors" > contributors.json
           
           CONTRIBUTORS_HTML=$(jq -r '.[] | 
             "<a href=\"" + .html_url + "\" title=\"" + (.login | @html) + "\" target=\"_blank\">" +
@@ -44,4 +44,4 @@ jobs:
       - name: Push changes
         uses: ad-m/github-push-action@v0.6.0
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GH_TOKEN }}
