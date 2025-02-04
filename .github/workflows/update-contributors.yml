@@ -20,10 +20,17 @@ jobs:
           REPO: ${{ github.repository }}
         run: |
           curl -s -H "Authorization: token ${GITHUB_TOKEN}" "https://api.github.com/repos/${REPO}/contributors" > contributors.json
-          CONTRIBUTORS_HTML=$(jq -r '.[] | "<a href=\"" + .html_url + "\" title=\"" + .login + "\" target=\"_blank\"><img src=\"" + .avatar_url + "&s=100\" width=\"100px\" alt=\"" + .login + "\" style=\"border-radius: 50%; margin: 0 5px;\" /></a>"' contributors.json | paste -sd " " -)
-          NEW_SECTION="<!-- CONTRIBUTORS:START -->\n\n${CONTRIBUTORS_HTML}\n\n<!-- CONTRIBUTORS:END -->"
-          ESCAPED=$(printf '%s\n' "$NEW_SECTION" | sed -e 's/[\/&]/\\&/g')
-          perl -0777 -pi -e "s/<!-- CONTRIBUTORS:START -->.*<!-- CONTRIBUTORS:END -->/${NEW_SECTION}/s" README.md
+          
+          CONTRIBUTORS_HTML=$(jq -r '.[] | 
+            "<a href=\"" + .html_url + "\" title=\"" + (.login | @html) + "\" target=\"_blank\">" +
+            "<img src=\"" + .avatar_url + "&s=100\" width=\"100px\" alt=\"" + (.login | @html) + "\" " +
+            "style=\"border-radius: 50%; margin: 0 5px;\" /></a>"' contributors.json | paste -sd " " -)
+          
+          NEW_SECTION=$(printf "<!-- CONTRIBUTORS:START -->\n\n%s\n\n<!-- CONTRIBUTORS:END -->" "$CONTRIBUTORS_HTML")
+          
+          ESCAPED_CONTENT=$(printf '%s' "$NEW_SECTION" | sed -e 's/[\/&]/\\&/g')
+          
+          perl -0777 -pi -e "s/<!-- CONTRIBUTORS:START -->.*?<!-- CONTRIBUTORS:END -->/${ESCAPED_CONTENT}/s" README.md
 
       - name: Commit updated README
         run: |
