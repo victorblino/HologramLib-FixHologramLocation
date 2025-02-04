@@ -108,6 +108,8 @@ Contributions to this repo or the example plugin are welcome!
 
 <!-- CONTRIBUTORS:START -->
 
+<a href="https://github.com/max1mde" title="max1mde" target="_blank"><img src="https://avatars.githubusercontent.com/u/114857048?v=4&s=100" width="100px" alt="max1mde" style="border-radius: 50%; margin: 0 5px;" /></a> <a href="https://github.com/WhyZerVellasskx" title="WhyZerVellasskx" target="_blank"><img src="https://avatars.githubusercontent.com/u/116300577?v=4&s=100" width="100px" alt="WhyZerVellasskx" style="border-radius: 50%; margin: 0 5px;" /></a>
+
 <!-- CONTRIBUTORS:END -->
 
 <div align="center"><sup>Live Statistics</sup></div>
