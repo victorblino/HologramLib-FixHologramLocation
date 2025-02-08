@@ -20,8 +20,7 @@
 Text • Blocks • Items • Leaderboards  
 
 - **Dynamic Content**  
-Player-specific rendering • Live animations • MiniMessage formatting  
-ItemsAdder emojis
+Live animations • MiniMessage formatting • ItemsAdder emojis
 
 - **Advanced Mechanics**  
 Entity attachment • Per-player visibility • View distance control    
