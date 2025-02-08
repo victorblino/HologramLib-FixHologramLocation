@@ -27,6 +27,7 @@ Entity attachment • Per-player visibility • View distance control
 
 ---
 
+
 ## ⚙️ Technical Specifications
 
 **Compatibility**  
@@ -79,6 +80,9 @@ manager.spawn(hologram);
 ---
 
 ## 📕 Learning Resources
+
+<img width="536px" src="https://github.com/user-attachments/assets/e4d108d3-e6cb-4d33-b91b-aa989e5e4475" alt="HologramLib Banner">
+
 | Resource | Description | 
 |----------|-------------|
 | [📖 Complete Wiki](https://github.com/max1mde/HologramLib/wiki) | Setup guides • Detailed examples • Best practices |
