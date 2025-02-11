@@ -61,6 +61,17 @@ dependencies {
 }
 ```
 
+When using maven you also have to add the following repo:
+```xml
+<repository>
+    <id>evoke-snapshots</id>
+    <url>https://maven.evokegames.gg/snapshots</url>
+    <snapshots>
+        <enabled>true</enabled>
+    </snapshots>
+</repository>
+```
+
 **Step 2: Basic Implementation**
 ```java
 HologramManager manager = HologramAPI.getManager().get();
