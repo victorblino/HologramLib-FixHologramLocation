@@ -9,7 +9,7 @@
 
 
   <p>Leave a :star: if you like this library :octocat:</p>
-  <h3>Next-Gen Hologram Library for Modern Minecraft Servers</h3>
+  <h3>Display Entity Based Hologram Library for Modern Minecraft Servers</h3>
   <p>Packet-based • Feature-rich • Developer-friendly</p>
 </div>
 
