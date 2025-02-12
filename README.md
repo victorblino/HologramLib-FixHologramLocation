@@ -20,13 +20,13 @@
 Text • Blocks • Items • Leaderboards  
 
 - **Dynamic Content**  
-Player-specific rendering • Live animations • MiniMessage formatting  
-ItemsAdder emojis
+Live animations • MiniMessage formatting • ItemsAdder emojis
 
 - **Advanced Mechanics**  
 Entity attachment • Per-player visibility • View distance control    
 
 ---
+
 
 ## ⚙️ Technical Specifications
 
@@ -61,6 +61,17 @@ dependencies {
 }
 ```
 
+When using maven you also have to add the following repo:
+```xml
+<repository>
+    <id>evoke-snapshots</id>
+    <url>https://maven.evokegames.gg/snapshots</url>
+    <snapshots>
+        <enabled>true</enabled>
+    </snapshots>
+</repository>
+```
+
 **Step 2: Basic Implementation**
 ```java
 HologramManager manager = HologramAPI.getManager().get();
@@ -80,6 +91,9 @@ manager.spawn(hologram);
 ---
 
 ## 📕 Learning Resources
+
+<img width="536px" src="https://github.com/user-attachments/assets/e4d108d3-e6cb-4d33-b91b-aa989e5e4475" alt="HologramLib Banner">
+
 | Resource | Description | 
 |----------|-------------|
 | [📖 Complete Wiki](https://github.com/max1mde/HologramLib/wiki) | Setup guides • Detailed examples • Best practices |
