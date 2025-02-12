@@ -229,6 +229,7 @@ public abstract class Hologram<T extends Hologram<T>> {
     public void kill() {
         WrapperPlayServerDestroyEntities packet = new WrapperPlayServerDestroyEntities(this.entityID);
         sendPacket(packet);
+        this.task.cancel();
         this.dead = true;
     }
 
@@ -286,6 +287,8 @@ public abstract class Hologram<T extends Hologram<T>> {
      * Removes viewers who are too far away or in different worlds.
      */
     private void updateAffectedPlayers() {
+        if(this.dead) return;
+
         if(this.location == null) {
             Bukkit.getLogger().log(Level.WARNING, "Tried to update hologram with ID " + this.id + " entity type " + this.entityType.getName().getKey() + ". But the location is not set!");
             return;
