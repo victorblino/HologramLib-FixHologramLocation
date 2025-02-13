@@ -15,6 +15,13 @@
 
 ---
 
+1. [Installation](https://github.com/max1mde/HologramLib/wiki/1.-Installation)  
+2. [Getting Started](https://github.com/max1mde/HologramLib/wiki/2.-Getting-Started)  
+   - [Creating Holograms](https://github.com/max1mde/HologramLib/wiki/3.-Creating-Holograms)  
+   - [Hologram Management](https://github.com/max1mde/HologramLib/wiki/4.-Hologram-Management)  
+   - [Leaderboards](https://github.com/max1mde/HologramLib/wiki/5.-Leaderboards)  
+   - [Animations](https://github.com/max1mde/HologramLib/wiki/6.-Animations)  
+
 ## 🫨 Features
 - **Multi-Type Holograms**    
 Text • Blocks • Items • Leaderboards  
@@ -26,7 +33,6 @@ Live animations • MiniMessage formatting • ItemsAdder emojis
 Entity attachment • Per-player visibility • View distance control    
 
 ---
-
 
 ## ⚙️ Technical Specifications
 
