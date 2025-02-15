@@ -1,7 +1,5 @@
 package com.maximde.hologramlib.hologram;
 
-import com.github.retrooper.packetevents.util.Vector3d;
-import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerSpawnEntity;
 import com.maximde.hologramlib.utils.BukkitTasks;
 import com.maximde.hologramlib.utils.TaskHandle;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +8,6 @@ import org.bukkit.Location;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
 
 
@@ -67,21 +64,10 @@ public class HologramManager {
     }
 
     public <H extends Hologram<H>> H spawn(H hologram, Location location) {
-        hologram.getInternalAccess().setLocation(location);
-        hologram.getInternalAccess().setEntityId(ThreadLocalRandom.current().nextInt(4000, Integer.MAX_VALUE));
-        WrapperPlayServerSpawnEntity packet = new WrapperPlayServerSpawnEntity(
-                hologram.getEntityID(), Optional.of(UUID.randomUUID()), hologram.getEntityType(),
-                new Vector3d(location.getX(), location.getY(), location.getZ()), 0f, 0f, 0f, 0, Optional.empty()
-        );
-
         BukkitTasks.runTask(() -> {
-            hologram.getInternalAccess().updateAffectedPlayers();
-            hologram.getInternalAccess().sendPacket(packet);
-            hologram.getInternalAccess().setDead(false);
+            hologram.getInternalAccess().spawn(location).update();
         });
-
-        hologram.update();
-        register(hologram);
+        this.register(hologram);
         return hologram;
     }
 
