@@ -11,7 +11,6 @@ import lombok.experimental.Accessors;
 import me.tofaa.entitylib.meta.EntityMeta;
 import me.tofaa.entitylib.meta.display.AbstractDisplayMeta;
 import me.tofaa.entitylib.meta.display.ItemDisplayMeta;
-import org.bukkit.entity.Player;
 import org.joml.Vector3f;
 
 
@@ -45,17 +44,7 @@ public class ItemHologram extends Hologram<ItemHologram> {
     @Accessors(chain = true)
     protected int glowColor = 0;
 
-    public interface ItemModifier { ItemDisplayMeta onSend(Player player, ItemDisplayMeta itemDisplayMeta); }
 
-
-    public ItemHologram(String id, RenderMode renderMode, ItemModifier modifier) {
-        super(id, renderMode, EntityTypes.ITEM_DISPLAY, new BaseMetaSender() {
-            @Override
-            public ItemDisplayMeta itemDisplay(Player player, ItemDisplayMeta itemDisplayMeta) {
-                return modifier.onSend(player, itemDisplayMeta);
-            }
-        });
-    }
 
     public ItemHologram(String id, RenderMode renderMode) {
         super(id, renderMode, EntityTypes.ITEM_DISPLAY);
@@ -79,8 +68,8 @@ public class ItemHologram extends Hologram<ItemHologram> {
 
 
     @Override
-    protected EntityMeta createMeta() {
-        ItemDisplayMeta meta = (ItemDisplayMeta) EntityMeta.createMeta(super.entityID, EntityTypes.ITEM_DISPLAY);
+    protected EntityMeta applyMeta() {
+        ItemDisplayMeta meta = (ItemDisplayMeta) this.entity.getEntityMeta();
         meta.setInterpolationDelay(-1);
         meta.setTransformationInterpolationDuration(this.interpolationDurationTransformation);
         meta.setPositionRotationInterpolationDuration(this.teleportDuration);
@@ -124,7 +113,7 @@ public class ItemHologram extends Hologram<ItemHologram> {
         copy.interpolationDurationTransformation = this.interpolationDurationTransformation;
         copy.viewRange = this.viewRange;
         copy.updateTaskPeriod = this.updateTaskPeriod;
-        copy.nearbyEntityScanningDistance = this.nearbyEntityScanningDistance;
+        copy.maxPlayerRenderDistanceSquared = this.maxPlayerRenderDistanceSquared;
         return copy;
     }
 }

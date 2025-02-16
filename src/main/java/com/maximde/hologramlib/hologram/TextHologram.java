@@ -13,7 +13,6 @@ import me.tofaa.entitylib.meta.display.TextDisplayMeta;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 import org.bukkit.entity.TextDisplay;
 import org.joml.Vector3f;
 
@@ -49,17 +48,6 @@ public class TextHologram extends Hologram<TextHologram> {
 
     @Setter @Getter @Accessors(chain = true)
     private byte textOpacity = (byte) -1;
-
-    public interface HologramModifier { TextDisplayMeta onSend(Player player, TextDisplayMeta textDisplayMeta); }
-
-    public TextHologram(String id, RenderMode renderMode, HologramModifier modifier) {
-        super(id, renderMode, EntityTypes.TEXT_DISPLAY, new BaseMetaSender() {
-            @Override
-            public TextDisplayMeta textDisplay(Player player, TextDisplayMeta textDisplayMeta) {
-                return modifier.onSend(player, textDisplayMeta);
-            }
-        });
-    }
 
     /**
      * Creates a new text hologram with the specified ID and render mode.
@@ -119,15 +107,14 @@ public class TextHologram extends Hologram<TextHologram> {
         copy.alignment = this.alignment;
         copy.textOpacity = this.textOpacity;
         copy.updateTaskPeriod = this.updateTaskPeriod;
-        copy.nearbyEntityScanningDistance = this.nearbyEntityScanningDistance;
+        copy.maxPlayerRenderDistanceSquared = this.maxPlayerRenderDistanceSquared;
         return copy;
     }
 
 
-
     @Override
-    protected EntityMeta createMeta() {
-        TextDisplayMeta meta = (TextDisplayMeta) EntityMeta.createMeta(super.entityID, EntityTypes.TEXT_DISPLAY);
+    protected EntityMeta applyMeta() {
+        TextDisplayMeta meta = (TextDisplayMeta) super.entity.getEntityMeta();
         meta.setText(getTextAsComponent());
         meta.setInterpolationDelay(-1);
         meta.setTransformationInterpolationDuration(this.interpolationDurationTransformation);

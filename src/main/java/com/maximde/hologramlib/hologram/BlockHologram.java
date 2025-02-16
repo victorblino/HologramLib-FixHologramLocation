@@ -9,7 +9,6 @@ import lombok.experimental.Accessors;
 import me.tofaa.entitylib.meta.EntityMeta;
 import me.tofaa.entitylib.meta.display.AbstractDisplayMeta;
 import me.tofaa.entitylib.meta.display.BlockDisplayMeta;
-import org.bukkit.entity.Player;
 import org.joml.Vector3f;
 
 import java.awt.*;
@@ -33,17 +32,6 @@ public class BlockHologram extends Hologram<BlockHologram> {
     @Accessors(chain = true)
     protected int glowColor = Color.YELLOW.getRGB();
 
-    public interface BlockModifier { BlockDisplayMeta onSend(Player player, BlockDisplayMeta textDisplayMeta); }
-
-    public BlockHologram(String id, RenderMode renderMode, BlockModifier modifier) {
-        super(id, renderMode, EntityTypes.BLOCK_DISPLAY, new BaseMetaSender() {
-            @Override
-            public BlockDisplayMeta blockDisplay(Player player, BlockDisplayMeta blockDisplayMeta) {
-                return modifier.onSend(player, blockDisplayMeta);
-            }
-        });
-    }
-
     public BlockHologram(String id, RenderMode renderMode) {
         super(id, renderMode, EntityTypes.BLOCK_DISPLAY);
     }
@@ -53,8 +41,8 @@ public class BlockHologram extends Hologram<BlockHologram> {
     }
 
     @Override
-    protected EntityMeta createMeta() {
-        BlockDisplayMeta meta = (BlockDisplayMeta) EntityMeta.createMeta(super.entityID, EntityTypes.BLOCK_DISPLAY);
+    protected EntityMeta applyMeta() {
+        BlockDisplayMeta meta = (BlockDisplayMeta) this.entity.getEntityMeta();
         meta.setInterpolationDelay(-1);
         meta.setTransformationInterpolationDuration(this.interpolationDurationTransformation);
         meta.setPositionRotationInterpolationDuration(this.teleportDuration);
@@ -107,7 +95,7 @@ public class BlockHologram extends Hologram<BlockHologram> {
         copy.interpolationDurationTransformation = this.interpolationDurationTransformation;
         copy.viewRange = this.viewRange;
         copy.updateTaskPeriod = this.updateTaskPeriod;
-        copy.nearbyEntityScanningDistance = this.nearbyEntityScanningDistance;
+        copy.maxPlayerRenderDistanceSquared = this.maxPlayerRenderDistanceSquared;
         return copy;
     }
 }
