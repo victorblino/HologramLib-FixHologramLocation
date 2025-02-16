@@ -1,20 +1,23 @@
 ---
-name: Feature request
-about: Suggest an idea for this project
+name: Feature Request
+about: Suggest a new feature or enhancement for HologramLib
 title: ''
 labels: enhancement
 assignees: ''
-
 ---
 
-**Is your feature request related to a problem? Please describe.**  
-Briefly describe the problem (e.g., "Holograms are gone after restarting the server").
+**Feature Description**  
+Please describe the new feature or enhancement you propose. Provide a clear explanation of what it is and how it would work.
 
-**Describe the solution you'd like**  
-Describe the desired feature or change (e.g., "Add a config or database option for saving holograms and loading them on server startup").
+**How Would This Feature Work?**  
+Outline the functionality and workflow of the feature. Explain any configurations or integrations with existing functionalities that might be needed.
 
-**Describe alternatives you've considered**  
-Mention any other solutions or features you’ve thought about (e.g., "Spawning the holograms using own plugin through the API when needed").
+**Why Is This Feature Valuable?**  
+Describe the benefits and improvements this feature would bring to the project. Explain why it is a worthwhile addition.
 
-**Additional context**  
-Add any relevant context, such as screenshots or related issues.
+**Additional Context**  
+Include any supporting information, examples, or screenshots that help illustrate your suggestion.
+
+**Checklist**
+- [ ] I have searched existing issues to ensure this feature request is not a duplicate.
+- [ ] I have provided enough detail to facilitate discussion and potential implementation.
