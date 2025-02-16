@@ -11,9 +11,8 @@ assignees: ''
 A clear and concise description of what the bug is.
 
 **Checklist**
-- [ ] I am using the latest version of the HologramAPI.
-- [ ] I have verified compatibility with the specified dependencies (`packetevents` and `ItemsAdder` if applicable).
-- [ ] I have followed the installation instructions outlined in the README.
+- [ ] I am using the latest version of the HologramAPI and packetevents.
+- [ ] I have followed the [installation instructions](https://github.com/max1mde/HologramLib/wiki/1.-Installation) outlined in the WIKI.
 - [ ] The issue is not a duplicate (searched existing issues).
 
 **To Reproduce**
@@ -29,9 +28,9 @@ A clear and concise description of what you expected to happen.
 If applicable, add screenshots to help explain your problem.
 
 **Environment**
-- **HologramAPI Version:** [e.g., `1.4.7`]
-- **Server Version:** [e.g., Spigot `1.19.4`]
-- **Java Version:** [e.g., JDK 17]
+- **HologramAPI Version:** 
+- **Server Version:** 
+- **Java Version:**
 - **Plugins Used (if applicable):** [List of other plugins, especially dependencies]
 
 **Additional context**
