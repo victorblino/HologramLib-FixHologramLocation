@@ -1,6 +1,5 @@
 package com.maximde.hologramlib.hologram;
 
-import com.github.retrooper.packetevents.manager.player.PlayerManager;
 import com.github.retrooper.packetevents.protocol.entity.type.EntityType;
 import com.github.retrooper.packetevents.util.Quaternion4f;
 import com.github.retrooper.packetevents.wrapper.PacketWrapper;
@@ -13,10 +12,6 @@ import io.github.retrooper.packetevents.util.SpigotConversionUtil;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 import me.tofaa.entitylib.meta.EntityMeta;
-import me.tofaa.entitylib.meta.display.BlockDisplayMeta;
-import me.tofaa.entitylib.meta.display.ItemDisplayMeta;
-import me.tofaa.entitylib.meta.display.TextDisplayMeta;
-import me.tofaa.entitylib.ve.ViewerRule;
 import me.tofaa.entitylib.wrapper.WrapperEntity;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -26,8 +21,6 @@ import org.joml.Vector3f;
 
 import java.util.*;
 import java.util.logging.Level;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public abstract class Hologram<T extends Hologram<T>> {
 
@@ -42,10 +35,11 @@ public abstract class Hologram<T extends Hologram<T>> {
     protected boolean dead = true;
 
     @Getter @Accessors(chain = true)
-    protected long updateTaskPeriod = 20L * 3;
+    protected long updateTaskPeriod = 20L * 1;
+
 
     @Getter @Accessors(chain = true)
-    protected double nearbyEntityScanningDistance = 30.0;
+    protected double maxPlayerRenderDistanceSquared = 62500;
 
     @Getter @Accessors(chain = true)
     protected Display.Billboard billboard = Display.Billboard.CENTER;
@@ -143,8 +137,8 @@ public abstract class Hologram<T extends Hologram<T>> {
      * Should be called after making any changes to the hologram object.
      */
     public T update() {
-        updateAffectedPlayers();
-        applyMeta();
+        this.updateAffectedPlayers();
+        this.applyMeta();
         return self();
     }
 
@@ -205,7 +199,7 @@ public abstract class Hologram<T extends Hologram<T>> {
                     .filter(Objects::nonNull)
                     .filter(player -> player.isOnline()
                             && player.getLocation().getWorld().equals(this.location.getWorld())
-                            && player.getLocation().distanceSquared(this.location) <= 62500)
+                            && player.getLocation().distanceSquared(this.location) <= this.maxPlayerRenderDistanceSquared)
                     .toList();
 
             Set<UUID> viewersToRemove = new HashSet<>(this.entity.getViewers());
@@ -226,7 +220,9 @@ public abstract class Hologram<T extends Hologram<T>> {
 
     private void spawn(Location location) {
         this.location = location;
-        this.entity.spawn(SpigotConversionUtil.fromBukkitLocation(location));
+        this.location.setPitch(0);
+        this.location.setYaw(0);
+        this.entity.spawn(SpigotConversionUtil.fromBukkitLocation(this.location));
         this.dead = false;
     }
 
@@ -268,8 +264,8 @@ public abstract class Hologram<T extends Hologram<T>> {
         return self();
     }
 
-    public T setNearbyEntityScanningDistance(double nearbyEntityScanningDistance) {
-        this.nearbyEntityScanningDistance = nearbyEntityScanningDistance;
+    public T setMaxPlayerRenderDistanceSquared(double maxPlayerRenderDistanceSquared) {
+        this.maxPlayerRenderDistanceSquared = maxPlayerRenderDistanceSquared;
         return self();
     }
 

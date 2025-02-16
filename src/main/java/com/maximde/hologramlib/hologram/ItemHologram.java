@@ -11,7 +11,6 @@ import lombok.experimental.Accessors;
 import me.tofaa.entitylib.meta.EntityMeta;
 import me.tofaa.entitylib.meta.display.AbstractDisplayMeta;
 import me.tofaa.entitylib.meta.display.ItemDisplayMeta;
-import org.bukkit.entity.Player;
 import org.joml.Vector3f;
 
 
@@ -114,7 +113,7 @@ public class ItemHologram extends Hologram<ItemHologram> {
         copy.interpolationDurationTransformation = this.interpolationDurationTransformation;
         copy.viewRange = this.viewRange;
         copy.updateTaskPeriod = this.updateTaskPeriod;
-        copy.nearbyEntityScanningDistance = this.nearbyEntityScanningDistance;
+        copy.maxPlayerRenderDistanceSquared = this.maxPlayerRenderDistanceSquared;
         return copy;
     }
 }

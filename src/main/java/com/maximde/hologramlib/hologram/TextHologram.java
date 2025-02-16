@@ -107,14 +107,14 @@ public class TextHologram extends Hologram<TextHologram> {
         copy.alignment = this.alignment;
         copy.textOpacity = this.textOpacity;
         copy.updateTaskPeriod = this.updateTaskPeriod;
-        copy.nearbyEntityScanningDistance = this.nearbyEntityScanningDistance;
+        copy.maxPlayerRenderDistanceSquared = this.maxPlayerRenderDistanceSquared;
         return copy;
     }
 
 
     @Override
     protected EntityMeta applyMeta() {
-        TextDisplayMeta meta = (TextDisplayMeta) this.entity.getEntityMeta();
+        TextDisplayMeta meta = (TextDisplayMeta) super.entity.getEntityMeta();
         meta.setText(getTextAsComponent());
         meta.setInterpolationDelay(-1);
         meta.setTransformationInterpolationDuration(this.interpolationDurationTransformation);
