@@ -17,6 +17,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Display;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 
 import java.util.*;
@@ -328,6 +329,22 @@ public abstract class Hologram<T extends Hologram<T>> {
     public T removeViewer(Player player) {
         this.entity.removeViewer(player.getUniqueId());
         return self();
+    }
+
+    public Set<UUID> getViewerUUIDs() {
+        return this.entity.getViewers();
+    }
+
+    public List<Player> getViewers() {
+        Set<UUID> viewerUUIDs = this.entity.getViewers();
+        List<Player> viewers = new ArrayList<>(viewerUUIDs.size());
+        for (UUID uuid : viewerUUIDs) {
+            Player player = Bukkit.getPlayer(uuid);
+            if (player != null) {
+                viewers.add(player);
+            }
+        }
+        return viewers;
     }
 
     public T addAllViewers(List<Player> viewerList) {
