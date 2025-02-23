@@ -2,10 +2,10 @@
   <img width="650px" src="assets/banner.png" alt="HologramLib Banner">
   
   [![Discord](https://img.shields.io/badge/Discord_Server-7289DA?style=flat&logo=discord&logoColor=white)](https://discord.gg/2UTkYj26B4)
-  [![Wiki](https://img.shields.io/badge/Documentation-Wiki-2dad10)](https://github.com/max1mde/HologramLib/wiki)
-  [![JitPack](https://jitpack.io/v/max1mde/HologramLib.svg)](https://jitpack.io/#max1mde/HologramLib)
-  [![JavaDocs](https://img.shields.io/badge/API-Docs-2ECC71)](https://max1mde.github.io/HologramLib/)
-  [![GitHub Downloads](https://img.shields.io/github/downloads/max1mde/HologramLib/total?color=2ECC71)](https://github.com/max1mde/HologramLib/releases)
+  [![Wiki](https://img.shields.io/badge/Documentation-Wiki-2dad10)](https://github.com/HologramLib/HologramLib/wiki)
+  [![JitPack](https://jitpack.io/v/HologramLib/HologramLib.svg)](https://jitpack.io/#HologramLib/HologramLib)
+  [![JavaDocs](https://img.shields.io/badge/API-Docs-2ECC71)](https://HologramLib.github.io/HologramLib/)
+  [![GitHub Downloads](https://img.shields.io/github/downloads/HologramLib/HologramLib/total?color=2ECC71)](https://github.com/HologramLib/HologramLib/releases)
 
 
   <p>Leave a :star: if you like this library :octocat:</p>
@@ -15,12 +15,12 @@
 
 ---
 
-1. [Installation](https://github.com/max1mde/HologramLib/wiki/1.-Installation)  
-2. [Getting Started](https://github.com/max1mde/HologramLib/wiki/2.-Getting-Started)  
-   - [Creating Holograms](https://github.com/max1mde/HologramLib/wiki/3.-Creating-Holograms)  
-   - [Hologram Management](https://github.com/max1mde/HologramLib/wiki/4.-Hologram-Management)  
-   - [Leaderboards](https://github.com/max1mde/HologramLib/wiki/5.-Leaderboards)  
-   - [Animations](https://github.com/max1mde/HologramLib/wiki/6.-Animations)  
+1. [Installation](https://github.com/HologramLib/HologramLib/wiki/1.-Installation)  
+2. [Getting Started](https://github.com/HologramLib/HologramLib/wiki/2.-Getting-Started)  
+   - [Creating Holograms](https://github.com/HologramLib/HologramLib/wiki/3.-Creating-Holograms)  
+   - [Hologram Management](https://github.com/HologramLib/HologramLib/wiki/4.-Hologram-Management)  
+   - [Leaderboards](https://github.com/HologramLib/HologramLib/wiki/5.-Leaderboards)  
+   - [Animations](https://github.com/HologramLib/HologramLib/wiki/6.-Animations)  
 
 ## 🫨 Features
 - **Multi-Type Holograms**    
@@ -50,7 +50,7 @@ Entity attachment • Per-player visibility • View distance control
 - [PacketEvents](https://www.spigotmc.org/resources/80279/) (Required)
 
 If you want to learn how to use HologramLib in your plugin, check out the detailed guide here:  
-👉 [HologramLib Wiki](https://github.com/max1mde/HologramLib/wiki)
+👉 [HologramLib Wiki](https://github.com/HologramLib/HologramLib/wiki)
 
 ---
 
@@ -102,9 +102,9 @@ manager.spawn(hologram);
 
 | Resource | Description | 
 |----------|-------------|
-| [📖 Complete Wiki](https://github.com/max1mde/HologramLib/wiki) | Setup guides • Detailed examples • Best practices |
-| [💡 Example Plugin](https://github.com/max1mde/ExampleHologramPlugin) | Production-ready implementations |
-| [🎥 Tutorial Series](https://github.com/max1mde/HologramLib) | Video walkthroughs (Coming Soon) |
+| [📖 Complete Wiki](https://github.com/HologramLib/HologramLib/wiki) | Setup guides • Detailed examples • Best practices |
+| [💡 Example Plugin](https://github.com/HologramLib/ExamplePlugin) | Production-ready implementations |
+| [🎥 Tutorial Series](https://github.com/HologramLib/HologramLib) | Video walkthroughs (Coming Soon) |
 
 ---
 
@@ -130,7 +130,7 @@ Contributions to this repo or the example plugin are welcome!
 
 | Avatar | Username |
 |--------|----------|
-| [![](https://avatars.githubusercontent.com/u/114857048?v=4&s=50)](https://github.com/max1mde) | [max1mde]( https://github.com/max1mde ) |
+| [![](https://avatars.githubusercontent.com/u/114857048?v=4&s=50)](https://github.com/maximjsx) | [maximjsx]( https://github.com/maximjsx ) |
 | [![](https://avatars.githubusercontent.com/u/116300577?v=4&s=50)](https://github.com/WhyZerVellasskx) | [WhyZerVellasskx]( https://github.com/WhyZerVellasskx ) |
 
 <!-- CONTRIBUTORS:END -->
@@ -144,10 +144,10 @@ Contributions to this repo or the example plugin are welcome!
 <div align="center">
   <sub>Used by 50+ servers | 2.500+ downloads across platforms</sub><br>
   <a href="https://www.spigotmc.org/resources/111746/">SpigotMC</a> •
-  <a href="https://hangar.papermc.io/max1mde/HologramLib">Hangar</a> •
+  <a href="https://hangar.papermc.io/maximjsx/HologramLib">Hangar</a> •
   <a href="https://modrinth.com/plugin/hologramlib">Modrinth</a> •
-  <a href="https://github.com/max1mde/HologramLib/releases/latest">Latest Release</a> •
+  <a href="https://github.com/HologramLib/HologramLib/releases/latest">Latest Release</a> •
   <a href="https://discord.gg/2UTkYj26B4">Support</a><br>
-  <sub>License: GPL-3.0 | © 2025 <a href="https://github.com/max1mde/">Maxim</a></sub>
+  <sub>License: GPL-3.0 | © 2025 <a href="https://github.com/maximjsx/">Maxim</a></sub>
 </div>
 
