@@ -221,8 +221,6 @@ public abstract class Hologram<T extends Hologram<T>> {
 
     private void spawn(Location location) {
         this.location = location;
-        this.location.setPitch(0);
-        this.location.setYaw(0);
         this.entity.spawn(SpigotConversionUtil.fromBukkitLocation(this.location));
         this.dead = false;
     }
